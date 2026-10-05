@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loja Porto Balanças · prévia</title>
+<meta name="description" content="Prévia da nova loja virtual da Porto Balanças, ligada ao estoque e aos pedidos.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Loja Porto Balanças · prévia para aprovação">
+<meta property="og:description" content="A nova loja virtual da Porto, ligada ao estoque, aos pedidos e à assistência técnica.">
+<meta property="og:image" content="https://portobalancas.anvilmarketing.com.br/loja/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="img/logo.png">
+<style>
+  @font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("fontes/unbounded.woff2") format("woff2"); }
+  @font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("fontes/instrument-sans.woff2") format("woff2"); }
+  :root {
+    --azul: #0b1236; --azul-2: #18215a; --azul-logo: #283475;
+    --prata: #c9ced8; --tinta: #121733; --tinta-2: #4c5373; --linha: #e2e5ee;
+    --fundo: #f4f5f9; --branco: #fff; --laranja: #ff9f1c; --verde: #1fae5b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fundo); color: var(--tinta); font: 17px/1.6 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  .w { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: "Unbounded", system-ui, sans-serif; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
+  .rotulo { font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tinta-2); margin: 0 0 12px; }
+
+  .capa { background: var(--azul); color: var(--branco); padding: 28px 0 0; overflow: hidden; }
+  .topo { display: flex; align-items: center; gap: 12px; }
+  .topo img { width: 44px; height: 44px; border-radius: 50%; }
+  .topo b { font-family: "Unbounded", sans-serif; font-size: 15px; letter-spacing: 0.04em; }
+  .topo span { display: block; font-size: 11px; letter-spacing: 0.3em; color: var(--prata); }
+  .capa .rotulo { color: #aab3df; margin-top: 52px; }
+  .capa h1 { font-size: clamp(34px, 6.2vw, 68px); max-width: 15ch; }
+  .capa h1 em { font-style: normal; background: linear-gradient(180deg, #ffffff, #b9bfcc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .capa p.apoio { color: #d3d8ef; font-size: 19px; max-width: 54ch; margin: 22px 0 0; }
+  .moldura { margin-top: 44px; border-radius: 18px 18px 0 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); border-bottom: 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.35); max-height: 560px; }
+  .moldura img { width: 100%; }
+
+  section { padding: 76px 0 0; }
+  section > .w > h2 { font-size: clamp(26px, 4.2vw, 42px); max-width: 22ch; }
+  section > .w > p.sub { color: var(--tinta-2); font-size: 18px; max-width: 60ch; margin: 14px 0 32px; }
+
+  .tela { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; }
+  .tela .vidro { display: block; overflow: hidden; background: #e9ecf4; }
+  .tela .vidro img { width: 100%; }
+  .tela .vidro.alta { max-height: 640px; }
+  .tela .legenda { padding: 16px 18px 18px; }
+  .tela .legenda b { display: block; font-size: 17px; }
+  .tela .legenda span { color: var(--tinta-2); font-size: 15px; }
+  .dois { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .celulares { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .celular { background: var(--azul); border-radius: 30px; padding: 10px; }
+  .celular .vidro { border-radius: 22px; overflow: hidden; aspect-ratio: 390 / 820; background: #fff; }
+  .celular .vidro img { width: 100%; }
+  .celular p { color: #fff; text-align: center; margin: 10px 0 4px; font-size: 14px; font-weight: 600; }
+
+  .so-nos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .item { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; padding: 22px; }
+  .item h3 { font-size: 18px; margin: 14px 0 8px; }
+  .item p { color: var(--tinta-2); margin: 0; font-size: 16px; }
+  .item i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--azul); color: var(--branco); font-style: normal; font-weight: 700; font-family: "Unbounded", sans-serif; font-size: 15px; }
+
+  .faixa { background: var(--azul); color: #fff; margin-top: 76px; padding: 64px 0; }
+  .faixa h2 { font-size: clamp(26px, 4.2vw, 42px); }
+  .faixa p.sub { color: #d3d8ef; font-size: 18px; max-width: 60ch; margin: 14px 0 32px; }
+  .faixa .tela { border-color: rgba(255,255,255,0.12); }
+
+  .aprovar { padding: 76px 0 90px; }
+  .caixa { background: var(--branco); border: 1px solid var(--linha); border-radius: 22px; padding: clamp(24px, 4vw, 44px); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; }
+  .caixa h2 { font-size: clamp(24px, 3.6vw, 36px); }
+  .caixa p { color: var(--tinta-2); }
+  .lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .lista li { padding: 14px 16px 14px 48px; border: 1px solid var(--linha); border-radius: 14px; position: relative; background: var(--fundo); }
+  .lista li::before { content: counter(item); counter-increment: item; position: absolute; left: 14px; top: 13px; width: 24px; height: 24px; border-radius: 50%; background: var(--laranja); color: var(--azul); font: 700 13px/24px "Unbounded", sans-serif; text-align: center; }
+  .lista { counter-reset: item; }
+  .lista li b { display: block; }
+  .lista li span { color: var(--tinta-2); font-size: 15px; }
+  .botao { display: inline-flex; align-items: center; gap: 10px; background: var(--verde); color: #fff; text-decoration: none; font-weight: 700; padding: 15px 24px; border-radius: 999px; margin-top: 24px; }
+  .nota { font-size: 14px; color: var(--tinta-2); margin-top: 18px; }
+  footer { border-top: 1px solid var(--linha); padding: 28px 0 40px; color: var(--tinta-2); font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .dois, .tres, .so-nos, .caixa { grid-template-columns: 1fr; }
+    .celulares { grid-template-columns: repeat(5, 72%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; }
+    .celular { scroll-snap-align: start; }
+    .moldura { max-height: 340px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="capa">
+  <div class="w">
+    <div class="topo"><img src="img/logo.png" alt="Porto Balanças"><div><b>PORTO</b><span>BALANÇAS</span></div></div>
+    <p class="rotulo">Prévia para aprovação · nova loja virtual</p>
+    <h1>A loja da Porto, <em>ligada ao balcão.</em></h1>
+    <p class="apoio">Uma loja feita para quem compra balança: com ficha técnica, assistência e nota fiscal. E ligada ao estoque, aos pedidos e ao financeiro da Porto, num sistema só.</p>
+    <div class="moldura"><img src="img/home.webp" alt="Página inicial da nova loja" width="1280" height="5677"></div>
+  </div>
+</header>
+
+<section>
+  <div class="w">
+    <p class="rotulo">01 · Vitrine</p>
+    <h2>O cliente acha a balança certa.</h2>
+    <p class="sub">Filtro por capacidade, Inmetro e voltagem, busca que entende "balança de açougue", e uma página de produto com tudo que um comprador de empresa pergunta antes de fechar.</p>
+    <div class="dois">
+      <div class="tela"><div class="vidro alta"><img src="img/produto.webp" alt="Página de produto" loading="lazy"></div><div class="legenda"><b>Página do produto</b><span>Versões, ficha técnica, parcelas, frete pelo CEP e o botão de falar com um especialista.</span></div></div>
+      <div style="display:grid;gap:18px">
+        <div class="tela"><div class="vidro"><img src="img/categoria.webp" alt="Categoria com filtros" loading="lazy"></div><div class="legenda"><b>Filtros técnicos</b><span>Capacidade, marca, Inmetro, voltagem e faixa de preço.</span></div></div>
+        <div class="tela"><div class="vidro"><img src="img/busca.webp" alt="Busca com sugestões" loading="lazy"></div><div class="legenda"><b>Busca com sugestões</b><span>Acha por modelo, SKU ou pelo jeito que o cliente fala.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="w">
+    <p class="rotulo">02 · Compra</p>
+    <h2>Do carrinho ao pedido pago, sem atrito.</h2>
+    <p class="sub">Cupom, frete pelos Correios e Jadlog, retirada grátis nas unidades e a instalação remota como opção no fechamento. Pix, cartão e boleto pelo Mercado Pago.</p>
+    <div class="tres">
+      <div class="tela"><div class="vidro"><img src="img/carrinho.webp" alt="Carrinho com cupom" loading="lazy"></div><div class="legenda"><b>Carrinho</b><span>Cupom e desconto por quantidade.</span></div></div>
+      <div class="tela"><div class="vidro"><img src="img/entrega.webp" alt="Escolha da entrega" loading="lazy"></div><div class="legenda"><b>Entrega</b><span>Transportadora ou retirada na Matriz e na Ceasa.</span></div></div>
+      <div class="tela"><div class="vidro"><img src="img/pedido.webp" alt="Pedido pago" loading="lazy"></div><div class="legenda"><b>Pedido pago</b><span>Acompanhamento pelo link, com aviso por e-mail e WhatsApp.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="w">
+    <p class="rotulo">03 · No celular</p>
+    <h2>Pensada primeiro para o celular.</h2>
+    <p class="sub">É onde o dono do mercado pesquisa. Tudo funciona com uma mão só.</p>
+    <div class="celulares">
+      <div class="celular"><div class="vidro"><img src="img/m-home.webp" alt="Home no celular" loading="lazy"></div><p>Início</p></div>
+      <div class="celular"><div class="vidro"><img src="img/m-filtros.webp" alt="Filtros no celular" loading="lazy"></div><p>Categoria</p></div>
+      <div class="celular"><div class="vidro"><img src="img/m-produto.webp" alt="Produto no celular" loading="lazy"></div><p>Produto</p></div>
+      <div class="celular"><div class="vidro"><img src="img/m-entrega.webp" alt="Entrega no celular" loading="lazy"></div><p>Entrega</p></div>
+      <div class="celular"><div class="vidro"><img src="img/m-balancas.webp" alt="Minhas balanças no celular" loading="lazy"></div><p>Minhas balanças</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="w">
+    <p class="rotulo">04 · O que plataforma pronta não faz</p>
+    <h2>Feita para quem vende balança e cuida dela depois.</h2>
+    <p class="sub">Isso só existe porque a loja nasce dentro do sistema da Porto.</p>
+    <div class="so-nos">
+      <div class="item"><i>1</i><h3>Minhas balanças</h3><p>O cliente vê as balanças que comprou, o número de série e quando vence a verificação do Inmetro. A Porto avisa antes.</p></div>
+      <div class="item"><i>2</i><h3>Compra faturada para empresa</h3><p>Cliente aprovado compra no boleto a prazo, com limite de crédito e tabela de preço própria.</p></div>
+      <div class="item"><i>3</i><h3>Estoque de verdade</h3><p>A loja mostra o que tem em cada unidade. Vendeu no site, baixa no sistema. Sem vender o que não tem.</p></div>
+      <div class="item"><i>4</i><h3>Retirada nas unidades</h3><p>"Retire hoje na Ceasa", sem frete, para quem vem do interior.</p></div>
+      <div class="item"><i>5</i><h3>Especialista no WhatsApp</h3><p>Maquinário e produto sem estoque viram conversa, com o produto já escrito na mensagem.</p></div>
+      <div class="item"><i>6</i><h3>Instalação remota</h3><p>O cliente do Brasil todo contrata a configuração por telefone no fechamento do pedido.</p></div>
+    </div>
+    <div class="dois" style="margin-top:18px">
+      <div class="tela"><div class="vidro"><img src="img/balancas.webp" alt="Minhas balanças" loading="lazy"></div><div class="legenda"><b>Minhas balanças</b><span>Equipamento, série e próxima verificação do Inmetro.</span></div></div>
+      <div class="tela"><div class="vidro"><img src="img/faturado.webp" alt="Pagamento faturado" loading="lazy"></div><div class="legenda"><b>Faturado para empresa</b><span>Boleto a prazo para cliente aprovado.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="faixa">
+  <div class="w">
+    <p class="rotulo" style="color:#aab3df">05 · Por trás da loja</p>
+    <h2>A Porto administra tudo pelo próprio sistema.</h2>
+    <p class="sub">Produtos, fotos, preços, promoções, cupons, pedidos, clientes de empresa, contatos e números de venda, no mesmo lugar do estoque e do financeiro.</p>
+    <div class="dois">
+      <div class="tela"><div class="vidro"><img src="img/p-visao.webp" alt="Visão geral da loja no sistema" loading="lazy"></div><div class="legenda"><b>Visão geral</b><span>Pedidos do dia e o que precisa de atenção.</span></div></div>
+      <div class="tela"><div class="vidro"><img src="img/p-estatisticas.webp" alt="Estatísticas" loading="lazy"></div><div class="legenda"><b>Números da loja</b><span>Visitas, conversão, mais vendidos e de onde vem o cliente.</span></div></div>
+      <div class="tela"><div class="vidro alta"><img src="img/p-editor.webp" alt="Editor de produto" loading="lazy"></div><div class="legenda"><b>Cadastro do produto</b><span>Ficha técnica, fotos, aparência no Google e compre junto.</span></div></div>
+      <div style="display:grid;gap:18px">
+        <div class="tela"><div class="vidro"><img src="img/p-pedidos.webp" alt="Pedidos da loja" loading="lazy"></div><div class="legenda"><b>Pedidos</b><span>Pagos, faturados e aguardando.</span></div></div>
+        <div class="tela"><div class="vidro"><img src="img/p-leads.webp" alt="Contatos" loading="lazy"></div><div class="legenda"><b>Contatos</b><span>Avise-me, especialista e assistência viram contato para a equipe.</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="aprovar">
+  <div class="w">
+    <div class="caixa">
+      <div>
+        <p class="rotulo">06 · Para aprovar</p>
+        <h2>O que precisamos de vocês para colocar no ar.</h2>
+        <p>As fotos e os produtos desta prévia são de exemplo. Com os itens ao lado, trocamos pelo catálogo real e publicamos em portobalancas.com.br.</p>
+        <p class="nota">O visual está aprovado? Algo para mudar? Respondam no grupo que ajustamos antes de cadastrar os produtos.</p>
+      </div>
+      <ol class="lista">
+        <li><b>Aprovação do visual</b><span>Cores, organização e o que mudar.</span></li>
+        <li><b>Conta do Mercado Pago da empresa</b><span>Para receber Pix, cartão e boleto.</span></li>
+        <li><b>Frete</b><span>Código do contrato dos Correios e cartão de postagem, ou conta no Melhor Envio.</span></li>
+        <li><b>Catálogo</b><span>Planilha do Mercado Livre com peso e medidas, e fotos dos produtos.</span></li>
+        <li><b>Logo em arquivo original</b><span>PDF, AI ou SVG.</span></li>
+        <li><b>Instalação remota</b><span>Valor do serviço.</span></li>
+        <li><b>Contatos e unidades</b><span>WhatsApp oficial de cada unidade, box da Ceasa e endereço de Carazinho.</span></li>
+        <li><b>Acesso ao domínio</b><span>Login de onde o portobalancas.com.br está registrado.</span></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<footer><div class="w">Prévia preparada pela Anvil para a Porto Balanças. Página privada, fora dos buscadores.</div></footer>
+</body>
+</html>
