@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fotos das balanças · Porto Balanças</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Envio das fotos das balanças da Porto para a nova loja.">
+<link rel="icon" href="../loja/img/logo.png">
+<style>
+  @font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("../loja/fontes/unbounded.woff2") format("woff2"); }
+  @font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../loja/fontes/instrument-sans.woff2") format("woff2"); }
+  :root {
+    --azul: #0b1236; --azul-2: #18215a; --azul-logo: #283475;
+    --prata: #c9ced8; --tinta: #121733; --tinta-2: #4c5373; --linha: #e2e5ee;
+    --fundo: #f4f5f9; --branco: #fff; --laranja: #ff9f1c; --verde: #1fae5b; --vermelho: #c62f3a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--tinta); font: 16px/1.55 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  button, input { font: inherit; }
+  .w { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: "Unbounded", system-ui, sans-serif; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+  .oculto { display: none !important; }
+
+  .capa { background: var(--azul); color: var(--branco); padding: 22px 0 30px; }
+  .topo { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
+  .marca { display: flex; align-items: center; gap: 12px; }
+  .marca img { width: 42px; height: 42px; border-radius: 50%; }
+  .marca b { font-family: "Unbounded", sans-serif; font-size: 14px; letter-spacing: 0.04em; display: block; }
+  .marca span { display: block; font-size: 11px; letter-spacing: 0.28em; color: var(--prata); }
+  .sair { background: none; border: 1px solid rgba(255,255,255,0.25); color: #d3d8ef; border-radius: 999px; padding: 8px 14px; min-height: 40px; cursor: pointer; }
+  .capa h1 { font-size: clamp(28px, 5.4vw, 46px); margin-top: 34px; max-width: 18ch; }
+  .capa p { color: #d3d8ef; font-size: 17px; max-width: 58ch; margin: 14px 0 0; }
+
+  .cartao { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; }
+  .entrar { max-width: 420px; margin: -18px auto 40px; padding: 26px 22px; position: relative; box-shadow: 0 18px 40px rgba(11,18,54,0.10); }
+  .entrar h2 { font-size: 20px; }
+  .entrar p { color: var(--tinta-2); margin: 8px 0 18px; font-size: 15px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 12px 0 6px; }
+  input[type=email], input[type=password], input[type=text] { width: 100%; min-height: 48px; border: 1px solid #cfd4e2; border-radius: 10px; padding: 10px 12px; background: #fff; color: var(--tinta); }
+  input:focus-visible, button:focus-visible, .vaga:focus-visible { outline: 3px solid #8fa0ff; outline-offset: 2px; }
+  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 0; background: var(--azul); color: #fff; font-weight: 600; cursor: pointer; }
+  .botao:disabled { opacity: 0.5; cursor: progress; }
+  .botao.claro { background: #eef0f7; color: var(--azul); }
+  .entrar .botao { width: 100%; margin-top: 18px; }
+  .erro { color: var(--vermelho); font-size: 14px; margin-top: 10px; min-height: 1em; }
+
+  .painel { padding: 26px 0 60px; }
+  .dicas { padding: 18px 18px 14px; margin-bottom: 18px; }
+  .dicas h2 { font-size: 15px; letter-spacing: 0.02em; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { background: #eef0f7; color: var(--azul-2); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+  .resumo { display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; margin: 6px 0 16px; color: var(--tinta-2); font-size: 15px; }
+  .resumo b { color: var(--tinta); font-size: 17px; }
+
+  .balanca { margin-bottom: 12px; overflow: hidden; }
+  .cab { width: 100%; display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: none; border: 0; text-align: left; cursor: pointer; color: inherit; min-height: 72px; }
+  .cab img, .cab .semfoto { width: 56px; height: 56px; border-radius: 10px; object-fit: contain; background: #f2f3f7; flex: none; }
+  .cab h3 { font-family: "Instrument Sans", system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.3; }
+  .cab small { display: block; color: var(--tinta-2); font-size: 13px; margin-top: 3px; }
+  .cab .conta { margin-left: auto; flex: none; font-weight: 700; font-size: 14px; background: #eef0f7; color: var(--azul); border-radius: 999px; padding: 6px 12px; }
+  .cab .conta.cheio { background: #e3f6eb; color: #137a40; }
+  .cab .seta { flex: none; width: 10px; height: 10px; border-right: 2px solid var(--tinta-2); border-bottom: 2px solid var(--tinta-2); transform: rotate(45deg); margin: 0 4px 4px 6px; transition: transform .2s; }
+  .balanca.aberta .cab .seta { transform: rotate(-135deg); margin-bottom: -4px; }
+  .corpo { padding: 4px 16px 18px; border-top: 1px solid var(--linha); }
+  .acoes { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0 12px; }
+  .acoes p { margin: 0; color: var(--tinta-2); font-size: 14px; }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+  .vaga { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: #f2f3f7; border: 1px dashed #c3c9da; display: flex; align-items: center; justify-content: center; color: #8a91ad; font-size: 26px; cursor: pointer; padding: 0; }
+  .vaga.cheia { border: 1px solid var(--linha); cursor: default; }
+  .vaga.cheia img { width: 100%; height: 100%; object-fit: cover; }
+  .vaga a { display: block; width: 100%; height: 100%; }
+  .vaga .tirar { position: absolute; top: 4px; right: 4px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(11,18,54,0.78); color: #fff; font-size: 18px; line-height: 1; cursor: pointer; }
+  .vaga .estado { position: absolute; inset: auto 0 0 0; background: rgba(11,18,54,0.8); color: #fff; font-size: 12px; padding: 4px 6px; text-align: center; }
+  .vaga.falhou .estado { background: var(--vermelho); }
+  .novas { margin-top: 18px; }
+  .novas h4 { margin: 0 0 8px; font-size: 14px; font-weight: 700; }
+  .novas p { margin: 0; color: var(--tinta-2); font-size: 14px; }
+  .novas .grade { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .nova { border-radius: 10px; overflow: hidden; border: 1px solid var(--linha); background: #fff; }
+  .nova img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+  .aviso { font-size: 14px; color: var(--vermelho); margin-top: 8px; }
+  .outra { padding: 16px; margin-top: 18px; }
+  .outra h3 { font-size: 15px; }
+  .outra p { color: var(--tinta-2); font-size: 14px; margin: 6px 0 0; }
+  .outra form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .outra input { flex: 1 1 220px; }
+  .rodape { color: var(--tinta-2); font-size: 13px; text-align: center; padding: 10px 0 30px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="capa">
+  <div class="w">
+    <div class="topo">
+      <div class="marca"><img src="../loja/img/logo.png" alt=""><div><b>PORTO BALANÇAS</b><span>FOTOS DA LOJA</span></div></div>
+      <button class="sair oculto" id="sair" type="button">Sair</button>
+    </div>
+    <h1>Fotos das balanças</h1>
+    <p>Mandem aqui as fotos de cada balança, até 20 por modelo. Nós tratamos cada foto, criamos os ângulos novos e devolvemos aqui mesmo, em "Novas versões", antes de ir para a loja.</p>
+  </div>
+</header>
+
+<main class="w">
+  <section class="cartao entrar" id="telaEntrar">
+    <h2>Entrar</h2>
+    <p>Use o mesmo e-mail e senha do Sistema Brasil.</p>
+    <form id="formEntrar">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" autocomplete="username" required>
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" autocomplete="current-password" required>
+      <button class="botao" type="submit" id="botaoEntrar">Entrar</button>
+      <div class="erro" id="erroEntrar" role="alert"></div>
+    </form>
+  </section>
+
+  <section class="painel oculto" id="telaPainel">
+    <div class="cartao dicas">
+      <h2>Como fotografar</h2>
+      <div class="chips">
+        <span class="chip">Balança inteira no quadro</span>
+        <span class="chip">Fundo liso e claro</span>
+        <span class="chip">Luz de janela, sem flash</span>
+        <span class="chip">Sem reflexo no prato</span>
+        <span class="chip">Frente</span>
+        <span class="chip">3/4 dos dois lados</span>
+        <span class="chip">Lateral e traseira</span>
+        <span class="chip">Visor e teclado de perto</span>
+        <span class="chip">Etiqueta com modelo e série</span>
+      </div>
+    </div>
+    <div class="resumo" id="resumo" aria-live="polite"></div>
+    <div id="lista"></div>
+    <div class="cartao outra">
+      <h3>Outra balança</h3>
+      <p>Para um modelo que não está na lista. Escrevam o nome como aparece na etiqueta.</p>
+      <form id="formOutra">
+        <input type="text" id="nomeOutra" maxlength="60" placeholder="Ex.: Urano POP-Z 30 kg" aria-label="Nome da balança" required>
+        <button class="botao claro" type="submit">Criar</button>
+      </form>
+    </div>
+  </section>
+  <p class="rodape">Anvil Marketing · página interna da Porto Balanças</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(() => {
+  const URL_SB = "https://ujahmqznhnvlyjptyddd.supabase.co";
+  const CHAVE = "sb_publishable_sMYhnnlGxRpG2sUqv1s0Cg_s0qljmTi";
+  const ORG_PADRAO = "4803a3f5-920c-4ccc-a7a5-3453960027b4";
+  const LIMITE = 20;
+  const BUCKET = "loja";
+  const sb = window.supabase.createClient(URL_SB, CHAVE);
+  const $ = (id) => document.getElementById(id);
+  let org = null;
+  const balancas = new Map(); // slug -> { slug, titulo, capa, fotos: [{nome, mini, original}], novas: [...], el }
+
+  const textoErro = (e) => {
+    const m = String(e && (e.message || e.error_description || e.error) || e || "");
+    if (/Invalid login/i.test(m)) return "E-mail ou senha não conferem.";
+    if (/row-level security|Unauthorized|403/i.test(m)) return "Este login não tem permissão para enviar fotos da Porto.";
+    if (/exceeded|too large|413/i.test(m)) return "A foto ficou grande demais mesmo depois de reduzir.";
+    if (/network|fetch/i.test(m)) return "Sem conexão. Confiram a internet e tentem de novo.";
+    return m || "Algo deu errado. Tentem de novo.";
+  };
+  const semAcento = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const slugOutra = (nome) => "outra-" + semAcento(nome).replace(/[^A-Za-z0-9 .-]/g, "").trim().replace(/\s+/g, "_").slice(0, 60);
+  const tituloOutra = (slug) => slug.replace(/^outra-/, "").replace(/_/g, " ");
+  const base = (slug) => `${org}/fotos-anvil/${slug}`;
+  const publica = (caminho) => sb.storage.from(BUCKET).getPublicUrl(caminho).data.publicUrl;
+
+  async function listar(caminho) {
+    const { data, error } = await sb.storage.from(BUCKET).list(caminho, { limit: 200, sortBy: { column: "name", order: "asc" } });
+    if (error) throw error;
+    return (data || []).filter((o) => o.name && o.name !== ".emptyFolderPlaceholder");
+  }
+
+  async function prepara(arquivo) {
+    let bmp;
+    try { bmp = await createImageBitmap(arquivo, { imageOrientation: "from-image" }); }
+    catch {
+      try {
+        bmp = await new Promise((ok, falha) => { const i = new Image(); i.onload = () => ok(i); i.onerror = falha; i.src = URL.createObjectURL(arquivo); });
+      } catch {
+        throw new Error(/heic|heif/i.test(arquivo.type + arquivo.name)
+          ? "Foto em HEIC não abre neste navegador. Mandem pelo próprio celular ou exportem em JPG."
+          : "Não consegui abrir esta imagem.");
+      }
+    }
+    const desenha = (escala, q) => {
+      const c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(bmp.width * escala)); c.height = Math.max(1, Math.round(bmp.height * escala));
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      return new Promise((r) => c.toBlob(r, "image/jpeg", q));
+    };
+    let escala = Math.min(1, 4096 / Math.max(bmp.width, bmp.height)), q = 0.92;
+    let foto = await desenha(escala, q);
+    while (foto.size > 4.8e6 && q > 0.8) { q -= 0.04; foto = await desenha(escala, q); }
+    while (foto.size > 4.8e6) { escala *= 0.85; foto = await desenha(escala, 0.86); }
+    const mini = await desenha(Math.min(1, 480 / Math.max(bmp.width, bmp.height)), 0.82);
+    bmp.close && bmp.close();
+    return { foto, mini };
+  }
+
+  function atualizaResumo() {
+    let fotos = 0, com = 0, novas = 0;
+    for (const b of balancas.values()) { fotos += b.fotos.length; if (b.fotos.length) com++; novas += b.novas.length; }
+    $("resumo").innerHTML = `<b>${fotos}</b> fotos enviadas em <b>${com}</b> de ${balancas.size} balanças` + (novas ? ` · <b>${novas}</b> novas versões prontas` : "");
+  }
+
+  function desenhaBalanca(b) {
+    const el = b.el;
+    const n = b.fotos.length;
+    el.querySelector(".conta").textContent = `${n}/${LIMITE}`;
+    el.querySelector(".conta").classList.toggle("cheio", n >= LIMITE);
+    el.querySelector(".cab small").textContent = n ? (n >= LIMITE ? "Completo" : `Faltam até ${LIMITE - n} fotos`) : "Nenhuma foto ainda";
+    const grade = el.querySelector(".grade.envios");
+    grade.innerHTML = "";
+    for (const f of b.fotos) {
+      const v = document.createElement("div");
+      v.className = "vaga cheia" + (f.falhou ? " falhou" : "");
+      if (f.subindo || f.falhou) {
+        if (f.previa) v.innerHTML = `<img src="${f.previa}" alt="">`;
+        v.insertAdjacentHTML("beforeend", `<span class="estado">${f.falhou ? "Falhou" : "Enviando…"}</span>`);
+      } else {
+        v.innerHTML = `<a href="${f.original}" target="_blank" rel="noopener"><img src="${f.mini}" alt="Foto ${f.nome}" loading="lazy"></a>`;
+        const x = document.createElement("button");
+        x.className = "tirar"; x.type = "button"; x.setAttribute("aria-label", "Apagar esta foto"); x.textContent = "×";
+        x.onclick = () => apaga(b, f);
+        v.appendChild(x);
+      }
+      grade.appendChild(v);
+    }
+    for (let i = n; i < LIMITE; i++) {
+      const v = document.createElement("button");
+      v.type = "button"; v.className = "vaga"; v.setAttribute("aria-label", "Adicionar foto"); v.textContent = "+";
+      v.onclick = () => el.querySelector("input[type=file]").click();
+      grade.appendChild(v);
+    }
+    const nv = el.querySelector(".novas");
+    nv.innerHTML = `<h4>Novas versões</h4>` + (b.novas.length
+      ? `<div class="grade">${b.novas.map((u) => `<a class="nova" href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="Nova versão" loading="lazy"></a>`).join("")}</div>`
+      : `<p>Aparecem aqui conforme ficam prontas.</p>`);
+    atualizaResumo();
+  }
+
+  function criaCartao(b) {
+    const el = document.createElement("article");
+    el.className = "cartao balanca";
+    el.innerHTML = `
+      <button class="cab" type="button" aria-expanded="false">
+        ${b.capa ? `<img src="${b.capa}" alt="" loading="lazy">` : `<span class="semfoto"></span>`}
+        <span><h3></h3><small></small></span>
+        <span class="conta"></span><span class="seta" aria-hidden="true"></span>
+      </button>
+      <div class="corpo oculto">
+        <div class="acoes">
+          <button class="botao" type="button">Escolher fotos</button>
+          <p>Pode escolher várias de uma vez.</p>
+          <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*" multiple class="oculto">
+        </div>
+        <div class="grade envios"></div>
+        <div class="aviso" role="alert"></div>
+        <div class="novas"></div>
+      </div>`;
+    el.querySelector("h3").textContent = b.titulo;
+    const cab = el.querySelector(".cab"), corpo = el.querySelector(".corpo"), input = el.querySelector("input[type=file]");
+    cab.onclick = () => { const abre = corpo.classList.contains("oculto"); corpo.classList.toggle("oculto", !abre); el.classList.toggle("aberta", abre); cab.setAttribute("aria-expanded", String(abre)); };
+    el.querySelector(".acoes .botao").onclick = () => input.click();
+    input.onchange = () => { envia(b, [...input.files]); input.value = ""; };
+    b.el = el;
+    $("lista").appendChild(el);
+    desenhaBalanca(b);
+  }
+
+  async function carregaFotos(b) {
+    const [minis, novas] = await Promise.all([listar(`${base(b.slug)}/mini`), listar(`${base(b.slug)}/novas`)]);
+    b.fotos = minis.map((o) => ({ nome: o.name, mini: publica(`${base(b.slug)}/mini/${o.name}`), original: publica(`${base(b.slug)}/original/${o.name}`) }));
+    b.novas = novas.map((o) => publica(`${base(b.slug)}/novas/${o.name}`));
+    desenhaBalanca(b);
+  }
+
+  async function envia(b, arquivos) {
+    const aviso = b.el.querySelector(".aviso");
+    aviso.textContent = "";
+    const livres = LIMITE - b.fotos.length;
+    if (livres <= 0) { aviso.textContent = `Esta balança já tem ${LIMITE} fotos. Apaguem alguma para mandar outra.`; return; }
+    if (arquivos.length > livres) aviso.textContent = `Limite de ${LIMITE} por balança: vamos mandar só as ${livres} primeiras.`;
+    const fila = arquivos.slice(0, livres).map((a) => {
+      const f = { nome: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`, subindo: true, arquivo: a };
+      try { f.previa = URL.createObjectURL(a); } catch {}
+      b.fotos.push(f); return f;
+    });
+    desenhaBalanca(b);
+    const trabalha = async () => {
+      for (let f; (f = fila.shift());) {
+        try {
+          const { foto, mini } = await prepara(f.arquivo);
+          const o = sb.storage.from(BUCKET);
+          let r = await o.upload(`${base(b.slug)}/original/${f.nome}`, foto, { contentType: "image/jpeg", cacheControl: "31536000", upsert: false });
+          if (r.error) throw r.error;
+          r = await o.upload(`${base(b.slug)}/mini/${f.nome}`, mini, { contentType: "image/jpeg", cacheControl: "31536000", upsert: false });
+          if (r.error) throw r.error;
+          Object.assign(f, { subindo: false, mini: publica(`${base(b.slug)}/mini/${f.nome}`), original: publica(`${base(b.slug)}/original/${f.nome}`) });
+          delete f.arquivo;
+        } catch (e) {
+          f.subindo = false; f.falhou = true;
+          aviso.textContent = textoErro(e);
+        }
+        desenhaBalanca(b);
+      }
+    };
+    await Promise.all([trabalha(), trabalha()]);
+    b.fotos = b.fotos.filter((f) => !f.falhou);
+    setTimeout(() => desenhaBalanca(b), 4000);
+  }
+
+  async function apaga(b, f) {
+    if (!confirm("Apagar esta foto?")) return;
+    const { error } = await sb.storage.from(BUCKET).remove([`${base(b.slug)}/original/${f.nome}`, `${base(b.slug)}/mini/${f.nome}`]);
+    if (error) { b.el.querySelector(".aviso").textContent = textoErro(error); return; }
+    b.fotos = b.fotos.filter((x) => x !== f);
+    desenhaBalanca(b);
+  }
+
+  async function abrePainel() {
+    $("telaEntrar").classList.add("oculto");
+    $("telaPainel").classList.remove("oculto");
+    $("sair").classList.remove("oculto");
+    $("resumo").textContent = "Carregando as balanças…";
+    const { data: orgs } = await sb.from("organizations").select("id,razao_social");
+    org = (orgs || []).find((o) => /porto/i.test(o.razao_social || ""))?.id || orgs?.[0]?.id || ORG_PADRAO;
+    const { data: prods, error } = await sb.from("loja_produtos").select("slug,titulo,ordem,loja_produto_fotos(url,ordem)").eq("organization_id", org).order("ordem");
+    if (error) { $("resumo").textContent = textoErro(error); return; }
+    $("lista").innerHTML = ""; balancas.clear();
+    for (const p of prods || []) {
+      const capa = (p.loja_produto_fotos || []).sort((a, b) => a.ordem - b.ordem)[0]?.url || "";
+      balancas.set(p.slug, { slug: p.slug, titulo: p.titulo || p.slug, capa, fotos: [], novas: [] });
+    }
+    try {
+      for (const o of await listar(`${org}/fotos-anvil`)) if (/^outra-/.test(o.name) && !balancas.has(o.name)) balancas.set(o.name, { slug: o.name, titulo: tituloOutra(o.name), capa: "", fotos: [], novas: [] });
+    } catch {}
+    for (const b of balancas.values()) criaCartao(b);
+    await Promise.all([...balancas.values()].map((b) => carregaFotos(b).catch((e) => { b.el.querySelector(".aviso").textContent = textoErro(e); })));
+  }
+
+  $("formEntrar").onsubmit = async (ev) => {
+    ev.preventDefault();
+    $("erroEntrar").textContent = ""; $("botaoEntrar").disabled = true;
+    const { error } = await sb.auth.signInWithPassword({ email: $("email").value.trim(), password: $("senha").value });
+    $("botaoEntrar").disabled = false;
+    if (error) { $("erroEntrar").textContent = textoErro(error); return; }
+    abrePainel();
+  };
+  $("sair").onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  $("formOutra").onsubmit = (ev) => {
+    ev.preventDefault();
+    const nome = $("nomeOutra").value.trim(); if (!nome) return;
+    const slug = slugOutra(nome);
+    if (!balancas.has(slug)) { const b = { slug, titulo: tituloOutra(slug), capa: "", fotos: [], novas: [] }; balancas.set(slug, b); criaCartao(b); }
+    $("nomeOutra").value = "";
+    const b = balancas.get(slug); if (b.el.querySelector(".corpo").classList.contains("oculto")) b.el.querySelector(".cab").click();
+    b.el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  sb.auth.getSession().then(({ data }) => { if (data.session) abrePainel(); });
+})();
+</script>
+</body>
+</html>
