@@ -81,6 +81,15 @@
   .nova { border-radius: 10px; overflow: hidden; border: 1px solid var(--linha); background: #fff; }
   .nova img { width: 100%; aspect-ratio: 1; object-fit: contain; }
   .aviso { font-size: 14px; color: var(--vermelho); margin-top: 8px; }
+  .cab .prontas-n { flex: none; font-weight: 700; font-size: 13px; background: #e3f6eb; color: #137a40; border-radius: 999px; padding: 6px 10px; }
+  .prontas { padding: 18px 16px; margin-bottom: 18px; border-color: #bfe8cf; }
+  .prontas .cabeca { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between; }
+  .prontas h2 { font-size: 18px; }
+  .prontas .cabeca a { color: var(--azul); font-weight: 600; font-size: 14px; }
+  .prontas h3 { font-family: "Instrument Sans", system-ui, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0; margin: 16px 0 8px; }
+  .prontas .grade { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .prontas .nova img { aspect-ratio: 3 / 4; object-fit: cover; }
+  .semlogin { display: block; text-align: center; margin-top: 14px; font-size: 14px; color: var(--azul); font-weight: 600; }
   .outra { padding: 16px; margin-top: 18px; }
   .outra h3 { font-size: 15px; }
   .outra p { color: var(--tinta-2); font-size: 14px; margin: 6px 0 0; }
@@ -98,7 +107,7 @@
       <button class="sair oculto" id="sair" type="button">Sair</button>
     </div>
     <h1>Fotos das balanças</h1>
-    <p>Mandem aqui até 10 fotos de cada balança. Nós tratamos cada foto, criamos os ângulos novos e devolvemos aqui mesmo, em "Novas versões", antes de ir para a loja.</p>
+    <p>Mandem aqui até 10 fotos de cada balança. Nós tratamos cada foto e devolvemos aqui mesmo, em "Fotos prontas", no topo da página.</p>
   </div>
 </header>
 
@@ -114,9 +123,14 @@
       <button class="botao" type="submit" id="botaoEntrar">Entrar</button>
       <div class="erro" id="erroEntrar" role="alert"></div>
     </form>
+    <a class="semlogin" href="prontas/">Ver as fotos prontas sem entrar →</a>
   </section>
 
   <section class="painel oculto" id="telaPainel">
+    <section class="cartao prontas oculto" id="prontas" aria-live="polite">
+      <div class="cabeca"><h2>Fotos prontas</h2><a href="prontas/">Abrir só as prontas, para baixar</a></div>
+      <div id="prontasLista"></div>
+    </section>
     <div class="cartao dicas">
       <h2>Como fotografar</h2>
       <div class="chips">
@@ -216,6 +230,14 @@
     let fotos = 0, com = 0, novas = 0;
     for (const b of balancas.values()) { fotos += b.fotos.length; if (b.fotos.length) com++; novas += b.novas.length; }
     $("resumo").innerHTML = `<b>${fotos}</b> fotos enviadas em <b>${com}</b> de ${balancas.size} balanças` + (novas ? ` · <b>${novas}</b> novas versões prontas` : "");
+    desenhaProntas();
+  }
+
+  function desenhaProntas() {
+    const com = [...balancas.values()].filter((b) => b.novas.length);
+    $("prontas").classList.toggle("oculto", !com.length);
+    $("prontasLista").innerHTML = com.map((b) => `<h3></h3><div class="grade">${b.novas.map((u) => `<a class="nova" href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="Foto pronta" loading="lazy"></a>`).join("")}</div>`).join("");
+    $("prontasLista").querySelectorAll("h3").forEach((h, i) => { h.textContent = `${com[i].titulo} · ${com[i].novas.length} ${com[i].novas.length === 1 ? "pronta" : "prontas"}`; });
   }
 
   function desenhaBalanca(b) {
@@ -224,6 +246,9 @@
     el.querySelector(".conta").textContent = `${n}/${LIMITE}`;
     el.querySelector(".conta").classList.toggle("cheio", n >= LIMITE);
     el.querySelector(".cab small").textContent = n ? (n >= LIMITE ? "Completo" : `Faltam até ${LIMITE - n} fotos`) : "Nenhuma foto ainda";
+    const pn = el.querySelector(".prontas-n");
+    pn.textContent = b.novas.length ? `${b.novas.length} ${b.novas.length === 1 ? "pronta" : "prontas"}` : "";
+    pn.classList.toggle("oculto", !b.novas.length);
     const grade = el.querySelector(".grade.envios");
     grade.innerHTML = "";
     for (const f of b.fotos) {
@@ -261,7 +286,7 @@
       <button class="cab" type="button" aria-expanded="false">
         ${b.capa ? `<img src="${b.capa}" alt="" loading="lazy">` : `<span class="semfoto"></span>`}
         <span><h3></h3><small></small></span>
-        <span class="conta"></span><span class="seta" aria-hidden="true"></span>
+        <span class="prontas-n oculto"></span><span class="conta"></span><span class="seta" aria-hidden="true"></span>
       </button>
       <div class="corpo oculto">
         <div class="acoes">
