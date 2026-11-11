@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Funil Porto Balanças</title>
+<link rel="icon" href="../loja/img/logo.png">
+<style>
+/* Funil de contatos · Porto Balanças · Anvil (11/11/2026). Molde: funil da Muzymed (muzymed.com/funil).
+   Dados: Edge Function anvil-funil (Supabase do Sistema Brasil), atrás do código de acesso. */
+@font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("../loja/fontes/unbounded.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../loja/fontes/instrument-sans.woff2") format("woff2"); }
+:root {
+  --azul: #0b1236; --azul-2: #18215a; --azul-logo: #283475; --prata: #c9ced8; --fundo: #f4f5f9; --branco: #fff;
+  --tinta: #121733; --tinta-2: #4c5373; --linha: #e2e5ee; --verde: #1a8f4c; --verde-bg: #e3f4ea;
+  --laranja: #b86a00; --laranja-bg: #fff3dc; --vermelho: #b3262f; --vermelho-bg: #f8e5e3; --azul-bg: #e6eaff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--fundo); color: var(--tinta); }
+body { font-family: "Instrument Sans", system-ui, sans-serif; font-size: 16px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+.topo { background: var(--azul); color: var(--branco); padding: 18px 16px 14px; }
+.topo .marca { display: flex; align-items: center; gap: 10px; }
+.topo .marca img { width: 34px; height: 34px; border-radius: 6px; background: var(--branco); padding: 3px; }
+.topo .eyebrow { font-family: "Unbounded", sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--prata); font-weight: 600; }
+.topo h1 { font-family: "Unbounded", sans-serif; margin: 2px 0 0; font-size: 21px; font-weight: 600; line-height: 1.2; }
+.topo .sub { font-size: 13px; color: #b9bfd6; margin-top: 8px; }
+.abas { display: flex; gap: 4px; background: var(--azul); padding: 0 16px; border-top: 1px solid rgba(255,255,255,.1); position: sticky; top: 0; z-index: 5; }
+.abas a { color: #b9bfd6; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: .03em; padding: 12px 14px 10px; border-bottom: 3px solid transparent; min-height: 44px; }
+.abas a.on { color: var(--branco); border-bottom-color: var(--prata); }
+.abas a:focus-visible { outline: 2px solid var(--prata); outline-offset: -2px; }
+main { padding: 16px; max-width: 820px; margin: 0 auto; }
+.resumo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+.resumo.cinco .tile:last-child { grid-column: span 2; }
+.tile { background: var(--branco); border: 1px solid var(--linha); border-radius: 8px; padding: 12px 12px 10px; min-width: 0; }
+.tile b { display: block; font-family: "Unbounded", sans-serif; font-size: 20px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
+.tile span { font-size: 11px; color: var(--tinta-2); letter-spacing: .06em; text-transform: uppercase; }
+.tile em { display: block; font-style: normal; font-size: 12px; color: var(--tinta-2); margin-top: 4px; }
+.tile.venda b { color: var(--verde); }
+.periodo { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--linha); background: var(--branco); border-radius: 999px; padding: 7px 12px; font-size: 14px; cursor: pointer; user-select: none; min-height: 38px; display: inline-flex; align-items: center; color: var(--tinta); font-family: inherit; }
+.chip.on { background: var(--azul); color: var(--branco); border-color: var(--azul); }
+.chip.venda.on { background: var(--verde); border-color: var(--verde); }
+.busca { margin-bottom: 14px; }
+.busca-linha { display: flex; gap: 8px; }
+.taxa { font-size: 13px; color: var(--tinta-2); margin: -4px 0 14px; }
+.botoes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn { display: block; width: 100%; background: var(--azul); color: var(--branco); border: 0; border-radius: 8px; padding: 13px; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer; min-height: 48px; }
+.btn.verde { background: var(--verde); }
+.btn.sec { background: transparent; color: var(--azul); border: 1px solid var(--azul); }
+.btn.mau { background: transparent; color: var(--vermelho); border: 1px solid var(--vermelho); }
+.btn:disabled { opacity: .6; }
+.lista { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.item { background: var(--branco); border: 1px solid var(--linha); border-radius: 8px; padding: 12px; display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%; }
+.item:focus-visible { outline: 2px solid var(--azul-logo); outline-offset: 2px; }
+.item .nome { font-weight: 600; overflow-wrap: anywhere; }
+.item .meta { font-size: 13px; color: var(--tinta-2); grid-column: 1; overflow-wrap: anywhere; }
+.item .valor { font-weight: 600; color: var(--verde); text-align: right; }
+.etapa { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; align-self: start; white-space: nowrap; }
+.e-sem_resposta { background: #eef0f5; color: var(--tinta-2); }
+.e-conversando { background: var(--azul-bg); color: var(--azul-logo); }
+.e-orcamento { background: var(--laranja-bg); color: var(--laranja); }
+.e-venda { background: var(--verde-bg); color: var(--verde); }
+.e-perdido { background: var(--vermelho-bg); color: var(--vermelho); }
+.vazio { color: var(--tinta-2); text-align: center; padding: 28px 10px; font-size: 14px; }
+dialog { border: 0; border-radius: 12px 12px 0 0; padding: 0; width: 100%; max-width: 820px; margin: auto auto 0; background: var(--fundo); color: var(--tinta); }
+dialog::backdrop { background: rgba(11, 18, 54, .55); }
+.form { padding: 16px; max-height: 92vh; overflow: auto; }
+.form h2 { margin: 0 0 6px; font-family: "Unbounded", sans-serif; font-size: 17px; font-weight: 600; }
+label.l { display: block; font-size: 12px; color: var(--tinta-2); letter-spacing: .06em; text-transform: uppercase; margin: 14px 0 6px; font-weight: 600; }
+input, textarea { width: 100%; font: inherit; font-size: 16px; padding: 12px; border: 1px solid var(--linha); border-radius: 8px; background: var(--branco); color: var(--tinta); min-height: 48px; }
+input:focus-visible, textarea:focus-visible { outline: 2px solid var(--azul-logo); outline-offset: 1px; }
+textarea { min-height: 72px; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.acoes { display: flex; gap: 8px; margin-top: 18px; position: sticky; bottom: 0; background: var(--fundo); padding: 8px 0 4px; }
+.acoes .btn { flex: 1; }
+.aviso { font-size: 13px; color: var(--vermelho); margin-top: 8px; min-height: 18px; }
+.gate { max-width: 420px; margin: 40px auto; }
+.gate p { color: var(--tinta-2); font-size: 14px; }
+.rodape { font-size: 12px; color: var(--tinta-2); text-align: center; margin: 28px 0 12px; }
+.ori-ic { width: 16px; height: 16px; flex-shrink: 0; display: inline-block; vertical-align: -3px; margin-right: 6px; }
+.ori { white-space: nowrap; }
+/* Aba Anúncios */
+.sec-t { font-family: "Unbounded", sans-serif; font-size: 16px; font-weight: 600; margin: 28px 0 4px; }
+.sec-s { font-size: 14px; color: var(--tinta-2); margin: 0 0 12px; }
+.caixa { background: var(--branco); border: 1px solid var(--linha); border-radius: 8px; padding: 14px; }
+.caixa + .caixa { margin-top: 8px; }
+.alerta { background: var(--laranja-bg); border: 1px solid #f1d39a; border-radius: 8px; padding: 12px 14px; font-size: 14px; margin-bottom: 14px; }
+.alerta.mau { background: var(--vermelho-bg); border-color: #efc3bf; }
+.alerta b { display: block; margin-bottom: 2px; }
+.atualizado { font-size: 13px; color: var(--tinta-2); margin: 0 0 14px; }
+.linha-num { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--linha); font-size: 14px; }
+.linha-num:last-child { border-bottom: 0; }
+.linha-num b { font-weight: 600; text-align: right; white-space: nowrap; }
+.anuncio h3 { margin: 0 0 2px; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+.anuncio .tag { font-size: 12px; color: var(--tinta-2); margin-bottom: 8px; }
+.anuncio .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 10px; font-size: 13px; }
+.anuncio .nums div b { display: block; font-size: 15px; font-weight: 600; }
+.anuncio .nums div span { color: var(--tinta-2); font-size: 12px; }
+.anuncio .nota { font-size: 13px; color: var(--tinta-2); margin-top: 8px; }
+figure.barras { margin: 0; }
+figure.barras figcaption { font-size: 13px; color: var(--tinta-2); margin-bottom: 6px; }
+figure.barras svg { width: 100%; height: auto; display: block; }
+.tab-dias { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+.tab-dias th, .tab-dias td { padding: 6px 4px; border-bottom: 1px solid var(--linha); text-align: right; }
+.tab-dias th:first-child, .tab-dias td:first-child { text-align: left; }
+.tab-dias th { color: var(--tinta-2); font-weight: 600; font-size: 12px; }
+.conc h4 { margin: 0 0 6px; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--tinta-2); }
+.conc ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.conc li + li { margin-top: 4px; }
+.etapas-bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: #eef0f5; margin: 8px 0 10px; }
+.etapas-bar span { display: block; height: 100%; }
+details.glos summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+details.glos p { font-size: 14px; margin: 6px 0; }
+@media (min-width: 620px) {
+  .resumo { grid-template-columns: repeat(4, 1fr); }
+  .resumo.cinco { grid-template-columns: repeat(5, 1fr); }
+  .resumo.cinco .tile:last-child { grid-column: auto; }
+  dialog { border-radius: 12px; margin: auto; }
+}
+</style>
+</head>
+<body>
+<div class="topo">
+  <div class="marca"><img src="../loja/img/logo.png" alt=""><div><div class="eyebrow">Porto Balanças · Anvil</div><h1>Funil de contatos</h1></div></div>
+  <div class="sub">Cada contato que chega entra aqui. A etapa diz onde ele está, e a venda mostra o que os anúncios trouxeram.</div>
+</div>
+<nav class="abas" aria-label="Seções do funil">
+  <a href="#contatos" id="aba-contatos">Contatos</a>
+  <a href="#anuncios" id="aba-anuncios">Anúncios</a>
+</nav>
+<main id="app"></main>
+<dialog id="dlg"><form class="form" id="form" method="dialog"></form></dialog>
+<script>
+(function () {
+  "use strict";
+  var API = "https://ujahmqznhnvlyjptyddd.supabase.co/functions/v1/anvil-funil";
+  var CLIENTE = "porto";
+  var CHAVE_COD = "porto_funil_codigo", CHAVE_QUEM = "porto_funil_quem";
+
+  var ORIGENS = { anuncio_meta: "Anúncio (Facebook e Instagram)", google_ads: "Google Ads", instagram: "Instagram", whatsapp: "WhatsApp", site: "Site", mercado_livre: "Mercado Livre", indicacao: "Indicação", outro: "Outro" };
+  var ORIGENS_CURTO = { anuncio_meta: "Anúncio", google_ads: "Google Ads", instagram: "Instagram", whatsapp: "WhatsApp", site: "Site", mercado_livre: "Mercado Livre", indicacao: "Indicação", outro: "Outro" };
+  var FRENTES = { inventario: "Inventário", assistencia: "Assistência técnica", varejo: "Varejo", industria: "Indústria", outro: "Outro", nao_sei: "Não sei" };
+  var ETAPAS = { sem_resposta: "Sem resposta", conversando: "Conversando", orcamento: "Orçamento enviado", venda: "Venda", perdido: "Perdido" };
+  var COR_ETAPA = { sem_resposta: "#c3c8d6", conversando: "#283475", orcamento: "#e0a43a", venda: "#1a8f4c", perdido: "#b3262f" };
+  // Origens pagas: anúncio direto e o site (as visitas do site vêm dos anúncios e do Google Ads).
+  var ORIGENS_PAGAS = ["anuncio_meta", "google_ads", "site"];
+
+  function svg(c) { return '<svg class="ori-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + c + "</svg>"; }
+  // Logos oficiais (regra da Anvil: marca aparece com o logo); os mesmos do funil da Muzymed.
+  var ICONES = {
+    anuncio_meta: svg('<path fill="#0081FB" d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/>'),
+    google_ads: svg('<path fill="#FBBC04" d="M7.5137 4.8438L1.5645 15.1484A4.5 4.5 0 0 1 4 14.4297c2.5597-.0075 4.6248 2.1585 4.4941 4.7148l3.2168-5.5723-3.6094-6.25c-.4499-.7793-.6322-1.6394-.5878-2.4784z"/><path fill="#4285F4" d="M23.4641 16.9287L15.4632 3.072C14.3586 1.1587 11.9121.5028 9.9988 1.6074S7.4295 5.1585 8.5341 7.0718l8.0009 13.8567c1.1046 1.9133 3.5511 2.5679 5.4644 1.4646 1.9134-1.1046 2.568-3.5511 1.4647-5.4644z"/><path fill="#34A853" d="M3.9998 22.9291C1.7908 22.9291 0 21.1383 0 18.9293s1.7908-3.9998 3.9998-3.9998 3.9998 1.7908 3.9998 3.9998-1.7908 3.9998-3.9998 3.9998z"/>'),
+    instagram: svg('<defs><radialGradient id="pb-ig" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#pb-ig)" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>'),
+    whatsapp: svg('<path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>'),
+    site: svg('<g fill="none" stroke="#0b1236" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.7 3.9 5.9 3.9 9.5s-1.3 6.8-3.9 9.5c-2.6-2.7-3.9-5.9-3.9-9.5s1.3-6.8 3.9-9.5z"/></g>'),
+    mercado_livre: svg('<rect x="1" y="4" width="22" height="16" rx="8" fill="#FFE600"/><path fill="none" stroke="#2D3277" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5.5 12.5l2.7-2.2c.8-.6 1.8-.6 2.6 0l.7.5 1-.8c.8-.6 1.9-.6 2.7 0l3.3 2.6M9 14.3l1.4 1.2c.4.3 1 .3 1.3-.1M11.4 13.3l1.6 1.4c.4.3 1 .3 1.3-.1M13.6 12.4l1.4 1.2c.4.3.9.3 1.2-.1"/>'),
+    indicacao: svg('<g fill="none" stroke="#283475" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.6-3.3 3-5.2 6-5.2s5.4 1.9 6 5.2"/><circle cx="17" cy="9" r="2.5"/><path d="M16.2 14.3c2.6.1 4.3 1.8 4.8 4.4"/></g>'),
+    outro: svg('<g fill="#4c5373"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g>')
+  };
+  function icone(o) { return ICONES[o] || ICONES.outro; }
+
+  function h(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function brl(v) { return v == null ? "" : Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
+  function brl0(v) { return Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }); }
+  function num(v) { return Number(v || 0).toLocaleString("pt-BR"); }
+  function dataBr(s) { return s ? s.slice(8, 10) + "/" + s.slice(5, 7) : ""; }
+  function hoje() { var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+  function guarda(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { } }
+  function le(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+
+  var app = document.getElementById("app"), dlg = document.getElementById("dlg"), f = document.getElementById("form");
+  var codigo = le(CHAVE_COD), quemPadrao = le(CHAVE_QUEM);
+  var contatos = null, foto = null, periodo = 30, busca = "", edit = null;
+
+  function api(corpo) {
+    corpo.cliente = CLIENTE; corpo.codigo = codigo;
+    return fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) }).then(function (r) { return r.json(); });
+  }
+  function aba() { return location.hash === "#anuncios" ? "anuncios" : "contatos"; }
+  function marcaAba() {
+    document.getElementById("aba-contatos").className = aba() === "contatos" ? "on" : "";
+    document.getElementById("aba-anuncios").className = aba() === "anuncios" ? "on" : "";
+    document.getElementById("aba-contatos").setAttribute("aria-current", aba() === "contatos" ? "page" : "false");
+    document.getElementById("aba-anuncios").setAttribute("aria-current", aba() === "anuncios" ? "page" : "false");
+  }
+
+  function gate(msg) {
+    app.innerHTML = '<div class="gate"><label class="l" for="cod">Código de acesso</label><input id="cod" type="password" autocomplete="off" placeholder="Código do funil"><p>' + h(msg || "Peça o código no grupo Marketing · Porto Balanças.") + '</p><button class="btn" id="entrar" type="button">Entrar</button></div>';
+    var inp = document.getElementById("cod");
+    inp.focus();
+    function vai() { codigo = inp.value.trim(); if (!codigo) return; guarda(CHAVE_COD, codigo); carregar(); }
+    document.getElementById("entrar").onclick = vai;
+    inp.onkeydown = function (e) { if (e.key === "Enter") vai(); };
+  }
+
+  function carregar() {
+    marcaAba();
+    if (!codigo) return gate();
+    app.innerHTML = '<div class="vazio">Carregando…</div>';
+    var pedidos = [api({ acao: "listar" })];
+    if (aba() === "anuncios") pedidos.push(api({ acao: "anuncios" }));
+    Promise.all(pedidos).then(function (rs) {
+      var r = rs[0];
+      if (!r.ok) {
+        if (r.erro === "codigo") { codigo = ""; guarda(CHAVE_COD, null); return gate("Código errado. Tenta de novo."); }
+        if (r.erro === "limite") return gate("Muitas tentativas. Espera 10 minutos e tenta de novo.");
+        return gate("Não deu para carregar (" + h(r.erro) + ").");
+      }
+      contatos = r.contatos || [];
+      if (rs[1]) foto = rs[1].ok ? rs[1].foto : null;
+      if (aba() === "anuncios") renderAnuncios(); else renderContatos();
+    }).catch(function () { app.innerHTML = '<div class="vazio">Sem conexão. Tenta de novo.</div>'; });
+  }
+
+  // ---------- Aba Contatos ----------
+  function normaliza(v) { return String(v == null ? "" : v).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+  function filtrados() {
+    var d = new Date(); d.setDate(d.getDate() - periodo + 1); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    var lim = d.toISOString().slice(0, 10);
+    var termos = normaliza(busca).trim().split(/\s+/).filter(Boolean);
+    return contatos.filter(function (c) {
+      if (periodo !== 0 && c.data_contato < lim) return false;
+      var t = normaliza([c.nome, c.telefone, c.produto, c.obs, c.quem, ORIGENS[c.origem], FRENTES[c.frente], ETAPAS[c.etapa]].join(" "));
+      return termos.every(function (x) { return t.indexOf(x) >= 0; });
+    });
+  }
+
+  function renderContatos(caret) {
+    var L = filtrados(), n = L.length, orc = 0, ven = 0, tot = 0, semr = 0, anu = 0;
+    L.forEach(function (c) {
+      if (c.etapa === "orcamento" || c.etapa === "venda") orc++;
+      if (c.etapa === "venda") { ven++; tot += Number(c.valor || 0); }
+      if (c.etapa === "sem_resposta") semr++;
+      if (c.origem === "anuncio_meta") anu++;
+    });
+    var html = '<div class="periodo" role="group" aria-label="Período">' + [[7, "7 dias"], [15, "15 dias"], [30, "30 dias"], [0, "Tudo"]].map(function (p) { return '<button type="button" class="chip' + (periodo === p[0] ? " on" : "") + '" data-p="' + p[0] + '" aria-pressed="' + (periodo === p[0]) + '">' + p[1] + "</button>"; }).join("") + "</div>";
+    html += '<div class="busca"><label class="l" for="busca">Pesquisar</label><div class="busca-linha"><input id="busca" type="search" value="' + h(busca) + '" placeholder="Nome, telefone, produto ou quem lançou" autocomplete="off"></div></div>';
+    html += '<div class="resumo cinco"><div class="tile"><b>' + n + '</b><span>Contatos</span></div><div class="tile"><b>' + anu + '</b><span>Do anúncio</span></div><div class="tile"><b>' + orc + '</b><span>Orçamentos</span></div><div class="tile venda"><b>' + ven + '</b><span>Vendas</span></div><div class="tile venda"><b>' + (tot ? brl0(tot) : "R$ 0") + "</b><span>Vendido</span></div></div>";
+    html += '<div class="taxa">' + (n ? Math.round(semr / n * 100) + "% sem resposta · " + Math.round(orc / n * 100) + "% pediram orçamento · " + Math.round(ven / n * 100) + "% viraram venda" : "Nenhum contato no período.") + "</div>";
+    html += '<div class="botoes"><button class="btn" id="novo" type="button">+ Contato</button><button class="btn verde" id="nova-venda" type="button">+ Venda</button></div><div class="lista">';
+    if (!L.length) html += busca.trim() ? '<div class="vazio">Nada encontrado. Tenta outro termo ou escolhe Tudo no período.</div>' : '<div class="vazio">Toca em “+ Contato” quando chegar alguém, ou em “+ Venda” quando fechar.</div>';
+    L.forEach(function (c) {
+      html += '<button type="button" class="item" data-id="' + h(c.id) + '"><span class="nome">' + h(c.nome || "Sem nome") + '</span><span class="etapa e-' + h(c.etapa) + '">' + h(ETAPAS[c.etapa] || c.etapa) + '</span><span class="meta">' + dataBr(c.data_contato) + ' · <span class="ori">' + icone(c.origem) + h(ORIGENS_CURTO[c.origem] || c.origem) + "</span> · " + h(FRENTES[c.frente] || c.frente) + (c.produto ? " · " + h(c.produto) : "") + (c.quem ? " · " + h(c.quem) : "") + '</span><span class="valor">' + (c.valor != null ? brl(c.valor) : "") + "</span></button>";
+    });
+    html += '</div><div class="rodape">Porto Balanças · acompanhamento Anvil</div>';
+    app.innerHTML = html;
+    var cb = document.getElementById("busca");
+    cb.oninput = function () { var pos = cb.selectionStart; busca = cb.value; renderContatos(pos == null ? busca.length : pos); };
+    if (caret != null) { cb.focus({ preventScroll: true }); cb.setSelectionRange(caret, caret); }
+    app.querySelectorAll(".periodo .chip").forEach(function (el) { el.onclick = function () { periodo = Number(el.getAttribute("data-p")); renderContatos(); }; });
+    document.getElementById("novo").onclick = function () { abrir(null, "sem_resposta"); };
+    document.getElementById("nova-venda").onclick = function () { abrir(null, "venda"); };
+    app.querySelectorAll(".item").forEach(function (el) { el.onclick = function () { abrir(contatos.filter(function (x) { return x.id === el.getAttribute("data-id"); })[0] || null); }; });
+  }
+
+  function chips(nome, mapa, sel) {
+    return '<div class="chips" role="radiogroup" data-campo="' + nome + '">' + Object.keys(mapa).map(function (k) {
+      return '<button type="button" role="radio" aria-checked="' + (sel === k) + '" class="chip' + (sel === k ? " on" : "") + (k === "venda" ? " venda" : "") + '" data-v="' + k + '">' + (nome === "origem" ? icone(k) : "") + h(mapa[k]) + "</button>";
+    }).join("") + "</div>";
+  }
+
+  function abrir(c, etapaInicial) {
+    edit = c;
+    var v = c || { data_contato: hoje(), origem: "anuncio_meta", frente: "nao_sei", etapa: etapaInicial || "sem_resposta", quem: quemPadrao, nome: "", telefone: "", produto: "", obs: "", valor: null };
+    var titulo = c ? "Editar contato" : (v.etapa === "venda" ? "Lançar venda" : "Lançar contato");
+    f.innerHTML = "<h2>" + titulo + "</h2>" +
+      '<label class="l" for="f-nome">Nome ou empresa</label><input id="f-nome" name="nome" value="' + h(v.nome || "") + '" placeholder="Ex.: Mercado Silva, Canoas" autocomplete="off">' +
+      '<label class="l" for="f-tel">Telefone</label><input id="f-tel" name="telefone" inputmode="tel" value="' + h(v.telefone || "") + '" placeholder="(51) 9…" autocomplete="off">' +
+      '<label class="l">Por onde chegou</label>' + chips("origem", ORIGENS_CURTO, v.origem) +
+      '<label class="l">Etapa</label>' + chips("etapa", ETAPAS, v.etapa) +
+      '<label class="l" for="f-valor">Valor (orçamento ou venda)</label><input id="f-valor" name="valor" inputmode="decimal" value="' + (v.valor != null ? String(v.valor).replace(".", ",") : "") + '" placeholder="R$">' +
+      '<label class="l">Assunto</label>' + chips("frente", FRENTES, v.frente) +
+      '<label class="l" for="f-prod">Produto ou serviço</label><input id="f-prod" name="produto" value="' + h(v.produto || "") + '" placeholder="Ex.: contadora Urano CP 15/1, conserto" autocomplete="off">' +
+      '<label class="l" for="f-data">Data do contato</label><input id="f-data" name="data_contato" type="date" value="' + h(v.data_contato) + '" required>' +
+      '<label class="l" for="f-obs">Observação</label><textarea id="f-obs" name="obs" placeholder="O que pediu, próximo passo…">' + h(v.obs || "") + "</textarea>" +
+      '<label class="l" for="f-quem">Quem lançou</label><input id="f-quem" name="quem" value="' + h(v.quem || "") + '" placeholder="Tiele, Vicente, Laryssa" autocomplete="off">' +
+      '<div class="aviso" id="aviso" role="alert"></div><div class="acoes">' + (c ? '<button type="button" class="btn mau" id="excluir">Excluir</button>' : "") + '<button type="button" class="btn sec" id="cancelar">Cancelar</button><button type="button" class="btn" id="salvar">Salvar</button></div>';
+    f.querySelectorAll(".chips").forEach(function (g) {
+      g.querySelectorAll(".chip").forEach(function (el) {
+        el.onclick = function () { g.querySelectorAll(".chip").forEach(function (x) { x.classList.remove("on"); x.setAttribute("aria-checked", "false"); }); el.classList.add("on"); el.setAttribute("aria-checked", "true"); };
+      });
+    });
+    document.getElementById("cancelar").onclick = function () { dlg.close(); };
+    document.getElementById("salvar").onclick = salvar;
+    var ex = document.getElementById("excluir");
+    if (ex) ex.onclick = function () {
+      if (!edit || !confirm("Excluir este contato?")) return;
+      api({ acao: "excluir", id: edit.id }).then(function (r) { if (r.ok) { dlg.close(); carregar(); } else aviso("Não deu para excluir."); });
+    };
+    dlg.showModal();
+    if (!c && v.etapa === "venda") document.getElementById("f-nome").focus();
+  }
+  function aviso(m) { var el = document.getElementById("aviso"); if (el) el.textContent = m; }
+  function chipSel(nome) { var el = f.querySelector('.chips[data-campo="' + nome + '"] .chip.on'); return el ? el.getAttribute("data-v") : null; }
+  function campo(nome) { var el = f.elements.namedItem(nome); return el ? el.value : ""; }
+  function salvar() {
+    var d = { acao: "salvar", data_contato: campo("data_contato"), origem: chipSel("origem"), frente: chipSel("frente"), etapa: chipSel("etapa"), nome: campo("nome"), telefone: campo("telefone"), produto: campo("produto"), valor: campo("valor"), obs: campo("obs"), quem: campo("quem") };
+    if (edit) d.id = edit.id;
+    if (!d.data_contato) return aviso("Falta a data.");
+    if (d.etapa === "venda" && !String(d.valor).trim()) return aviso("Coloca o valor da venda.");
+    quemPadrao = String(d.quem || ""); guarda(CHAVE_QUEM, quemPadrao);
+    var b = document.getElementById("salvar"); b.disabled = true;
+    api(d).then(function (r) { b.disabled = false; if (r.ok) { dlg.close(); carregar(); } else aviso("Não salvou (" + r.erro + "). Tenta de novo."); })
+      .catch(function () { b.disabled = false; aviso("Sem conexão."); });
+  }
+
+  // ---------- Aba Anúncios ----------
+  function barras(serie, chave, formato, cor, titulo) {
+    if (!serie.length) return "";
+    var W = 320, H = 120, top = 12, base = H - 18, max = Math.max.apply(null, serie.map(function (s) { return s[chave]; }).concat([1]));
+    var bw = Math.max(4, Math.min(28, (W - 8) / serie.length - 4));
+    var passo = (W - 8) / serie.length;
+    var g = serie.map(function (s, i) {
+      var v = s[chave], hgt = Math.round((base - top) * v / max), x = 4 + i * passo + (passo - bw) / 2;
+      return '<rect x="' + x.toFixed(1) + '" y="' + (base - hgt) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(hgt, v > 0 ? 2 : 0) + '" rx="2" fill="' + cor + '"><title>' + h(dataBr(s.d) + ": " + formato(v)) + "</title></rect>" +
+        (serie.length <= 16 ? '<text x="' + (x + bw / 2).toFixed(1) + '" y="' + (H - 4) + '" font-size="9" text-anchor="middle" fill="#4c5373">' + h(s.d.slice(8, 10)) + "</text>" : "");
+    }).join("");
+    return '<figure class="barras"><figcaption>' + h(titulo) + '</figcaption><svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + h(titulo) + '. A tabela abaixo traz os valores dia a dia.">' + '<line x1="0" x2="' + W + '" y1="' + base + '" y2="' + base + '" stroke="#e2e5ee"/>' + g + "</svg></figure>";
+  }
+
+  function renderAnuncios() {
+    marcaAba();
+    var html = "";
+    if (!foto || !foto.dados) {
+      app.innerHTML = '<div class="vazio">Os números dos anúncios ainda não foram carregados. A Anvil atualiza esta aba.</div>';
+      return;
+    }
+    var D = foto.dados;
+    var gerado = new Date(foto.gerado_em);
+    var anuncios = D.anuncios || [], dias = (D.dias || []).map(function (x) { return { d: x[0], g: Number(x[1] || 0), c: Number(x[2] || 0) }; });
+    var gasto = Number(D.gasto_total || 0), conversas = Number(D.conversas_total || 0);
+    var custo = conversas ? gasto / conversas : null;
+    var desde = D.periodo && D.periodo.de ? D.periodo.de : (dias[0] ? dias[0].d : "");
+
+    // Contatos do funil no mesmo período dos anúncios
+    var noPer = contatos.filter(function (c) { return !desde || c.data_contato >= desde; });
+    var pagos = noPer.filter(function (c) { return ORIGENS_PAGAS.indexOf(c.origem) >= 0; });
+    var vendasPagas = pagos.filter(function (c) { return c.etapa === "venda"; });
+    var valorPago = vendasPagas.reduce(function (s, c) { return s + Number(c.valor || 0); }, 0);
+    var vendasTodas = noPer.filter(function (c) { return c.etapa === "venda"; });
+    var valorTodas = vendasTodas.reduce(function (s, c) { return s + Number(c.valor || 0); }, 0);
+    var doAnuncio = noPer.filter(function (c) { return c.origem === "anuncio_meta"; });
+
+    html += '<p class="atualizado">Números do Facebook e Instagram de ' + h(dataBr(desde)) + " até " + gerado.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + ". Vendas: o que a equipe lançou na aba Contatos.</p>";
+
+    if (D.saldo && D.saldo.alerta) html += '<div class="alerta' + (D.saldo.grave ? " mau" : "") + '"><b>' + h(D.saldo.titulo || "Atenção ao saldo") + "</b>" + h(D.saldo.alerta) + "</div>";
+
+    html += '<div class="resumo"><div class="tile"><b>' + brl0(gasto) + '</b><span>Gasto em anúncios</span></div><div class="tile"><b>' + num(conversas) + '</b><span>Conversas no WhatsApp</span></div><div class="tile"><b>' + (custo != null ? brl(custo) : "sem dado") + '</b><span>Custo por conversa</span></div><div class="tile venda"><b>' + brl0(valorPago) + "</b><span>" + (vendasPagas.length === 1 ? "1 venda do tráfego pago" : vendasPagas.length + " vendas do tráfego pago") + "</span><em>" + (gasto && valorPago ? "R$ " + (valorPago / gasto).toFixed(2).replace(".", ",") + " para cada R$ 1 investido" : "Ainda sem venda lançada") + "</em></div></div>";
+
+    // Conversas x contatos lançados
+    var faltam = Math.max(0, conversas - doAnuncio.length);
+    html += '<h2 class="sec-t">Quem chamou pelos anúncios</h2><p class="sec-s">O Facebook conta as conversas que começaram. A aba Contatos mostra o que aconteceu com cada uma.</p><div class="caixa">';
+    html += '<div class="linha-num"><span>Conversas que o Facebook contou</span><b>' + num(conversas) + '</b></div><div class="linha-num"><span>Contatos de anúncio lançados no funil</span><b>' + num(doAnuncio.length) + "</b></div>";
+    if (doAnuncio.length) {
+      var porEt = {}; doAnuncio.forEach(function (c) { porEt[c.etapa] = (porEt[c.etapa] || 0) + 1; });
+      html += '<div class="etapas-bar" aria-hidden="true">' + Object.keys(ETAPAS).map(function (k) { return porEt[k] ? '<span style="width:' + (porEt[k] / doAnuncio.length * 100).toFixed(1) + "%;background:" + COR_ETAPA[k] + '"></span>' : ""; }).join("") + "</div>";
+      html += Object.keys(ETAPAS).filter(function (k) { return porEt[k]; }).map(function (k) { return '<div class="linha-num"><span>' + h(ETAPAS[k]) + "</span><b>" + porEt[k] + "</b></div>"; }).join("");
+    }
+    if (faltam > 0) html += '<p class="sec-s" style="margin:10px 0 0">' + (faltam === 1 ? "Falta" : "Faltam") + " <b>" + faltam + "</b> " + (faltam === 1 ? "conversa" : "conversas") + " para lançar. Sem isso não dá para saber se o anúncio vende.</p>";
+    html += "</div>";
+
+    // Dia a dia
+    if (dias.length) {
+      html += '<h2 class="sec-t">Dia a dia</h2><div class="caixa">' + barras(dias, "g", brl, "#283475", "Quanto gastou por dia (R$)") + '<div style="height:12px"></div>' + barras(dias, "c", function (v) { return num(v) + " conversas"; }, "#1a8f4c", "Conversas que chegaram por dia");
+      html += '<table class="tab-dias"><thead><tr><th scope="col">Dia</th><th scope="col">Gasto</th><th scope="col">Conversas</th></tr></thead><tbody>' + dias.slice().reverse().map(function (s) { return "<tr><td>" + dataBr(s.d) + "</td><td>" + brl(s.g) + "</td><td>" + num(s.c) + "</td></tr>"; }).join("") + "</tbody></table></div>";
+    }
+
+    // Por frente
+    if (D.frentes && D.frentes.length) {
+      html += '<h2 class="sec-t">As três frentes</h2><p class="sec-s">Cada frente fala com um público e tem a sua verba por dia.</p>';
+      D.frentes.forEach(function (fr) {
+        var ads = anuncios.filter(function (a) { return a.frente === fr.id; });
+        var g = ads.reduce(function (s, a) { return s + Number(a.gasto || 0); }, 0), cv = ads.reduce(function (s, a) { return s + Number(a.conversas || 0); }, 0);
+        html += '<div class="caixa"><div class="anuncio"><h3>' + h(fr.nome) + '</h3><div class="tag">' + h(fr.publico || "") + (fr.orcamento_dia ? " · " + brl0(fr.orcamento_dia) + " por dia" : "") + '</div><div class="nums"><div><b>' + brl(g) + "</b><span>gasto</span></div><div><b>" + num(cv) + "</b><span>" + (cv === 1 ? "conversa" : "conversas") + "</span></div><div><b>" + (cv ? brl(g / cv) : "·") + "</b><span>por conversa</span></div></div></div></div>";
+      });
+    }
+
+    // Cada anúncio
+    if (anuncios.length) {
+      html += '<h2 class="sec-t">Cada anúncio</h2><p class="sec-s">Anúncio com menos de 5 conversas ainda não diz se é bom ou ruim.</p>';
+      anuncios.slice().sort(function (a, b) { return (b.conversas - a.conversas) || (b.gasto - a.gasto); }).forEach(function (a) {
+        html += '<div class="caixa anuncio"><h3>' + h(a.nome) + '</h3><div class="tag">' + h((FRENTES[a.frente] || a.frente || "") + (a.situacao ? " · " + a.situacao : "")) + '</div><div class="nums"><div><b>' + brl(a.gasto) + "</b><span>gasto</span></div><div><b>" + num(a.conversas) + "</b><span>" + (a.conversas === 1 ? "conversa" : "conversas") + "</span></div><div><b>" + num(a.impressoes) + "</b><span>vezes na tela</span></div><div><b>" + num(a.alcance) + "</b><span>pessoas</span></div><div><b>" + num(a.cliques) + "</b><span>cliques</span></div>" + (a.video ? "<div><b>" + num(a.video) + "</b><span>viram o vídeo</span></div>" : "") + "</div>" + (a.nota ? '<div class="nota">' + h(a.nota) + "</div>" : "") + "</div>";
+      });
+    }
+
+    // De onde vieram as vendas
+    html += '<h2 class="sec-t">De onde vieram as vendas</h2><p class="sec-s">Desde ' + h(dataBr(desde)) + ", pelo que foi lançado no funil. Valor vendido, não lucro.</p><div class=\"caixa\">";
+    if (!vendasTodas.length) html += '<div class="vazio" style="padding:12px">Nenhuma venda lançada ainda. Fechou? Toca em “+ Venda” na aba Contatos.</div>';
+    else Object.keys(ORIGENS).forEach(function (o) {
+      var vs = vendasTodas.filter(function (c) { return c.origem === o; }); if (!vs.length) return;
+      html += '<div class="linha-num"><span class="ori">' + icone(o) + h(ORIGENS_CURTO[o]) + " · " + vs.length + (vs.length === 1 ? " venda" : " vendas") + "</span><b>" + brl(vs.reduce(function (s, c) { return s + Number(c.valor || 0); }, 0)) + "</b></div>";
+    });
+    if (vendasTodas.length) html += '<div class="linha-num"><span><b>Total</b></span><b>' + brl(valorTodas) + "</b></div>";
+    html += "</div>";
+
+    // Mercado Livre
+    if (D.ml) {
+      var M = D.ml;
+      html += '<h2 class="sec-t">Anúncios no Mercado Livre</h2><p class="sec-s">' + h(M.periodo || "") + ". Números do próprio Mercado Livre: venda atribuída é quem clicou no anúncio e comprou.</p>";
+      html += '<div class="resumo"><div class="tile"><b>' + brl0(M.investimento) + '</b><span>Investido</span></div><div class="tile venda"><b>' + num(M.vendas) + '</b><span>Vendas pelos anúncios</span></div><div class="tile venda"><b>' + brl0(M.receita) + '</b><span>Receita dessas vendas</span></div><div class="tile"><b>' + h(String(M.roas || "").replace(".", ",")) + 'x</b><span>Retorno</span></div></div>';
+      (M.campanhas || []).forEach(function (cp) {
+        html += '<div class="caixa anuncio"><h3>' + h(cp.nome) + '</h3><div class="tag">' + (cp.orcamento_dia ? brl0(cp.orcamento_dia) + " por dia" : "") + (cp.situacao ? " · " + h(cp.situacao) : "") + '</div><div class="nums"><div><b>' + brl(cp.investimento) + "</b><span>investido</span></div><div><b>" + num(cp.vendas) + "</b><span>vendas</span></div><div><b>" + (cp.roas != null ? h(String(cp.roas).replace(".", ",")) + "x" : "·") + "</b><span>retorno</span></div></div></div>";
+      });
+    }
+
+    // Conclusões
+    var N = D.notas || {};
+    var blocos = [["comprovado", "Comprovado"], ["provavel", "Provável"], ["nao_sabemos", "Ainda não sabemos"], ["proximo", "Próximo passo"]];
+    if (blocos.some(function (b) { return N[b[0]] && N[b[0]].length; })) {
+      html += '<h2 class="sec-t">O que dá para concluir hoje</h2>';
+      blocos.forEach(function (b) { if (N[b[0]] && N[b[0]].length) html += '<div class="caixa conc"><h4>' + b[1] + "</h4><ul>" + N[b[0]].map(function (t) { return "<li>" + h(t) + "</li>"; }).join("") + "</ul></div>"; });
+    }
+
+    html += '<h2 class="sec-t">O que cada número quer dizer</h2><div class="caixa"><details class="glos"><summary>Abrir explicação</summary>' +
+      "<p><b>Conversa no WhatsApp:</b> pessoa que tocou no anúncio e mandou mensagem. O Facebook conta, mas não sabe se virou venda: isso só aparece quando a equipe lança no funil.</p>" +
+      "<p><b>Custo por conversa:</b> gasto dividido pelas conversas.</p>" +
+      "<p><b>Vezes na tela:</b> quantas vezes o anúncio apareceu. <b>Pessoas:</b> quantas pessoas diferentes viram.</p>" +
+      "<p><b>Tráfego pago:</b> contatos que chegaram pelo anúncio, pelo Google Ads ou pelo site, porque as visitas do site vêm dos anúncios.</p>" +
+      "<p><b>Para cada R$ 1 investido:</b> valor das vendas do tráfego pago dividido pelo gasto. É faturamento, não lucro.</p></details></div>";
+    html += '<div class="rodape">Porto Balanças · acompanhamento Anvil</div>';
+    app.innerHTML = html;
+  }
+
+  window.addEventListener("hashchange", function () { if (dlg.open) dlg.close(); carregar(); });
+  carregar();
+})();
+</script>
+</body>
+</html>
