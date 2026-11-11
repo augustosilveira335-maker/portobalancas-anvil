@@ -171,6 +171,11 @@ details.glos p { font-size: 14px; margin: 6px 0; }
 
   var app = document.getElementById("app"), dlg = document.getElementById("dlg"), f = document.getElementById("form");
   var codigo = le(CHAVE_COD), quemPadrao = le(CHAVE_QUEM);
+  // Link do grupo já traz o código (?c=...): guarda no aparelho e limpa a barra de endereço.
+  try {
+    var doLink = new URLSearchParams(location.search).get("c");
+    if (doLink) { codigo = doLink.trim(); guarda(CHAVE_COD, codigo); history.replaceState(null, "", location.pathname + location.hash); }
+  } catch (e) { }
   var contatos = null, foto = null, periodo = 30, busca = "", edit = null;
 
   function api(corpo) {
