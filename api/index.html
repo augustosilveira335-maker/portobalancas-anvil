@@ -150,7 +150,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
   
 </article>
 <article class="ep" id="criar-cliente">
-  <header><span class="met post">POST</span><code class="cam">/api/v1/clientes</code><span class="novo">novo · no ar em 13/11</span></header>
+  <header><span class="met post">POST</span><code class="cam">/api/v1/clientes</code><span class="novo">novo</span></header>
   <h3>Cadastrar cliente</h3>
   <p class="perm">Permissão da chave: <strong>Cadastrar clientes</strong></p>
   <p>Cadastra o cliente pelo CPF ou CNPJ. Com CNPJ, a razão social, o nome fantasia, o regime e o endereço vêm da Receita, e a inscrição estadual da SEFAZ pelo certificado da empresa (como na ficha do cliente). Sem resposta da SEFAZ, o cadastro sai com inscricao_estadual_pendente: true para o vendedor completar. A consulta da SEFAZ divide o limite por hora com a ficha do cliente na tela (60 por hora na empresa; pelo certificado da plataforma, 10 por hora por pessoa): passado o limite, o cadastro também sai com a inscrição pendente. Receita fora do ar: 503 e nada é gravado. Documento de um cliente ativo que já existe: 200 com ja_existia: true e só o id e o nome, sem duplicar e sem mudar nada. Documento em outro cadastro da empresa (fornecedor, cliente inativo): 409 documento_em_outro_cadastro, sem dado nenhum. Novo: 201.</p>
@@ -434,7 +434,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
 }</code></pre>
 </article>
 <article class="ep" id="criar-chamado">
-  <header><span class="met post">POST</span><code class="cam">/api/v1/chamados</code><span class="novo">novo · no ar em 13/11</span></header>
+  <header><span class="met post">POST</span><code class="cam">/api/v1/chamados</code><span class="novo">novo</span></header>
   <h3>Abrir chamado (OS)</h3>
   <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
   <p>Abre a OS em Pendente para um cliente já cadastrado, como o chamado pelo link do cliente no Sistema Brasil OS, e avisa a empresa por e-mail. Precisa do Sistema Brasil OS ligado na empresa (sem ele, 409). Responde 201 com o número. O mesmo cliente com o mesmo problema e o mesmo equipamento (e a mesma série, quando vem) em 10 minutos devolve o chamado já aberto (200, repetido: true). Limite de segurança: 10 chamados por cliente e 200 por empresa por dia.</p>
@@ -474,7 +474,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
 }</code></pre>
 </article>
 <article class="ep" id="chamado">
-  <header><span class="met get">GET</span><code class="cam">/api/v1/chamados/{numero}</code><span class="novo">novo · no ar em 13/11</span></header>
+  <header><span class="met get">GET</span><code class="cam">/api/v1/chamados/{numero}</code><span class="novo">novo</span></header>
   <h3>Situação de um chamado</h3>
   <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
   <p>Um chamado que a API abriu nesta empresa, pelo número e pelo documento do cliente: a situação (situacao e o nome da tela em situacao_rotulo), quando abriu, a última atualização, o prazo, o nome do cliente e o equipamento. Sem valores, custo, técnico nem o documento. Sem o documento, com outro documento, ou OS aberta pela equipe: o mesmo 404.</p>
