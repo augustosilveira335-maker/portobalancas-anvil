@@ -44,7 +44,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
 <li><strong>Identificar o cliente.</strong> Pelo telefone da conversa: <code>GET /clientes?telefone=</code> (aceita com ou sem 55 e com ou sem o 9). Se não achar, pedir o CNPJ e buscar por <code>GET /clientes?documento=</code>.</li>
 <li><strong>Cliente novo?</strong> <code>POST /clientes</code> só com o CNPJ: o Sistema Brasil busca razão social e endereço na Receita e a inscrição estadual na SEFAZ. O telefone da conversa e o nome do contato vão junto. O e-mail o vendedor completa depois.</li>
 <li><strong>Assistência técnica.</strong> <code>POST /chamados</code> abre a OS no Sistema Brasil, que avisa a equipe da Porto por e-mail. O cliente também pode abrir sozinho pelo QR Code colado na balança.</li>
-<li><strong>Acompanhar.</strong> <code>GET /chamados/{numero}</code> devolve a situação para a plataforma responder o cliente.</li>
+<li><strong>Acompanhar.</strong> <code>GET /chamados/{numero}?documento=</code>, com o número e o CPF/CNPJ do cliente, devolve a situação do chamado aberto pela API para a plataforma responder o cliente.</li>
 <li><strong>Venda no funil.</strong> <code>GET /pedidos?documento=</code> mostra os pedidos do cliente: é assim que o painel do atendimento sabe que o lead virou venda, sem ninguém preencher nada.</li>
 </ol></section>
 <section id="acesso"><h2>Chave e permissões</h2>
@@ -143,7 +143,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
   <h3>Listar clientes</h3>
   <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
   <p>Contatos com o papel cliente, com o endereço principal, em ordem de atualização. Traz dados pessoais: trate a chave como senha.</p>
-  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>documento</code></td><td>CPF ou CNPJ, com ou sem pontuação.</td></tr><tr><td><code>telefone</code> <span class="novo pequeno">novo</span></td><td>Telefone ou celular do cadastro, com ou sem o 55 e com ou sem o 9 da frente (51 99999-0000, 5551999990000 e 51 9999-0000 acham o mesmo). Compara o DDD e os 8 últimos dígitos.</td></tr><tr><td><code>atualizado_desde</code></td><td>Como em produtos.</td></tr></tbody></table>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>documento</code></td><td>CPF ou CNPJ, com ou sem pontuação.</td></tr><tr><td><code>telefone</code> <span class="novo pequeno">novo</span></td><td>Telefone ou celular do cadastro, com ou sem o 55 e com qualquer pontuação. Compara o número inteiro com o DDD; a única tolerância é o 9 do celular antigo (51 99999-0000, 5551999990000 e 51 9999-0000 acham o mesmo). Fixo e celular diferentes nunca se misturam: 11 3333-4444 não acha 11 93333-4444.</td></tr><tr><td><code>atualizado_desde</code></td><td>Como em produtos.</td></tr></tbody></table>
   <h4>Exemplo</h4>
   <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/clientes?telefone=5551999990000&quot; \
   -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
@@ -153,7 +153,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
   <header><span class="met post">POST</span><code class="cam">/api/v1/clientes</code><span class="novo">novo · no ar em 13/11</span></header>
   <h3>Cadastrar cliente</h3>
   <p class="perm">Permissão da chave: <strong>Cadastrar clientes</strong></p>
-  <p>Cadastra o cliente pelo CPF ou CNPJ. Com CNPJ, a razão social, o nome fantasia, o regime e o endereço vêm da Receita, e a inscrição estadual da SEFAZ pelo certificado da empresa (como na ficha do cliente). Sem resposta da SEFAZ, o cadastro sai com inscricao_estadual_pendente: true para o vendedor completar. Receita fora do ar: 503 e nada é gravado. Documento que já existe na empresa: 200 com o cadastro como está e ja_existia: true, sem duplicar e sem mudar nada. Novo: 201.</p>
+  <p>Cadastra o cliente pelo CPF ou CNPJ. Com CNPJ, a razão social, o nome fantasia, o regime e o endereço vêm da Receita, e a inscrição estadual da SEFAZ pelo certificado da empresa (como na ficha do cliente). Sem resposta da SEFAZ, o cadastro sai com inscricao_estadual_pendente: true para o vendedor completar. A consulta da SEFAZ divide o limite por hora com a ficha do cliente na tela (60 por hora na empresa; pelo certificado da plataforma, 10 por hora por pessoa): passado o limite, o cadastro também sai com a inscrição pendente. Receita fora do ar: 503 e nada é gravado. Documento de um cliente ativo que já existe: 200 com ja_existia: true e só o id e o nome, sem duplicar e sem mudar nada. Documento em outro cadastro da empresa (fornecedor, cliente inativo): 409 documento_em_outro_cadastro, sem dado nenhum. Novo: 201.</p>
   <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>documento</code></td><td>Obrigatório. CPF ou CNPJ, com ou sem pontuação (o dígito é conferido).</td></tr><tr><td><code>nome</code></td><td>Obrigatório com CPF (a Receita não informa nome de pessoa física). Com CNPJ, vale a razão social da Receita e este nome entra como fantasia quando a Receita não tem uma.</td></tr><tr><td><code>nome_contato</code></td><td>Opcional: quem está falando pela empresa. Entra nos contatos do cliente.</td></tr><tr><td><code>telefone</code></td><td>Opcional, com ou sem o 55. Celular vai para o celular do cadastro, fixo para o telefone: é por eles que GET /clientes?telefone= acha.</td></tr><tr><td><code>email</code></td><td>Opcional. O e-mail da Receita não é usado (costuma ser o do contador): sem este campo, o vendedor completa.</td></tr><tr><td><code>inscricao_estadual</code></td><td>Opcional. Enviada, vale ela (ou ISENTO) e a SEFAZ não é consultada.</td></tr></tbody></table>
   <h4>Exemplo</h4>
   <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/clientes&quot; \
@@ -437,8 +437,8 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
   <header><span class="met post">POST</span><code class="cam">/api/v1/chamados</code><span class="novo">novo · no ar em 13/11</span></header>
   <h3>Abrir chamado (OS)</h3>
   <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
-  <p>Abre a OS em Pendente para um cliente já cadastrado, como o chamado pelo link do cliente no Sistema Brasil OS, e avisa a empresa por e-mail. Precisa do Sistema Brasil OS ligado na empresa (sem ele, 409). Responde 201 com o número. O mesmo problema do mesmo cliente em 10 minutos devolve o chamado já aberto (200, repetido: true). Limite de segurança: 10 chamados por cliente e 200 por chave por dia.</p>
-  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>documento</code></td><td>Obrigatório. CPF ou CNPJ de um cliente ativo já cadastrado. Sem cadastro, 422 &quot;cliente_nao_cadastrado&quot;: cadastre antes pelo POST /clientes.</td></tr><tr><td><code>equipamento</code></td><td>Obrigatório, até 200 caracteres.</td></tr><tr><td><code>numero_serie</code></td><td>Opcional, até 100 caracteres.</td></tr><tr><td><code>problema</code></td><td>Obrigatório: o que está acontecendo, de 10 a 2.000 caracteres.</td></tr><tr><td><code>contato_nome</code></td><td>Obrigatório: quem pediu (vira o Solicitante da OS).</td></tr><tr><td><code>contato_telefone e contato_email</code></td><td>Um dos dois é obrigatório: telefone com DDD ou e-mail.</td></tr><tr><td><code>local</code></td><td>Opcional: onde está o equipamento, até 300 caracteres.</td></tr></tbody></table>
+  <p>Abre a OS em Pendente para um cliente já cadastrado, como o chamado pelo link do cliente no Sistema Brasil OS, e avisa a empresa por e-mail. Precisa do Sistema Brasil OS ligado na empresa (sem ele, 409). Responde 201 com o número. O mesmo cliente com o mesmo problema e o mesmo equipamento (e a mesma série, quando vem) em 10 minutos devolve o chamado já aberto (200, repetido: true). Limite de segurança: 10 chamados por cliente e 200 por empresa por dia.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>documento</code></td><td>Obrigatório. CPF ou CNPJ de um cliente ativo já cadastrado (com o papel cliente). Sem isso, 422 &quot;cliente_nao_cadastrado&quot;: cadastre antes pelo POST /clientes.</td></tr><tr><td><code>equipamento</code></td><td>Obrigatório, até 200 caracteres.</td></tr><tr><td><code>numero_serie</code></td><td>Opcional, até 100 caracteres.</td></tr><tr><td><code>problema</code></td><td>Obrigatório: o que está acontecendo, de 10 a 2.000 caracteres.</td></tr><tr><td><code>contato_nome</code></td><td>Obrigatório: quem pediu (vira o Solicitante da OS).</td></tr><tr><td><code>contato_telefone e contato_email</code></td><td>Um dos dois é obrigatório: telefone com DDD ou e-mail.</td></tr><tr><td><code>local</code></td><td>Opcional: onde está o equipamento, até 300 caracteres.</td></tr></tbody></table>
   <h4>Exemplo</h4>
   <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/chamados&quot; \
   -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
@@ -463,8 +463,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
     &quot;prazo&quot;: null,
     &quot;origem&quot;: &quot;api&quot;,
     &quot;cliente&quot;: {
-      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;,
-      &quot;documento&quot;: &quot;11.222.333/0001-81&quot;
+      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;
     },
     &quot;equipamento&quot;: &quot;Balança comercial 15 kg · série BC-12345&quot;,
     &quot;links&quot;: {
@@ -478,10 +477,10 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
   <header><span class="met get">GET</span><code class="cam">/api/v1/chamados/{numero}</code><span class="novo">novo · no ar em 13/11</span></header>
   <h3>Situação de um chamado</h3>
   <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
-  <p>Qualquer OS da empresa pelo número (a aberta pela API ou pela equipe): a situação (situacao e o nome da tela em situacao_rotulo), quando abriu, a última atualização, o prazo, o cliente e o equipamento. Sem valores, custo nem técnico.</p>
-  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>numero</code></td><td>No caminho: o número da OS (OS-2026-0042).</td></tr></tbody></table>
+  <p>Um chamado que a API abriu nesta empresa, pelo número e pelo documento do cliente: a situação (situacao e o nome da tela em situacao_rotulo), quando abriu, a última atualização, o prazo, o nome do cliente e o equipamento. Sem valores, custo, técnico nem o documento. Sem o documento, com outro documento, ou OS aberta pela equipe: o mesmo 404.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>numero</code></td><td>No caminho: o número da OS (OS-2026-0042).</td></tr><tr><td><code>documento</code></td><td>Obrigatório: o CPF ou CNPJ do cliente do chamado, com ou sem pontuação.</td></tr></tbody></table>
   <h4>Exemplo</h4>
-  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/chamados/OS-2026-0042&quot; \
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/chamados/OS-2026-0042?documento=11222333000181&quot; \
   -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
   <h4>Resposta de exemplo</h4><pre class="cod"><code>{
   &quot;dados&quot;: {
@@ -493,8 +492,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);fon
     &quot;prazo&quot;: null,
     &quot;origem&quot;: &quot;api&quot;,
     &quot;cliente&quot;: {
-      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;,
-      &quot;documento&quot;: &quot;11.222.333/0001-81&quot;
+      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;
     },
     &quot;equipamento&quot;: &quot;Balança comercial 15 kg · série BC-12345&quot;,
     &quot;links&quot;: {
