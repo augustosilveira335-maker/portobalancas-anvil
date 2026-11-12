@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>API do Sistema Brasil · Integração do atendimento</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#00713C;--verde2:#0a8f4f;--amarelo:#F5B301;--tinta:#14201a;--suave:#5b6b62;--linha:#e3e9e5;--fundo:#f6f8f7;--card:#fff}
+*{box-sizing:border-box} body{margin:0;background:var(--fundo);color:var(--tinta);font:15px/1.6 Inter,system-ui,sans-serif}
+a{color:var(--verde)} code,pre{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px}
+.topo{background:var(--tinta);color:#fff;padding:48px 16px 40px} .topo .in{max-width:1080px;margin:0 auto}
+.selo{display:inline-flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.02em} .selo b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--verde);color:var(--amarelo);font-size:20px}
+.topo h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:22px 0 10px;letter-spacing:-.02em} .topo p{color:#c9d6cf;max-width:720px;margin:0}
+.base{margin-top:22px;display:inline-block;background:#0e1813;border:1px solid #2a3a31;border-radius:10px;padding:10px 14px;color:#e8f3ec}
+.grade{max-width:1080px;margin:0 auto;padding:32px 16px 80px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px} main{min-width:0}
+@media(max-width:860px){.grade{grid-template-columns:minmax(0,1fr)} nav.lado{position:static!important}}
+td{overflow-wrap:anywhere} .passos li{overflow-wrap:anywhere} p{overflow-wrap:anywhere}
+nav.lado{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:16px}
+nav.lado h5{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--suave)} nav.lado ul{list-style:none;margin:0 0 14px;padding:0} nav.lado li a{display:block;padding:5px 0;text-decoration:none;color:var(--tinta);font-size:13px;word-break:break-all}
+section{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:24px;margin-bottom:20px;overflow-x:auto}
+h2{margin:0 0 12px;font-size:22px;letter-spacing:-.01em} h3{margin:10px 0 4px;font-size:18px} h4{margin:16px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--suave)}
+.passos{counter-reset:p;list-style:none;padding:0;margin:0} .passos li{counter-increment:p;position:relative;padding:10px 0 10px 44px;border-top:1px solid var(--linha)} .passos li:first-child{border-top:0}
+.passos li::before{content:counter(p);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:var(--verde);color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{text-align:left;padding:8px 10px;border-top:1px solid var(--linha);vertical-align:top} th{color:var(--suave);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;border-top:0}
+.ep{border-top:1px solid var(--linha);padding-top:22px;margin-top:22px} .ep:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.ep header{display:flex;flex-wrap:wrap;align-items:center;gap:10px} .cam{font-size:15px;font-weight:500}
+.met{display:inline-block;min-width:46px;text-align:center;border-radius:6px;padding:2px 7px;font:600 12px 'JetBrains Mono',monospace;color:#fff} .met.get{background:#2563eb} .met.post{background:var(--verde)}
+.novo{background:var(--amarelo);color:#3a2a00;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600} .novo.pequeno{padding:1px 7px;font-size:11px;margin-left:6px}
+.perm{color:var(--suave);margin:0 0 6px;font-size:14px}
+pre.cod{background:#0f1a14;color:#e3f1e8;border-radius:10px;padding:14px 16px;overflow-x:auto;white-space:pre;margin:6px 0}
+.aviso{border-left:4px solid var(--amarelo);background:#fffaeb;padding:12px 16px;border-radius:0 10px 10px 0;margin:12px 0}
+footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;color:var(--suave);font-size:13px}
+</style></head><body>
+<div class="topo"><div class="in">
+  <div class="selo"><b>S</b> Sistema Brasil · API</div>
+  <h1>Integração do atendimento com o Sistema Brasil</h1>
+  <p>O Sistema Brasil é a base da operação da Porto Balanças: cadastro de clientes, chamados técnicos (OS), pedidos, notas e financeiro. Esta página mostra como uma plataforma de atendimento consulta e grava nele pela API.</p>
+  <div class="base"><code>https://sistemabrasil.com/api/v1</code></div>
+</div></div>
+<div class="grade">
+<nav class="lado"><h5>Começo</h5><ul><li><a href="#fluxo">Fluxo do atendimento</a></li><li><a href="#acesso">Chave e permissões</a></li><li><a href="#regras">Regras de uso</a></li></ul><h5>Endpoints</h5><ul><li><a href="#produtos"><span class="met get">GET</span> /api/v1/produtos</a></li><li><a href="#produto"><span class="met get">GET</span> /api/v1/produtos/{sku}</a></li><li><a href="#estoque"><span class="met get">GET</span> /api/v1/estoque</a></li><li><a href="#clientes"><span class="met get">GET</span> /api/v1/clientes</a></li><li><a href="#criar-cliente"><span class="met post">POST</span> /api/v1/clientes</a></li><li><a href="#pedidos"><span class="met get">GET</span> /api/v1/pedidos</a></li><li><a href="#pedido"><span class="met get">GET</span> /api/v1/pedidos/{numero}</a></li><li><a href="#criar-pedido"><span class="met post">POST</span> /api/v1/pedidos</a></li><li><a href="#criar-nota-servico"><span class="met post">POST</span> /api/v1/notas-servico</a></li><li><a href="#nota-servico"><span class="met get">GET</span> /api/v1/notas-servico/{id}</a></li><li><a href="#contas-receber"><span class="met get">GET</span> /api/v1/contas-receber</a></li><li><a href="#comprovante"><span class="met post">POST</span> /api/v1/contas-receber/{id}/comprovante</a></li><li><a href="#criar-chamado"><span class="met post">POST</span> /api/v1/chamados</a></li><li><a href="#chamado"><span class="met get">GET</span> /api/v1/chamados/{numero}</a></li></ul></nav>
+<main>
+<section id="fluxo"><h2>Fluxo sugerido para o atendimento</h2>
+<ol class="passos">
+<li><strong>Identificar o cliente.</strong> Pelo telefone da conversa: <code>GET /clientes?telefone=</code> (aceita com ou sem 55 e com ou sem o 9). Se não achar, pedir o CNPJ e buscar por <code>GET /clientes?documento=</code>.</li>
+<li><strong>Cliente novo?</strong> <code>POST /clientes</code> só com o CNPJ: o Sistema Brasil busca razão social e endereço na Receita e a inscrição estadual na SEFAZ. O telefone da conversa e o nome do contato vão junto. O e-mail o vendedor completa depois.</li>
+<li><strong>Assistência técnica.</strong> <code>POST /chamados</code> abre a OS no Sistema Brasil, que avisa a equipe da Porto por e-mail. O cliente também pode abrir sozinho pelo QR Code colado na balança.</li>
+<li><strong>Acompanhar.</strong> <code>GET /chamados/{numero}</code> devolve a situação para a plataforma responder o cliente.</li>
+<li><strong>Venda no funil.</strong> <code>GET /pedidos?documento=</code> mostra os pedidos do cliente: é assim que o painel do atendimento sabe que o lead virou venda, sem ninguém preencher nada.</li>
+</ol></section>
+<section id="acesso"><h2>Chave e permissões</h2>
+<p>Toda chamada leva a chave no cabeçalho <code>Authorization: Bearer &lt;chave&gt;</code>. Nos exemplos ela fica na variável de ambiente <code>SISTEMA_BRASIL_CHAVE</code>, nunca escrita no código. A chave é criada pelo administrador da empresa e leva só as permissões necessárias:</p>
+<table><thead><tr><th>Permissão</th><th>Nome</th><th>O que libera</th></tr></thead><tbody><tr><td><code>leitura</code></td><td>Leitura</td><td>Consulta produtos, estoque, clientes e pedidos.</td></tr><tr><td><code>pedidos</code></td><td>Criar pedidos</td><td>Cria pedidos de venda.</td></tr><tr><td><code>notas</code></td><td>Notas de serviço</td><td>Emite NFS-e e consulta a situação delas. Cada nota pedida gasta um número da série, como na tela.</td></tr><tr><td><code>financeiro</code></td><td>Contas a receber</td><td>Consulta os títulos a receber, com o boleto, e envia comprovantes de pagamento para o financeiro confirmar. Não dá baixa sozinha.</td></tr><tr><td><code>clientes</code> <span class="novo pequeno">novo</span></td><td>Cadastrar clientes</td><td>Cadastra cliente pelo CPF ou CNPJ, com os dados da Receita e a inscrição estadual pela SEFAZ. Não muda cadastro que já existe.</td></tr><tr><td><code>chamados</code> <span class="novo pequeno">novo</span></td><td>Abrir chamados</td><td>Abre chamados (OS) para clientes já cadastrados e consulta a situação deles. Precisa do Sistema Brasil OS ligado.</td></tr></tbody></table>
+<div class="aviso"><strong>Chave de teste:</strong> é liberada numa empresa de teste depois que a integradora enviar quais endpoints vai usar e o desenho do fluxo. A chave da Porto só sai depois do teste aprovado.</div>
+</section>
+<section id="regras"><h2>Regras de uso</h2>
+<ul>
+<li>Até <strong>60 chamadas por minuto</strong> por chave. Acima disso a resposta é 429.</li>
+<li>Gravações (<code>POST</code>) aceitam o cabeçalho <code>Idempotency-Key</code>: repetir a mesma chamada com a mesma chave devolve a mesma resposta, sem gravar duas vezes. Recomendação: usar o id da mensagem do WhatsApp.</li>
+<li><code>POST /clientes</code> consulta Receita e SEFAZ: pode levar até uns 25 segundos. Configure o tempo limite em pelo menos 30 segundos.</li>
+<li>Abertura de chamado: até 10 por cliente por dia e 200 por chave por dia. O mesmo problema do mesmo cliente em 10 minutos devolve o chamado que já foi aberto.</li>
+<li>Os dados de cliente são da Porto Balanças. Use só para o atendimento e não guarde além do necessário (LGPD).</li>
+</ul>
+<h4>Formato das listas</h4><pre class="cod"><code>{
+  &quot;dados&quot;: [
+    {
+      &quot;sku&quot;: &quot;CAM-P&quot;,
+      &quot;nome&quot;: &quot;Camiseta P&quot;,
+      &quot;tipo&quot;: &quot;simples&quot;,
+      &quot;situacao&quot;: &quot;ativo&quot;,
+      &quot;unidade&quot;: &quot;UN&quot;,
+      &quot;preco&quot;: 59.9,
+      &quot;atualizado_em&quot;: &quot;2026-10-05T17:30:00+00:00&quot;
+    }
+  ],
+  &quot;paginacao&quot;: {
+    &quot;pagina&quot;: 1,
+    &quot;por_pagina&quot;: 50,
+    &quot;total&quot;: 134,
+    &quot;total_paginas&quot;: 3
+  }
+}</code></pre>
+<h4>Formato dos erros</h4><pre class="cod"><code>{
+  &quot;erro&quot;: &quot;O pedido tem campos inválidos.&quot;,
+  &quot;detalhes&quot;: [
+    &quot;itens[0].quantidade: obrigatória, em número.&quot;,
+    &quot;Campo desconhecido no pedido: \&quot;qtd\&quot;.&quot;
+  ]
+}</code></pre>
+</section>
+<section id="endpoints"><h2>Endpoints</h2>
+<article class="ep" id="produtos">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/produtos</code></header>
+  <h3>Listar produtos</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>Produtos da empresa em ordem de atualização (o mais antigo primeiro). Com atualizado_desde, serve para sincronizar só o que mudou.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>sku</code></td><td>SKU exato, para buscar um produto.</td></tr><tr><td><code>atualizado_desde</code></td><td>Data e hora ISO 8601 (2026-10-05T14:30:00-03:00). Sem fuso, vale o horário de Brasília. Na URL, o + do fuso vira %2B.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/produtos?pagina=1&amp;por_pagina=50&amp;atualizado_desde=2026-10-01&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  
+</article>
+<article class="ep" id="produto">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/produtos/{sku}</code></header>
+  <h3>Um produto, com saldo</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>O produto pelo SKU, com o estoque (saldo físico, reservado e disponível para venda). O produto com variações vem com a lista dos SKUs das variações e sem estoque próprio.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>sku</code></td><td>No caminho. Caractere especial vai codificado (%2F).</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/produtos/CAM-P&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  <h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: {
+    &quot;sku&quot;: &quot;CAM-P&quot;,
+    &quot;nome&quot;: &quot;Camiseta P&quot;,
+    &quot;tipo&quot;: &quot;simples&quot;,
+    &quot;situacao&quot;: &quot;ativo&quot;,
+    &quot;unidade&quot;: &quot;UN&quot;,
+    &quot;preco&quot;: 59.9,
+    &quot;preco_promocional&quot;: null,
+    &quot;gtin&quot;: &quot;7891234567895&quot;,
+    &quot;pai_sku&quot;: null,
+    &quot;estoque&quot;: {
+      &quot;saldo_fisico&quot;: 10,
+      &quot;reservado&quot;: 2,
+      &quot;disponivel&quot;: 8
+    }
+  }
+}</code></pre>
+</article>
+<article class="ep" id="estoque">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/estoque</code></header>
+  <h3>Saldos de estoque</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>Saldo físico, reservado e disponível de cada SKU que tem estoque próprio, em ordem de SKU.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>sku</code></td><td>SKU exato.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/estoque?por_pagina=100&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  
+</article>
+<article class="ep" id="clientes">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/clientes</code></header>
+  <h3>Listar clientes</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>Contatos com o papel cliente, com o endereço principal, em ordem de atualização. Traz dados pessoais: trate a chave como senha.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>documento</code></td><td>CPF ou CNPJ, com ou sem pontuação.</td></tr><tr><td><code>telefone</code> <span class="novo pequeno">novo</span></td><td>Telefone ou celular do cadastro, com ou sem o 55 e com ou sem o 9 da frente (51 99999-0000, 5551999990000 e 51 9999-0000 acham o mesmo). Compara o DDD e os 8 últimos dígitos.</td></tr><tr><td><code>atualizado_desde</code></td><td>Como em produtos.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/clientes?telefone=5551999990000&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  
+</article>
+<article class="ep" id="criar-cliente">
+  <header><span class="met post">POST</span><code class="cam">/api/v1/clientes</code><span class="novo">novo · no ar em 13/11</span></header>
+  <h3>Cadastrar cliente</h3>
+  <p class="perm">Permissão da chave: <strong>Cadastrar clientes</strong></p>
+  <p>Cadastra o cliente pelo CPF ou CNPJ. Com CNPJ, a razão social, o nome fantasia, o regime e o endereço vêm da Receita, e a inscrição estadual da SEFAZ pelo certificado da empresa (como na ficha do cliente). Sem resposta da SEFAZ, o cadastro sai com inscricao_estadual_pendente: true para o vendedor completar. Receita fora do ar: 503 e nada é gravado. Documento que já existe na empresa: 200 com o cadastro como está e ja_existia: true, sem duplicar e sem mudar nada. Novo: 201.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>documento</code></td><td>Obrigatório. CPF ou CNPJ, com ou sem pontuação (o dígito é conferido).</td></tr><tr><td><code>nome</code></td><td>Obrigatório com CPF (a Receita não informa nome de pessoa física). Com CNPJ, vale a razão social da Receita e este nome entra como fantasia quando a Receita não tem uma.</td></tr><tr><td><code>nome_contato</code></td><td>Opcional: quem está falando pela empresa. Entra nos contatos do cliente.</td></tr><tr><td><code>telefone</code></td><td>Opcional, com ou sem o 55. Celular vai para o celular do cadastro, fixo para o telefone: é por eles que GET /clientes?telefone= acha.</td></tr><tr><td><code>email</code></td><td>Opcional. O e-mail da Receita não é usado (costuma ser o do contador): sem este campo, o vendedor completa.</td></tr><tr><td><code>inscricao_estadual</code></td><td>Opcional. Enviada, vale ela (ou ISENTO) e a SEFAZ não é consultada.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/clientes&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
+  -H &quot;Idempotency-Key: 7f3c9a52-4b1e-4c2d-9e8f-0a1b2c3d4e5f&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;documento&quot;:&quot;11.222.333/0001-81&quot;,&quot;nome_contato&quot;:&quot;Ana Souza&quot;,&quot;telefone&quot;:&quot;+55 51 99999-0000&quot;}&#x27;</code></pre>
+  <h4>Corpo</h4><pre class="cod"><code>{
+  &quot;documento&quot;: &quot;11.222.333/0001-81&quot;,
+  &quot;nome_contato&quot;: &quot;Ana Souza&quot;,
+  &quot;telefone&quot;: &quot;+55 51 99999-0000&quot;
+}</code></pre><h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: {
+    &quot;id&quot;: &quot;3b2a1c0d-9e8f-4a7b-8c6d-5e4f3a2b1c0d&quot;,
+    &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;,
+    &quot;nome_fantasia&quot;: &quot;Mercado Exemplo&quot;,
+    &quot;tipo_pessoa&quot;: &quot;PJ&quot;,
+    &quot;documento&quot;: &quot;11.222.333/0001-81&quot;,
+    &quot;inscricao_estadual&quot;: null,
+    &quot;email&quot;: null,
+    &quot;telefone&quot;: null,
+    &quot;celular&quot;: &quot;(51) 99999-0000&quot;,
+    &quot;situacao&quot;: &quot;ativo&quot;,
+    &quot;papeis&quot;: [
+      &quot;cliente&quot;
+    ],
+    &quot;endereco&quot;: {
+      &quot;cep&quot;: &quot;90010-000&quot;,
+      &quot;logradouro&quot;: &quot;RUA DOS ANDRADAS&quot;,
+      &quot;numero&quot;: &quot;1000&quot;,
+      &quot;complemento&quot;: &quot;&quot;,
+      &quot;bairro&quot;: &quot;CENTRO HISTORICO&quot;,
+      &quot;cidade&quot;: &quot;Porto Alegre&quot;,
+      &quot;uf&quot;: &quot;RS&quot;,
+      &quot;codigo_municipio_ibge&quot;: &quot;4314902&quot;
+    },
+    &quot;criado_em&quot;: &quot;2026-11-12T14:00:00+00:00&quot;,
+    &quot;atualizado_em&quot;: &quot;2026-11-12T14:00:00+00:00&quot;
+  },
+  &quot;ja_existia&quot;: false,
+  &quot;inscricao_estadual_pendente&quot;: true
+}</code></pre>
+</article>
+<article class="ep" id="pedidos">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/pedidos</code></header>
+  <h3>Listar pedidos de venda</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>Do mais recente para o mais antigo, sem os itens (veja o pedido pelo número).</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>data_inicio</code></td><td>Data do pedido a partir de (AAAA-MM-DD).</td></tr><tr><td><code>data_fim</code></td><td>Data do pedido até (AAAA-MM-DD).</td></tr><tr><td><code>status</code></td><td>rascunho, aguardando, pago, faturado ou cancelado.</td></tr><tr><td><code>documento</code> <span class="novo pequeno">novo</span></td><td>CPF ou CNPJ do cliente do pedido, com ou sem pontuação: mostra quando o lead virou venda (rascunho ainda não é venda confirmada).</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/pedidos?data_inicio=2026-10-01&amp;data_fim=2026-10-31&amp;status=aguardando&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  
+</article>
+<article class="ep" id="pedido">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/pedidos/{numero}</code></header>
+  <h3>Um pedido, com itens</h3>
+  <p class="perm">Permissão da chave: <strong>Leitura</strong></p>
+  <p>O pedido pelo número que o sistema deu (PV-2026-0001), com os itens.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>numero</code></td><td>No caminho.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/pedidos/PV-2026-0001&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  
+</article>
+<article class="ep" id="criar-pedido">
+  <header><span class="met post">POST</span><code class="cam">/api/v1/pedidos</code></header>
+  <h3>Criar pedido de venda</h3>
+  <p class="perm">Permissão da chave: <strong>Criar pedidos</strong></p>
+  <p>Cria o pedido como na tela de vendas, com itens pelo SKU (até 200) e o cliente pelo CPF ou CNPJ já cadastrado. Responde 201 com o pedido criado.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>referencia</code></td><td>Opcional, recomendado: o número do pedido no seu sistema (até 60 caracteres). Repetir a mesma referência devolve 409 com o pedido que já existe, em vez de duplicar.</td></tr><tr><td><code>status</code></td><td>Opcional. &quot;rascunho&quot; (padrão) ou &quot;aguardando&quot;, que confirma: baixa o estoque e gera o título a receber.</td></tr><tr><td><code>data</code></td><td>Opcional, AAAA-MM-DD (padrão: hoje).</td></tr><tr><td><code>cliente.documento</code></td><td>Opcional. CPF ou CNPJ de um cliente ativo já cadastrado.</td></tr><tr><td><code>canal</code></td><td>Opcional (padrão &quot;API&quot;). Por exemplo, &quot;Loja virtual&quot;.</td></tr><tr><td><code>observacoes</code></td><td>Opcional, até 2.000 caracteres.</td></tr><tr><td><code>desconto</code></td><td>Opcional. Desconto no total do pedido, em reais.</td></tr><tr><td><code>itens[].sku e itens[].quantidade</code></td><td>Obrigatórios. Quantidade com até 3 casas decimais.</td></tr><tr><td><code>itens[].preco_unitario</code></td><td>Opcional. Sem ele, vale o preço do cadastro do produto.</td></tr><tr><td><code>itens[].desconto e itens[].descricao</code></td><td>Opcionais. Sem descrição, vale o nome do produto.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/pedidos&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;referencia&quot;:&quot;LOJA-1001&quot;,&quot;status&quot;:&quot;aguardando&quot;,&quot;cliente&quot;:{&quot;documento&quot;:&quot;12.345.678/0001-90&quot;},&quot;canal&quot;:&quot;Loja virtual&quot;,&quot;observacoes&quot;:&quot;Entregar à tarde&quot;,&quot;itens&quot;:[{&quot;sku&quot;:&quot;CAM-P&quot;,&quot;quantidade&quot;:2},{&quot;sku&quot;:&quot;TENIS-38&quot;,&quot;quantidade&quot;:1,&quot;preco_unitario&quot;:180,&quot;desconto&quot;:10}]}&#x27;</code></pre>
+  <h4>Corpo</h4><pre class="cod"><code>{
+  &quot;referencia&quot;: &quot;LOJA-1001&quot;,
+  &quot;status&quot;: &quot;aguardando&quot;,
+  &quot;cliente&quot;: {
+    &quot;documento&quot;: &quot;12.345.678/0001-90&quot;
+  },
+  &quot;canal&quot;: &quot;Loja virtual&quot;,
+  &quot;observacoes&quot;: &quot;Entregar à tarde&quot;,
+  &quot;itens&quot;: [
+    {
+      &quot;sku&quot;: &quot;CAM-P&quot;,
+      &quot;quantidade&quot;: 2
+    },
+    {
+      &quot;sku&quot;: &quot;TENIS-38&quot;,
+      &quot;quantidade&quot;: 1,
+      &quot;preco_unitario&quot;: 180,
+      &quot;desconto&quot;: 10
+    }
+  ]
+}</code></pre><h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: {
+    &quot;numero&quot;: &quot;PV-2026-0042&quot;,
+    &quot;data&quot;: &quot;2026-10-05&quot;,
+    &quot;status&quot;: &quot;aguardando&quot;,
+    &quot;canal&quot;: &quot;Loja virtual&quot;,
+    &quot;referencia&quot;: &quot;LOJA-1001&quot;,
+    &quot;cliente&quot;: {
+      &quot;nome&quot;: &quot;Cliente Exemplo Ltda&quot;,
+      &quot;documento&quot;: &quot;12.345.678/0001-90&quot;
+    },
+    &quot;subtotal&quot;: 289.8,
+    &quot;desconto&quot;: 0,
+    &quot;total&quot;: 289.8,
+    &quot;itens&quot;: [
+      {
+        &quot;sku&quot;: &quot;CAM-P&quot;,
+        &quot;descricao&quot;: &quot;Camiseta P&quot;,
+        &quot;quantidade&quot;: 2,
+        &quot;preco_unitario&quot;: 59.9,
+        &quot;desconto&quot;: 0,
+        &quot;total&quot;: 119.8
+      },
+      {
+        &quot;sku&quot;: &quot;TENIS-38&quot;,
+        &quot;descricao&quot;: &quot;Tênis · 38&quot;,
+        &quot;quantidade&quot;: 1,
+        &quot;preco_unitario&quot;: 180,
+        &quot;desconto&quot;: 10,
+        &quot;total&quot;: 170
+      }
+    ]
+  }
+}</code></pre>
+</article>
+<article class="ep" id="criar-nota-servico">
+  <header><span class="met post">POST</span><code class="cam">/api/v1/notas-servico</code></header>
+  <h3>Emitir nota de serviço (NFS-e)</h3>
+  <p class="perm">Permissão da chave: <strong>Notas de serviço</strong></p>
+  <p>Pede a NFS-e avulsa com a configuração da empresa, como na tela. Confere as pendências antes de gastar número; passou, reserva o número e a nota entra na fila do emissor. Responde 202 com a nota em status pendente: acompanhe pelo GET do id.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>tomador.documento</code></td><td>Obrigatório. CPF ou CNPJ, com ou sem pontuação.</td></tr><tr><td><code>tomador.nome e tomador.email</code></td><td>Opcionais. Só usados quando o tomador é cadastrado junto (criar_tomador).</td></tr><tr><td><code>criar_tomador</code></td><td>Opcional (padrão false). Com true e tomador.nome, cadastra o tomador que não existe. Sem isso, tomador que não existe é 422 &quot;tomador não cadastrado&quot;.</td></tr><tr><td><code>servico.descricao</code></td><td>Obrigatória, até 2000 caracteres.</td></tr><tr><td><code>servico.valor</code></td><td>Obrigatório, em reais, com até 2 casas decimais.</td></tr><tr><td><code>servico.codigo_tributacao_nacional</code></td><td>Opcional, 6 dígitos. Sem ele, vale o padrão da configuração da NFS-e.</td></tr><tr><td><code>competencia</code></td><td>Opcional, AAAA-MM-DD (padrão: hoje).</td></tr><tr><td><code>permitir_repetida</code></td><td>Opcional (padrão false). Nota igual (mesmo tomador, valor e descrição) a outra pedida há menos de 10 minutos é 409 &quot;nota_repetida&quot;; com true, sai mesmo assim. Limite de segurança: 200 notas por chave em 24 horas.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/notas-servico&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
+  -H &quot;Idempotency-Key: 7f3c9a52-4b1e-4c2d-9e8f-0a1b2c3d4e5f&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;tomador&quot;:{&quot;documento&quot;:&quot;12.345.678/0001-90&quot;,&quot;nome&quot;:&quot;Cliente Exemplo Ltda&quot;},&quot;servico&quot;:{&quot;descricao&quot;:&quot;Honorários contábeis de outubro de 2026&quot;,&quot;valor&quot;:1200},&quot;competencia&quot;:&quot;2026-10-01&quot;,&quot;criar_tomador&quot;:true}&#x27;</code></pre>
+  <h4>Corpo</h4><pre class="cod"><code>{
+  &quot;tomador&quot;: {
+    &quot;documento&quot;: &quot;12.345.678/0001-90&quot;,
+    &quot;nome&quot;: &quot;Cliente Exemplo Ltda&quot;
+  },
+  &quot;servico&quot;: {
+    &quot;descricao&quot;: &quot;Honorários contábeis de outubro de 2026&quot;,
+    &quot;valor&quot;: 1200
+  },
+  &quot;competencia&quot;: &quot;2026-10-01&quot;,
+  &quot;criar_tomador&quot;: true
+}</code></pre><h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;id&quot;: &quot;0f8e2c1a-5b6d-4e7f-8a9b-1c2d3e4f5a6b&quot;,
+  &quot;status&quot;: &quot;pendente&quot;,
+  &quot;numero&quot;: null,
+  &quot;numero_dps&quot;: 42,
+  &quot;serie&quot;: 1,
+  &quot;codigo_verificacao&quot;: null,
+  &quot;chave_acesso&quot;: null,
+  &quot;motivo&quot;: null,
+  &quot;valor_servico&quot;: 1200,
+  &quot;valor_liquido&quot;: 1200,
+  &quot;competencia&quot;: &quot;2026-10-01&quot;,
+  &quot;tomador&quot;: {
+    &quot;nome&quot;: &quot;Cliente Exemplo Ltda&quot;,
+    &quot;documento&quot;: &quot;12345678000190&quot;
+  },
+  &quot;ambiente&quot;: &quot;homologacao&quot;,
+  &quot;pdf_url&quot;: null,
+  &quot;xml_url&quot;: null,
+  &quot;criada_em&quot;: &quot;2026-10-28T12:00:00+00:00&quot;,
+  &quot;autorizada_em&quot;: null,
+  &quot;links&quot;: {
+    &quot;self&quot;: &quot;/api/v1/notas-servico/0f8e2c1a-5b6d-4e7f-8a9b-1c2d3e4f5a6b&quot;
+  }
+}</code></pre>
+</article>
+<article class="ep" id="nota-servico">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/notas-servico/{id}</code></header>
+  <h3>Situação de uma nota de serviço</h3>
+  <p class="perm">Permissão da chave: <strong>Notas de serviço</strong></p>
+  <p>status: pendente, processando, autorizado, rejeitado, denegado, erro, cancelado ou inutilizado. Autorizada, traz o número da NFS-e, o código de verificação e a chave de acesso; recusada, o motivo. pdf_url e xml_url ainda vêm nulos.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>id</code></td><td>No caminho: o id que o POST devolveu.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/notas-servico/0f8e2c1a-5b6d-4e7f-8a9b-1c2d3e4f5a6b&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  <h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;id&quot;: &quot;0f8e2c1a-5b6d-4e7f-8a9b-1c2d3e4f5a6b&quot;,
+  &quot;status&quot;: &quot;pendente&quot;,
+  &quot;numero&quot;: null,
+  &quot;numero_dps&quot;: 42,
+  &quot;serie&quot;: 1,
+  &quot;codigo_verificacao&quot;: null,
+  &quot;chave_acesso&quot;: null,
+  &quot;motivo&quot;: null,
+  &quot;valor_servico&quot;: 1200,
+  &quot;valor_liquido&quot;: 1200,
+  &quot;competencia&quot;: &quot;2026-10-01&quot;,
+  &quot;tomador&quot;: {
+    &quot;nome&quot;: &quot;Cliente Exemplo Ltda&quot;,
+    &quot;documento&quot;: &quot;12345678000190&quot;
+  },
+  &quot;ambiente&quot;: &quot;homologacao&quot;,
+  &quot;pdf_url&quot;: null,
+  &quot;xml_url&quot;: null,
+  &quot;criada_em&quot;: &quot;2026-10-28T12:00:00+00:00&quot;,
+  &quot;autorizada_em&quot;: null,
+  &quot;links&quot;: {
+    &quot;self&quot;: &quot;/api/v1/notas-servico/0f8e2c1a-5b6d-4e7f-8a9b-1c2d3e4f5a6b&quot;
+  }
+}</code></pre>
+</article>
+<article class="ep" id="contas-receber">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/contas-receber</code></header>
+  <h3>Contas a receber</h3>
+  <p class="perm">Permissão da chave: <strong>Contas a receber</strong></p>
+  <p>Títulos a receber em ordem de vencimento, com o cliente (nome, documento e telefone) e o boleto vivo (a linha digitável só é pagável com situacao registrado). Traz dados pessoais: trate a chave como senha.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>pagina</code></td><td>Página, de 1 em diante (padrão 1).</td></tr><tr><td><code>por_pagina</code></td><td>Itens por página, de 1 a 100 (padrão 50).</td></tr><tr><td><code>situacao</code></td><td>aberto (padrão: com saldo, vencido ou não), vencido (em aberto, vencimento antes de hoje) ou todos (inclusive pago e cancelado).</td></tr><tr><td><code>documento</code></td><td>CPF ou CNPJ do cliente, com ou sem pontuação.</td></tr><tr><td><code>vencimento_ate</code></td><td>Vencimento até (AAAA-MM-DD).</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/contas-receber?situacao=vencido&amp;documento=12345678000190&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  <h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: [
+    {
+      &quot;id&quot;: &quot;5a6b7c8d-9e0f-4a1b-8c2d-3e4f5a6b7c8d&quot;,
+      &quot;descricao&quot;: &quot;Honorários 10/2026&quot;,
+      &quot;cliente&quot;: {
+        &quot;nome&quot;: &quot;Cliente Exemplo Ltda&quot;,
+        &quot;documento&quot;: &quot;12.345.678/0001-90&quot;,
+        &quot;telefone&quot;: &quot;51999990000&quot;
+      },
+      &quot;valor&quot;: 1200,
+      &quot;valor_em_aberto&quot;: 1200,
+      &quot;vencimento&quot;: &quot;2026-10-10&quot;,
+      &quot;status&quot;: &quot;vencido&quot;,
+      &quot;boleto&quot;: {
+        &quot;linha_digitavel&quot;: &quot;00190000090123456789012345678901234567890123456&quot;,
+        &quot;situacao&quot;: &quot;registrado&quot;,
+        &quot;vencimento&quot;: &quot;2026-10-10&quot;,
+        &quot;valor&quot;: 1200
+      },
+      &quot;comprovante_pendente&quot;: false
+    }
+  ],
+  &quot;paginacao&quot;: {
+    &quot;pagina&quot;: 1,
+    &quot;por_pagina&quot;: 50,
+    &quot;total&quot;: 1,
+    &quot;total_paginas&quot;: 1
+  }
+}</code></pre>
+</article>
+<article class="ep" id="comprovante">
+  <header><span class="met post">POST</span><code class="cam">/api/v1/contas-receber/{id}/comprovante</code></header>
+  <h3>Enviar comprovante de pagamento</h3>
+  <p class="perm">Permissão da chave: <strong>Contas a receber</strong></p>
+  <p>Guarda o comprovante para o financeiro conferir. NÃO dá baixa: o título só muda quando uma pessoa confirma o comprovante na tela do Financeiro. Responde 201 com o comprovante pendente.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>id</code></td><td>No caminho: o id do título (de GET /contas-receber).</td></tr><tr><td><code>arquivo_base64</code></td><td>O arquivo em base64 (ou data:...;base64,...), até 2 MB: JPEG, PNG ou PDF, conferido pelo conteúdo.</td></tr><tr><td><code>arquivo_url</code></td><td>Ou um endereço https do arquivo (no lugar do base64). O sistema guarda o endereço e não baixa o arquivo.</td></tr><tr><td><code>valor_informado e data_pagamento</code></td><td>Opcionais: o que o cliente disse que pagou e quando (AAAA-MM-DD).</td></tr><tr><td><code>observacao</code></td><td>Opcional, até 1.000 caracteres. Sem arquivo, é obrigatória.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/contas-receber/5a6b7c8d-9e0f-4a1b-8c2d-3e4f5a6b7c8d/comprovante&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
+  -H &quot;Idempotency-Key: 7f3c9a52-4b1e-4c2d-9e8f-0a1b2c3d4e5f&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;arquivo_base64&quot;:&quot;JVBERi0xLjQK...&quot;,&quot;valor_informado&quot;:1200,&quot;data_pagamento&quot;:&quot;2026-10-27&quot;,&quot;observacao&quot;:&quot;Pago por Pix, enviado pelo cliente no WhatsApp.&quot;}&#x27;</code></pre>
+  <h4>Corpo</h4><pre class="cod"><code>{
+  &quot;arquivo_base64&quot;: &quot;JVBERi0xLjQK...&quot;,
+  &quot;valor_informado&quot;: 1200,
+  &quot;data_pagamento&quot;: &quot;2026-10-27&quot;,
+  &quot;observacao&quot;: &quot;Pago por Pix, enviado pelo cliente no WhatsApp.&quot;
+}</code></pre><h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;id&quot;: &quot;9c8b7a6f-5e4d-4c3b-8a2f-1e0d9c8b7a6f&quot;,
+  &quot;status&quot;: &quot;pendente&quot;,
+  &quot;titulo_id&quot;: &quot;5a6b7c8d-9e0f-4a1b-8c2d-3e4f5a6b7c8d&quot;,
+  &quot;criado_em&quot;: &quot;2026-10-28T12:05:00+00:00&quot;
+}</code></pre>
+</article>
+<article class="ep" id="criar-chamado">
+  <header><span class="met post">POST</span><code class="cam">/api/v1/chamados</code><span class="novo">novo · no ar em 13/11</span></header>
+  <h3>Abrir chamado (OS)</h3>
+  <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
+  <p>Abre a OS em Pendente para um cliente já cadastrado, como o chamado pelo link do cliente no Sistema Brasil OS, e avisa a empresa por e-mail. Precisa do Sistema Brasil OS ligado na empresa (sem ele, 409). Responde 201 com o número. O mesmo problema do mesmo cliente em 10 minutos devolve o chamado já aberto (200, repetido: true). Limite de segurança: 10 chamados por cliente e 200 por chave por dia.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>Idempotency-Key (cabeçalho)</code></td><td>Obrigatório: de 8 a 128 caracteres, um UUID novo para cada operação. Repetir a mesma chave com o mesmo corpo devolve o que já foi feito (cabeçalho Idempotent-Replayed: true), sem duplicar. A mesma chave com outro corpo é 409.</td></tr><tr><td><code>documento</code></td><td>Obrigatório. CPF ou CNPJ de um cliente ativo já cadastrado. Sem cadastro, 422 &quot;cliente_nao_cadastrado&quot;: cadastre antes pelo POST /clientes.</td></tr><tr><td><code>equipamento</code></td><td>Obrigatório, até 200 caracteres.</td></tr><tr><td><code>numero_serie</code></td><td>Opcional, até 100 caracteres.</td></tr><tr><td><code>problema</code></td><td>Obrigatório: o que está acontecendo, de 10 a 2.000 caracteres.</td></tr><tr><td><code>contato_nome</code></td><td>Obrigatório: quem pediu (vira o Solicitante da OS).</td></tr><tr><td><code>contato_telefone e contato_email</code></td><td>Um dos dois é obrigatório: telefone com DDD ou e-mail.</td></tr><tr><td><code>local</code></td><td>Opcional: onde está o equipamento, até 300 caracteres.</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s -X POST &quot;https://sistemabrasil.com/api/v1/chamados&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot; \
+  -H &quot;Idempotency-Key: 7f3c9a52-4b1e-4c2d-9e8f-0a1b2c3d4e5f&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;documento&quot;:&quot;11.222.333/0001-81&quot;,&quot;equipamento&quot;:&quot;Balança comercial 15 kg&quot;,&quot;numero_serie&quot;:&quot;BC-12345&quot;,&quot;problema&quot;:&quot;A balança não liga desde ontem à tarde.&quot;,&quot;contato_nome&quot;:&quot;Ana Souza&quot;,&quot;contato_telefone&quot;:&quot;+55 51 99999-0000&quot;,&quot;local&quot;:&quot;Loja do centro, balcão da padaria&quot;}&#x27;</code></pre>
+  <h4>Corpo</h4><pre class="cod"><code>{
+  &quot;documento&quot;: &quot;11.222.333/0001-81&quot;,
+  &quot;equipamento&quot;: &quot;Balança comercial 15 kg&quot;,
+  &quot;numero_serie&quot;: &quot;BC-12345&quot;,
+  &quot;problema&quot;: &quot;A balança não liga desde ontem à tarde.&quot;,
+  &quot;contato_nome&quot;: &quot;Ana Souza&quot;,
+  &quot;contato_telefone&quot;: &quot;+55 51 99999-0000&quot;,
+  &quot;local&quot;: &quot;Loja do centro, balcão da padaria&quot;
+}</code></pre><h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: {
+    &quot;numero&quot;: &quot;OS-2026-0042&quot;,
+    &quot;situacao&quot;: &quot;aberta&quot;,
+    &quot;situacao_rotulo&quot;: &quot;Pendente&quot;,
+    &quot;aberto_em&quot;: &quot;2026-11-12T14:05:00+00:00&quot;,
+    &quot;atualizado_em&quot;: &quot;2026-11-12T14:05:00+00:00&quot;,
+    &quot;prazo&quot;: null,
+    &quot;origem&quot;: &quot;api&quot;,
+    &quot;cliente&quot;: {
+      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;,
+      &quot;documento&quot;: &quot;11.222.333/0001-81&quot;
+    },
+    &quot;equipamento&quot;: &quot;Balança comercial 15 kg · série BC-12345&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/api/v1/chamados/OS-2026-0042&quot;
+    }
+  },
+  &quot;repetido&quot;: false
+}</code></pre>
+</article>
+<article class="ep" id="chamado">
+  <header><span class="met get">GET</span><code class="cam">/api/v1/chamados/{numero}</code><span class="novo">novo · no ar em 13/11</span></header>
+  <h3>Situação de um chamado</h3>
+  <p class="perm">Permissão da chave: <strong>Abrir chamados</strong></p>
+  <p>Qualquer OS da empresa pelo número (a aberta pela API ou pela equipe): a situação (situacao e o nome da tela em situacao_rotulo), quando abriu, a última atualização, o prazo, o cliente e o equipamento. Sem valores, custo nem técnico.</p>
+  <table class="params"><thead><tr><th>Parâmetro</th><th>O que é</th></tr></thead><tbody><tr><td><code>numero</code></td><td>No caminho: o número da OS (OS-2026-0042).</td></tr></tbody></table>
+  <h4>Exemplo</h4>
+  <pre class="cod"><code>curl -s &quot;https://sistemabrasil.com/api/v1/chamados/OS-2026-0042&quot; \
+  -H &quot;Authorization: Bearer $SISTEMA_BRASIL_CHAVE&quot;</code></pre>
+  <h4>Resposta de exemplo</h4><pre class="cod"><code>{
+  &quot;dados&quot;: {
+    &quot;numero&quot;: &quot;OS-2026-0042&quot;,
+    &quot;situacao&quot;: &quot;aberta&quot;,
+    &quot;situacao_rotulo&quot;: &quot;Pendente&quot;,
+    &quot;aberto_em&quot;: &quot;2026-11-12T14:05:00+00:00&quot;,
+    &quot;atualizado_em&quot;: &quot;2026-11-12T14:05:00+00:00&quot;,
+    &quot;prazo&quot;: null,
+    &quot;origem&quot;: &quot;api&quot;,
+    &quot;cliente&quot;: {
+      &quot;nome&quot;: &quot;EMPRESA EXEMPLO LTDA&quot;,
+      &quot;documento&quot;: &quot;11.222.333/0001-81&quot;
+    },
+    &quot;equipamento&quot;: &quot;Balança comercial 15 kg · série BC-12345&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/api/v1/chamados/OS-2026-0042&quot;
+    }
+  }
+}</code></pre>
+</article></section>
+</main></div>
+<footer>Documentação gerada a partir do código do Sistema Brasil em 12/11/2026. Dúvidas no grupo da integração.</footer>
+</body></html>
