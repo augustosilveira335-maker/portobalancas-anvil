@@ -3,182 +3,511 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atendimento da Porto · prévia</title>
+<title>Atendimento da Porto · simulação</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Prévia do atendimento da Porto Balanças, com dados de teste, para a equipe validar antes de ir para o cliente.">
+<meta name="description" content="Simulação clicável do atendimento da Porto Balanças, com dados de teste.">
 <link rel="icon" href="../loja/img/logo.png">
 <style>
   @font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("../loja/fontes/unbounded.woff2") format("woff2"); }
   @font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../loja/fontes/instrument-sans.woff2") format("woff2"); }
   :root {
-    --azul: #0b1236; --azul-2: #18215a; --azul-logo: #283475;
-    --prata: #c9ced8; --tinta: #121733; --tinta-2: #4c5373; --linha: #e2e5ee;
-    --fundo: #f4f5f9; --branco: #fff; --verde: #137a40; --verde-fundo: #e3f6eb; --ambar: #8a5200; --ambar-fundo: #fff1d6;
+    --ink: #0b1236; --ink-2: #18215a; --logo: #283475; --silver: #c9ced8;
+    --txt: #121733; --txt-2: #565d7c; --line: #dfe2ea; --line-2: #eceef3;
+    --paper: #f3f4f7; --white: #fff; --tint: #eaedf7; --amber: #8a5200; --amber-bg: #fff3d9; --green: #137a40;
+    --r: 4px;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--fundo); color: var(--tinta); font: 16px/1.6 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  img { max-width: 100%; display: block; }
-  a { color: var(--azul-logo); }
-  .w { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-  h1, h2, h3 { font-family: "Unbounded", system-ui, sans-serif; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--txt); font: 15px/1.5 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--logo); outline-offset: 2px; }
+  .w { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
 
-  .capa { background: var(--azul); color: var(--branco); padding: 22px 0 64px; }
-  .topo { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; }
+  /* topo */
+  .bar { background: var(--ink); color: #fff; }
+  .bar .w { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
   .marca { display: flex; align-items: center; gap: 12px; }
-  .marca img { width: 42px; height: 42px; border-radius: 50%; }
-  .marca b { font-family: "Unbounded", sans-serif; font-size: 14px; letter-spacing: 0.04em; display: block; }
-  .marca span { display: block; font-size: 11px; letter-spacing: 0.28em; color: var(--prata); }
-  .selo { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25); color: #e3e7f7; border-radius: 999px; padding: 7px 14px; font-size: 13px; }
-  .capa h1 { font-size: clamp(28px, 5.6vw, 50px); margin-top: 44px; max-width: 20ch; }
-  .capa p { color: #d3d8ef; font-size: 18px; max-width: 60ch; margin: 18px 0 0; }
-  .capa .aviso { margin-top: 26px; display: inline-block; background: rgba(255,255,255,0.08); border-left: 3px solid var(--prata); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 15px; color: #e3e7f7; max-width: 62ch; }
+  .marca img { width: 34px; height: 34px; border-radius: 50%; }
+  .marca b { font-family: "Unbounded", sans-serif; font-size: 13px; letter-spacing: .05em; font-weight: 600; }
+  .marca span { color: var(--silver); font-size: 12px; letter-spacing: .24em; margin-left: 10px; }
+  .selo { font-size: 13px; color: #dfe4f7; border: 1px solid rgba(255,255,255,.28); padding: 5px 12px; border-radius: 99px; }
 
-  section { padding: 54px 0 0; }
-  section:last-of-type { padding-bottom: 64px; }
-  .rotulo { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--azul-logo); font-weight: 700; }
-  h2 { font-size: clamp(22px, 3.6vw, 32px); margin: 8px 0 14px; max-width: 26ch; }
-  .lead { color: var(--tinta-2); font-size: 17px; max-width: 64ch; margin: 0 0 24px; }
+  .intro { padding: 30px 0 18px; }
+  .intro h1 { font-family: "Unbounded", sans-serif; font-weight: 500; font-size: clamp(20px, 2.6vw, 28px); letter-spacing: -.02em; line-height: 1.2; margin: 0 0 8px; }
+  .intro p { margin: 0; color: var(--txt-2); max-width: 70ch; }
+  .intro .sm { display: none; }
 
-  .cartao { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; }
-  .tela { margin-top: -34px; padding: 14px; box-shadow: 0 22px 50px rgba(11,18,54,0.14); }
-  .tela img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--linha); }
-  .tela figcaption { padding: 12px 6px 4px; color: var(--tinta-2); font-size: 14px; }
-  .tela { margin-left: 0; margin-right: 0; }
+  /* app */
+  .app { background: var(--white); border: 1px solid var(--line); height: 780px; display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+  .tabs { display: flex; align-items: center; gap: 4px; padding: 0 14px; border-bottom: 1px solid var(--line); min-height: 48px; }
+  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 13px 12px 11px; color: var(--txt-2); font-weight: 600; }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabs .sp { flex: 1; }
+  .ghost { background: none; border: 1px solid var(--line); border-radius: var(--r); padding: 7px 12px; color: var(--txt-2); font-size: 13.5px; }
+  .ghost:hover { border-color: var(--silver); color: var(--ink); }
 
-  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
-  .tres .cartao { padding: 18px 18px 20px; }
-  .tres h3 { font-size: 16px; margin-bottom: 8px; }
-  .tres p { margin: 0; color: var(--tinta-2); font-size: 15px; }
+  .body { display: grid; min-height: 0; grid-template-columns: 292px minmax(0,1fr) 332px; }
+  .app[data-view="funil"] .body { grid-template-columns: minmax(0,1fr); }
+  .app[data-view="funil"] .pl, .app[data-view="funil"] .pc, .app[data-view="funil"] .px { display: none; }
+  .app[data-view="atend"] .pb { display: none; }
+  .pane { min-height: 0; display: flex; flex-direction: column; }
+  .pl { border-right: 1px solid var(--line); }
+  .px { border-left: 1px solid var(--line); background: #fbfbfd; }
 
-  .lista { display: grid; gap: 10px; }
-  .item { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 16px 18px; align-items: start; }
-  .item h3 { font-family: "Instrument Sans", system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.35; }
-  .item p { margin: 4px 0 0; color: var(--tinta-2); font-size: 14.5px; }
-  .tag { align-self: start; white-space: nowrap; font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 5px 12px; }
-  .tag.ok { background: var(--verde-fundo); color: var(--verde); }
-  .tag.falta { background: var(--ambar-fundo); color: var(--ambar); }
+  .ph { padding: 14px 16px 10px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-2); font-weight: 600; }
+  .lista { overflow: auto; min-height: 0; flex: 1; }
+  .conv { width: 100%; display: grid; grid-template-columns: 38px 1fr auto; gap: 2px 12px; text-align: left; padding: 13px 16px; background: none; border: 0; border-top: 1px solid var(--line-2); border-left: 3px solid transparent; }
+  .conv:hover { background: #f7f8fb; }
+  .conv[aria-current="true"] { background: var(--tint); border-left-color: var(--ink); }
+  .av { flex: none; grid-row: span 2; width: 38px; height: 38px; border-radius: 50%; background: var(--ink-2); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; align-self: center; }
+  .conv b { font-weight: 600; font-size: 14.5px; line-height: 1.25; }
+  .conv .hr { color: var(--txt-2); font-size: 12px; }
+  .conv small { grid-column: 2 / 4; color: var(--txt-2); font-size: 13px; line-height: 1.35; display: block; }
+  .tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 2px; background: var(--line-2); color: var(--txt-2); margin-top: 5px; }
+  .tag.t-feito { background: #e2f3ea; color: var(--green); }
+  .tag.t-vez { background: var(--amber-bg); color: var(--amber); }
+  .dica { margin: 12px 16px 16px; padding: 12px 14px; border: 1px dashed var(--silver); color: var(--txt-2); font-size: 13.5px; }
 
-  .passos { counter-reset: p; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .passo { padding: 18px; position: relative; }
-  .passo::before { counter-increment: p; content: counter(p); font-family: "Unbounded", sans-serif; font-size: 13px; background: var(--azul); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; }
-  .passo h3 { font-size: 15px; margin-bottom: 6px; }
-  .passo p { margin: 0; color: var(--tinta-2); font-size: 14.5px; }
-  .passo.agora { border-color: var(--azul-logo); box-shadow: 0 0 0 2px rgba(40,52,117,0.12); }
+  /* chat */
+  .chead { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); min-height: 62px; }
+  .chead b { font-size: 15.5px; display: block; line-height: 1.2; }
+  .chead span { font-size: 12.5px; color: var(--txt-2); }
+  .chead .modo { margin-left: auto; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border: 1px solid var(--line); border-radius: 99px; white-space: nowrap; }
+  .modo .c { display: none; }
+  .chead > div:nth-child(2) { min-width: 0; }
+  .modo i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-right: 7px; }
+  .modo.pausa { background: var(--amber-bg); border-color: #f0d9a8; color: var(--amber); }
+  .modo.pausa i { background: var(--amber); }
+  .log { flex: 1; min-height: 0; overflow: auto; padding: 20px 22px; background: #eef0f5; display: flex; flex-direction: column; gap: 8px; }
+  .nova { animation: ent .22s ease-out both; }
+  .m { max-width: 76%; padding: 9px 13px 8px; font-size: 15px; line-height: 1.45; border: 1px solid var(--line); background: var(--white); border-radius: 2px 10px 10px 10px; }
+  .m small { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--txt-2); margin-bottom: 2px; }
+  .m.ia { align-self: flex-end; background: #dfe4f6; border-color: #cdd5ee; border-radius: 10px 2px 10px 10px; }
+  .m.eq { align-self: flex-end; background: var(--ink); border-color: var(--ink); color: #fff; border-radius: 10px 2px 10px 10px; }
+  .m.eq small { color: #aab3df; }
+  .sys { align-self: center; font-size: 12.5px; color: var(--txt-2); background: var(--white); border: 1px solid var(--line); padding: 5px 12px; border-radius: 99px; text-align: center; max-width: 92%; }
+  .sys.forte { color: var(--ink); font-weight: 600; border-color: var(--silver); }
+  .dig { align-self: flex-end; display: flex; gap: 4px; padding: 12px 14px; background: #dfe4f6; border-radius: 10px 2px 10px 10px; }
+  .dig i { width: 6px; height: 6px; border-radius: 50%; background: var(--logo); opacity: .35; animation: pul 1s infinite; }
+  .dig i:nth-child(2) { animation-delay: .15s; } .dig i:nth-child(3) { animation-delay: .3s; }
+  @keyframes pul { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes ent { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .comp { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--white); }
+  .comp input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: var(--r); padding: 11px 12px; background: var(--white); }
+  .comp input:disabled { background: #f5f6f9; color: var(--txt-2); }
+  .btn { border: 1px solid var(--ink); background: var(--ink); color: #fff; border-radius: var(--r); padding: 10px 16px; font-weight: 600; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn.sec { background: var(--white); color: var(--ink); }
+  .btn.sec:hover:not(:disabled) { background: var(--tint); }
+  .btn.am { background: var(--white); color: var(--amber); border-color: #e3c47e; }
 
-  .precisa { padding: 22px 22px 8px; }
-  .precisa ul { margin: 0; padding: 0; list-style: none; }
-  .precisa li { padding: 12px 0 12px 30px; border-top: 1px solid var(--linha); position: relative; }
-  .precisa li:first-child { border-top: 0; }
-  .precisa li::before { content: ""; position: absolute; left: 4px; top: 19px; width: 12px; height: 12px; border-radius: 50%; background: var(--azul-logo); }
-  .precisa b { display: block; }
-  .precisa span { color: var(--tinta-2); font-size: 14.5px; }
+  /* contexto */
+  .cx { overflow: auto; flex: 1; min-height: 0; padding: 0 18px 18px; }
+  .campo { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line-2); font-size: 14px; }
+  .campo:first-child { border-top: 0; }
+  .campo dt { color: var(--txt-2); font-size: 12.5px; padding-top: 1px; }
+  .campo dd { margin: 0; font-weight: 600; }
+  .campo.vazio dd { color: #a6acc4; font-weight: 400; }
+  .campo.novo dd { animation: dest 1.6s ease-out; }
+  @keyframes dest { 0% { background: #fff0c2; } 100% { background: transparent; } }
+  .resumo { margin-top: 14px; border-left: 3px solid var(--ink); background: var(--white); border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 14px; font-size: 14px; }
+  .resumo b { display: block; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--txt-2); margin-bottom: 4px; }
+  .acoes { padding: 14px 18px 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; background: var(--white); }
+  .acoes label { font-size: 12.5px; color: var(--txt-2); }
+  .acoes .lin { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+  .acoes select { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 10px; background: var(--white); min-width: 0; width: 100%; }
 
-  .garantia { background: var(--azul); color: #fff; border-radius: 16px; padding: 24px 24px; margin-top: 22px; }
-  .garantia h3 { font-size: 18px; margin-bottom: 8px; }
-  .garantia p { margin: 0; color: #d3d8ef; max-width: 70ch; }
+  /* funil */
+  .board { display: grid; grid-template-columns: repeat(6, minmax(168px, 1fr)); gap: 0; overflow: auto; flex: 1; min-height: 0; }
+  .col { border-right: 1px solid var(--line-2); padding: 0 10px 14px; min-width: 168px; }
+  .col:last-child { border-right: 0; }
+  .col h3 { margin: 0; padding: 14px 4px 10px; font: 600 12px/1.3 "Instrument Sans", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-2); display: flex; justify-content: space-between; gap: 8px; }
+  .col h3 span { color: var(--ink); }
+  .card { width: 100%; text-align: left; background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--ink); border-radius: 2px; padding: 10px 11px; margin-bottom: 8px; }
+  .card:hover { border-color: var(--silver); border-left-color: var(--ink); }
+  .card b { display: block; font-size: 13.5px; line-height: 1.3; }
+  .card small { color: var(--txt-2); font-size: 12px; display: block; margin-top: 2px; }
+  .vazioc { font-size: 12.5px; color: #a6acc4; padding: 6px 4px; }
 
-  footer { background: var(--azul); color: #aab1d1; padding: 22px 0; font-size: 13.5px; }
-  footer .w { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+  /* navegação móvel */
+  .mnav { display: none; }
 
-  @media (max-width: 860px) { .passos { grid-template-columns: repeat(2, 1fr); } .tres { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) {
-    .capa { padding-bottom: 56px; }
-    .item { grid-template-columns: 1fr; }
-    .tag { justify-self: start; }
-    .passos { grid-template-columns: 1fr; }
-    .w { padding: 0 16px; }
+  /* abaixo do app */
+  .sec2 { padding: 40px 0 8px; }
+  .sec2 h2 { font-family: "Unbounded", sans-serif; font-weight: 500; font-size: 18px; letter-spacing: -.01em; margin: 0 0 16px; }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--white); }
+  .duas > div { padding: 20px 22px; }
+  .duas > div + div { border-left: 1px solid var(--line); }
+  .duas h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-2); }
+  .duas ul { margin: 0; padding: 0; list-style: none; }
+  .duas li { padding: 9px 0; border-top: 1px solid var(--line-2); font-size: 14.5px; }
+  .duas li:first-child { border-top: 0; }
+  .ok::before, .ao::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 50%; background: var(--green); }
+  .ao::before { background: #e0a53a; }
+  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--white); }
+  .quatro div { padding: 18px 20px; border-left: 1px solid var(--line); }
+  .quatro div:first-child { border-left: 0; }
+  .quatro b { display: block; font-size: 14.5px; margin-bottom: 4px; }
+  .quatro span { color: var(--txt-2); font-size: 13.5px; }
+  .fim { margin: 18px 0 0; color: var(--txt-2); font-size: 14px; max-width: 74ch; }
+  footer { margin-top: 44px; background: var(--ink); color: #aab1d1; padding: 20px 0; font-size: 13px; }
+  footer .w { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+  @media (max-width: 1100px) { .body { grid-template-columns: 250px minmax(0,1fr) 300px; } }
+  @media (max-width: 900px) {
+    .w { padding: 0 12px; }
+    .bar .w { flex-wrap: nowrap; min-height: 52px; }
+    .marca span { display: none; }
+    .marca b { white-space: nowrap; font-size: 12.5px; }
+    .selo { display: none; }
+    .intro { padding: 16px 0 12px; }
+    .intro h1 { font-size: 19px; }
+    .intro p:not(.sm) { display: none; }
+    .intro .sm { display: block; font-size: 13px; margin-top: 2px; }
+    .modo .l { display: none; } .modo .c { display: inline; }
+    .chead { gap: 10px; padding: 10px 14px; }
+    .chead span:not(.l):not(.c) { display: none; }
+    .comp { gap: 8px; padding: 10px 12px; }
+    .app { height: calc(100svh - 182px); min-height: 460px; }
+    .tabs { display: none; }
+    .app { grid-template-rows: 1fr auto; }
+    .body, .app[data-view="funil"] .body { grid-template-columns: minmax(0,1fr); }
+    .app[data-view] .pane { display: none; }
+    .app[data-m="list"] .pl, .app[data-m="chat"] .pc, .app[data-m="ctx"] .px, .app[data-m="board"] .pb { display: flex; }
+    .pl, .px { border: 0; }
+    .mnav { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); background: var(--white); }
+    .mnav button { background: none; border: 0; padding: 11px 4px 12px; font-size: 12.5px; font-weight: 600; color: var(--txt-2); border-top: 2px solid transparent; }
+    .mnav button[aria-selected="true"] { color: var(--ink); border-top-color: var(--ink); }
+    .m { max-width: 88%; }
+    .duas, .quatro { grid-template-columns: 1fr; }
+    .duas > div + div, .quatro div { border-left: 0; border-top: 1px solid var(--line); }
+    .quatro div:first-child { border-top: 0; }
+    .board { grid-template-columns: repeat(6, 210px); }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 </style>
 </head>
 <body>
 
-<header class="capa">
+<div class="bar">
   <div class="w">
-    <div class="topo">
-      <div class="marca">
-        <img src="../loja/img/logo.png" alt="">
-        <div><b>PORTO BALANÇAS</b><span>ATENDIMENTO</span></div>
-      </div>
-      <div class="selo">Simulação com dados de teste</div>
-    </div>
-    <h1>O atendimento da Porto, pra tu ver antes de ir pro cliente</h1>
-    <p>Montamos a tela e os fluxos que tu pediu: conversa natural, setor certo com o resumo, funil junto, e a equipe assumindo quando precisar.</p>
-    <div class="aviso">Isto é uma prévia. Nenhum cliente real está ligado e nada muda nos teus números ou na tua equipe até tu aprovar cada etapa.</div>
+    <div class="marca"><img src="../loja/img/logo.png" alt=""><div><b>PORTO BALANÇAS</b><span>ATENDIMENTO</span></div></div>
+    <div class="selo">Simulação com roteiro e dados de teste</div>
   </div>
-</header>
+</div>
 
-<main>
-  <section style="padding-top:0">
-    <div class="w">
-      <figure class="cartao tela">
-        <img src="previa.jpg" alt="Tela de atendimento da Porto com a conversa, o funil por etapas e o painel de contexto e equipe" width="1265" height="1187">
-        <figcaption>Prévia da tela, com cadastro e OS fictícios. O funil mostra onde cada conversa está, e o painel da direita traz origem, setor, responsável e o que o cliente pediu.</figcaption>
-      </figure>
-      <div class="tres">
-        <div class="cartao"><h3>Conversa e funil juntos</h3><p>Quem atende vê a conversa e o funil na mesma tela, sem preencher ficha à mão.</p></div>
-        <div class="cartao"><h3>Transferir com contexto</h3><p>Ao mandar pra vendas, assistência ou financeiro, vai o resumo e o responsável. O cliente não repete tudo.</p></div>
-        <div class="cartao"><h3>Equipe assumiu, a IA para</h3><p>Quando alguém da equipe responde, o atendimento automático fica em silêncio naquela conversa até devolverem.</p></div>
-      </div>
+<div class="w">
+  <div class="intro">
+    <h1>Veja o atendimento da Porto funcionando</h1>
+    <p>Escolha uma conversa. O painel da direita vai preenchendo o que o cliente disse, o funil mostra onde ela está, e dá pra a equipe assumir ou transferir. Nada aqui chega a cliente real.</p>
+    <p class="sm">Simulação com roteiro e dados de teste. Nada chega a cliente real.</p>
+  </div>
+
+  <div class="app" id="app" data-view="atend" data-m="chat">
+    <div class="tabs" role="tablist" aria-label="Visão">
+      <button class="tab" role="tab" id="t-atend" aria-selected="true" data-v="atend">Atendimento</button>
+      <button class="tab" role="tab" id="t-funil" aria-selected="false" data-v="funil">Funil</button>
+      <span class="sp"></span>
+      <button class="ghost" id="reiniciar" type="button">Reiniciar simulação</button>
     </div>
-  </section>
 
-  <section>
-    <div class="w">
-      <div class="rotulo">Do que tu pediu</div>
-      <h2>O que já aparece na simulação e o que falta ligar</h2>
-      <p class="lead">Separamos com honestidade. O que está verde já funciona na simulação que a gente rodou. O que está em âmbar depende de ligar no Sistema Brasil e no WhatsApp, e só entra depois de testado contigo.</p>
-      <div class="lista">
-        <div class="cartao item"><div><h3>Receber o cliente numa conversa natural, aproveitando o que ele já disse</h3><p>Uma pergunta por vez, sem menu e sem botões.</p></div><span class="tag ok">Na simulação</span></div>
-        <div class="cartao item"><div><h3>Entender o que ele quer: compra ou assistência</h3><p>Compra pergunta aplicação, peso e quantidade. Assistência pega equipamento, defeito e local, e pede confirmação antes de abrir.</p></div><span class="tag ok">Na simulação</span></div>
-        <div class="cartao item"><div><h3>Encaminhar pro setor certo com resumo e responsável</h3><p>Vendas, assistência, suporte remoto e financeiro.</p></div><span class="tag ok">Na simulação</span></div>
-        <div class="cartao item"><div><h3>Funil dentro da tela de atendimento</h3><p>Triagem, qualificado, assistência e financeiro.</p></div><span class="tag ok">Na simulação</span></div>
-        <div class="cartao item"><div><h3>Humano assume e o automático para</h3><p>E volta só quando a equipe devolver.</p></div><span class="tag ok">Na simulação</span></div>
-        <div class="cartao item"><div><h3>Reconhecer o cadastro do cliente no Sistema Brasil</h3><p>Hoje o cadastro é de mentira, só pra mostrar o caminho. Ligamos numa empresa de teste do Sistema Brasil antes de qualquer dado real.</p></div><span class="tag falta">A ligar</span></div>
-        <div class="cartao item"><div><h3>Abrir e consultar OS de verdade</h3><p>Na simulação aparece uma OS de demonstração. A OS real só é anunciada ao cliente depois que o Sistema Brasil confirmar que abriu.</p></div><span class="tag falta">A ligar</span></div>
-        <div class="cartao item"><div><h3>WhatsApp, áudio e foto</h3><p>Vamos reservar um número só pro teste, sem mexer no número público da Porto.</p></div><span class="tag falta">A ligar</span></div>
-      </div>
+    <div class="body">
+      <section class="pane pl" aria-label="Conversas">
+        <div class="ph">Conversas</div>
+        <div class="lista" id="lista"></div>
+        <div class="dica" id="dica">Comece por qualquer uma. Cada conversa mostra um caso diferente: venda, assistência, cliente novo e financeiro.</div>
+      </section>
+
+      <section class="pane pc" aria-label="Conversa">
+        <div class="chead">
+          <div class="av" id="chav"></div>
+          <div><b id="chnome"></b><span id="chsub"></span></div>
+          <div class="modo" id="modo"><i></i><span class="l">Atendimento automático</span><span class="c">Automático</span></div>
+        </div>
+        <div class="log" id="log" role="log" aria-live="polite"></div>
+        <form class="comp" id="comp" autocomplete="off">
+          <input id="txt" type="text" aria-label="Resposta da equipe" placeholder="O atendimento automático está respondendo. Assuma para escrever." disabled>
+          <button class="btn" id="env" type="submit" disabled>Enviar</button>
+        </form>
+      </section>
+
+      <aside class="pane px" aria-label="Contexto e equipe">
+        <div class="ph">Contexto da conversa</div>
+        <div class="cx"><dl id="campos" style="margin:0"></dl><div id="resumo"></div></div>
+        <div class="acoes">
+          <label for="setor">Transferir com resumo e contexto para</label>
+          <div class="lin">
+            <select id="setor"><option>Vendas</option><option>Assistência</option><option>Suporte remoto</option><option>Financeiro</option></select>
+            <button class="btn sec" id="transf" type="button">Transferir</button>
+          </div>
+          <button class="btn am" id="assume" type="button">Assumir como equipe</button>
+        </div>
+      </aside>
+
+      <section class="pane pb" aria-label="Funil">
+        <div class="board" id="board"></div>
+      </section>
     </div>
-  </section>
 
-  <section>
-    <div class="w">
-      <div class="rotulo">Como seguimos</div>
-      <h2>Em etapas, sem cliente real até tu aprovar</h2>
-      <p class="lead">Cada etapa só começa depois que a anterior foi validada contigo, com os casos reais da Porto.</p>
-      <div class="passos">
-        <div class="cartao passo agora"><h3>Prévia e simulação</h3><p>É o que tu está vendo. Tu aponta o que ajustar e a gente libera um acesso pra tu testar sozinha.</p></div>
-        <div class="cartao passo"><h3>Ligar no Sistema Brasil de teste</h3><p>Cadastro, OS e pedidos de uma empresa de teste, sem tocar nos dados reais.</p></div>
-        <div class="cartao passo"><h3>Número de teste e equipe</h3><p>A equipe da Porto testa com o número reservado e as regras do jeito que vocês trabalham.</p></div>
-        <div class="cartao passo"><h3>Clientes reais</h3><p>Só quando tu disser. Contatos e conversas em andamento a gente combina o que dá pra trazer.</p></div>
-      </div>
+    <nav class="mnav" aria-label="Seções">
+      <button type="button" data-m="list" aria-selected="false">Conversas</button>
+      <button type="button" data-m="chat" aria-selected="true">Conversa</button>
+      <button type="button" data-m="ctx" aria-selected="false">Contexto</button>
+      <button type="button" data-m="board" aria-selected="false">Funil</button>
+    </nav>
+  </div>
+
+  <div class="sec2">
+    <h2>O que já está na simulação e o que falta ligar</h2>
+    <div class="duas">
+      <div><h3>Já funciona na simulação</h3><ul>
+        <li class="ok">Conversa natural que aproveita o que o cliente já disse</li>
+        <li class="ok">Venda e assistência, com confirmação antes de abrir a OS</li>
+        <li class="ok">Setor certo com resumo e responsável, e funil na mesma tela</li>
+        <li class="ok">Equipe assume e o automático para, até devolverem</li>
+      </ul></div>
+      <div><h3>Falta ligar, só depois de testado contigo</h3><ul>
+        <li class="ao">Cadastro e OS de verdade no Sistema Brasil (hoje são fictícios)</li>
+        <li class="ao">WhatsApp, áudio e foto, com um número reservado só pro teste</li>
+        <li class="ao">Equipe, setores e horários reais da Porto</li>
+      </ul></div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <div class="w">
-      <div class="rotulo">O que a gente precisa de ti</div>
-      <h2>Quatro informações pra avançar</h2>
-      <div class="cartao precisa" style="margin-top:18px">
-        <ul>
-          <li><b>Um número reservado pro teste</b><span>Separado do número público da Porto, que continua como está.</span></li>
-          <li><b>A equipe de hoje</b><span>Quem atende vendas, assistência, suporte remoto e financeiro, e quem é o administrativo que faz o primeiro contato de cliente novo.</span></li>
-          <li><b>Horários e ausências</b><span>Pra saber pra quem encaminhar em cada horário e o que fazer fora do expediente.</span></li>
-          <li><b>As regras que são da Porto</b><span>Quando retomar um contato parado e o que a automação nunca decide sozinha, como preço, desconto e crédito.</span></li>
-        </ul>
-      </div>
-      <div class="garantia">
-        <h3>Tu decide o ritmo</h3>
-        <p>Nada vai pra cliente da Porto sem a tua aprovação. Se algo da simulação não bater com o jeito que vocês trabalham, a gente ajusta antes de ligar qualquer coisa.</p>
-      </div>
+  <div class="sec2">
+    <h2>Pra avançar, a gente precisa de ti</h2>
+    <div class="quatro">
+      <div><b>Um número pro teste</b><span>Separado do número público, que continua como está.</span></div>
+      <div><b>A equipe de hoje</b><span>Quem atende vendas, assistência, suporte remoto e financeiro.</span></div>
+      <div><b>Horários e ausências</b><span>Pra encaminhar certo e saber o que fazer fora do expediente.</span></div>
+      <div><b>As regras da Porto</b><span>Quando retomar um contato parado e o que nunca se decide sozinho, como preço e crédito.</span></div>
     </div>
-  </section>
-</main>
+    <p class="fim">Nada vai pra cliente da Porto sem a tua aprovação. Se algo não bater com o jeito que vocês trabalham, a gente ajusta antes de ligar qualquer coisa.</p>
+  </div>
+</div>
 
-<footer>
-  <div class="w"><span>Anvil · Porto Balanças</span><span>Prévia com dados de teste</span></div>
-</footer>
+<footer><div class="w"><span>Anvil · Porto Balanças</span><span>Simulação com roteiro, sem IA ao vivo e sem dados reais</span></div></footer>
 
+<script>
+(function () {
+  "use strict";
+  var REDUZ = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ETAPAS = ["Triagem", "Qualificado", "Assistência · administrativo", "OS aberta", "Suporte remoto", "Financeiro"];
+  var SETOR_ETAPA = { "Vendas": "Qualificado", "Assistência": "Assistência · administrativo", "Suporte remoto": "Suporte remoto", "Financeiro": "Financeiro" };
+
+  var CENAS = [
+    { id: "venda", nome: "Mercado Bom Preço", sub: "Canoas · anúncio no Mercado Livre", ini: "MB", hora: "09:12", tipo: "Venda",
+      campos: [["origem", "Origem"], ["intencao", "Intenção"], ["negocio", "Negócio"], ["uso", "Uso"], ["capacidade", "Capacidade"], ["qtd", "Quantidade"], ["setor", "Setor"], ["resp", "Responsável"]],
+      passos: [
+        { de: "c", t: "Oi, vi o anúncio da balança com impressora de etiqueta. Qual o preço?", set: { origem: "Anúncio · Mercado Livre", intencao: "Compra" } },
+        { de: "ia", t: "Oi! Aqui é o atendimento da Porto Balanças. Antes de falar de valor, quero indicar o modelo certo pro teu uso. Qual é o teu negócio?" },
+        { de: "c", t: "Tenho um mercadinho em Canoas. Vou pesar frios e hortifrúti.", set: { negocio: "Mercadinho · Canoas", uso: "Frios e hortifrúti" } },
+        { de: "ia", t: "Entendi. Qual o peso do maior item que tu pesa?" },
+        { de: "c", t: "No máximo uns 15 kg. Preciso de duas.", set: { capacidade: "Até 15 kg", qtd: "2 balanças" } },
+        { de: "ia", t: "Perfeito: duas balanças com etiqueta, até 15 kg. Vou te passar pro consultor de vendas com tudo anotado, assim tu não repete nada. Ele te chama aqui mesmo." },
+        { de: "sys", t: "Encaminhado para Vendas com resumo", set: { setor: "Vendas", resp: "Equipe de teste" }, etapa: "Qualificado" }
+      ],
+      resumo: "Mercadinho em Canoas, veio do anúncio do Mercado Livre. Quer 2 balanças com etiqueta, até 15 kg, para frios e hortifrúti. Nenhum preço foi passado ao cliente." },
+
+    { id: "assist", nome: "Padaria Dois Irmãos", sub: "Cliente cadastrado · assistência", ini: "PD", hora: "10:40", tipo: "Assistência",
+      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["equip", "Equipamento"], ["local", "Local"], ["defeito", "Defeito"], ["os", "OS"], ["setor", "Setor"], ["resp", "Responsável"]],
+      passos: [
+        { de: "c", t: "Boa tarde, a balança da padaria parou. Não liga.", set: { intencao: "Assistência", defeito: "Não liga" } },
+        { de: "ia", t: "Boa tarde, sinto pelo transtorno. Pelo teu telefone achei o cadastro da Padaria Dois Irmãos. É essa mesmo?", set: { cliente: "Padaria Dois Irmãos (cadastro de teste)" } },
+        { de: "c", t: "É sim." },
+        { de: "ia", t: "Obrigado. Qual é a balança e onde ela fica?" },
+        { de: "c", t: "Toledo Prix 5 Plus, na loja de Canoas.", set: { equip: "Toledo Prix 5 Plus", local: "Loja de Canoas" } },
+        { de: "ia", t: "Confirmando: Toledo Prix 5 Plus, loja de Canoas, não liga. Posso abrir a OS?" },
+        { de: "c", t: "Pode." },
+        { de: "sys", t: "OS DEMO-0001 aberta e suporte remoto avisado", set: { os: "DEMO-0001 (de demonstração)", setor: "Suporte remoto", resp: "Equipe de teste" }, etapa: "OS aberta", forte: true },
+        { de: "ia", t: "Pronto, abri a OS DEMO-0001. A assistência já recebeu e te retorna com o horário." }
+      ],
+      resumo: "Padaria Dois Irmãos (já cadastrada). Toledo Prix 5 Plus na loja de Canoas não liga. OS aberta só depois da confirmação do cliente. Encaminhado ao suporte remoto." },
+
+    { id: "novo", nome: "Clínica Vida Sul", sub: "Cliente novo · assistência", ini: "CV", hora: "11:25", tipo: "Cliente novo",
+      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["equip", "Equipamento"], ["defeito", "Defeito"], ["setor", "Setor"], ["resp", "Responsável"]],
+      passos: [
+        { de: "c", t: "Oi, preciso de assistência numa balança.", set: { intencao: "Assistência" } },
+        { de: "ia", t: "Oi! Atendimento da Porto Balanças. Não encontrei esse número no nosso cadastro. Qual o nome da empresa e o CNPJ?", set: { cliente: "Não encontrado: cliente novo" } },
+        { de: "c", t: "Clínica Vida Sul. O CNPJ é 00.000.000/0001-00 (de teste).", set: { cliente: "Clínica Vida Sul (CNPJ de teste)" } },
+        { de: "c", t: "Antes de continuar: eu estou falando com um robô?" },
+        { de: "ia", t: "Sou o atendimento automático da Porto, e a equipe acompanha. Se preferir falar com uma pessoa agora, eu chamo." },
+        { de: "c", t: "Pode continuar." },
+        { de: "ia", t: "Qual é a balança e o que ela está fazendo?" },
+        { de: "c", t: "Balança de precisão do laboratório, está dando erro de peso.", set: { equip: "Balança de precisão", defeito: "Erro de peso" } },
+        { de: "ia", t: "Entendi. Como é a primeira vez, o administrativo da assistência faz o primeiro contato contigo. Já passo tudo pra ele, sem tu repetir." },
+        { de: "sys", t: "Cliente novo: encaminhado ao administrativo da assistência", set: { setor: "Assistência · administrativo", resp: "Equipe de teste" }, etapa: "Assistência · administrativo", forte: true }
+      ],
+      resumo: "Cliente novo (Clínica Vida Sul). Balança de precisão do laboratório com erro de peso. Perguntou se era robô e foi respondido com clareza. Vai ao administrativo para o primeiro contato." },
+
+    { id: "fin", nome: "Transportes Santos", sub: "Financeiro · 2ª via de boleto", ini: "TS", hora: "14:03", tipo: "Financeiro",
+      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["pedido", "Pedido"], ["setor", "Setor"], ["resp", "Responsável"]],
+      passos: [
+        { de: "c", t: "Preciso da segunda via do boleto.", set: { intencao: "Financeiro", pedido: "2ª via de boleto" } },
+        { de: "ia", t: "Claro. Boleto e valores são com o financeiro, então vou encaminhar o teu pedido pra eles. Qual é a empresa?" },
+        { de: "c", t: "Transportes Santos.", set: { cliente: "Transportes Santos (cadastro de teste)" } },
+        { de: "ia", t: "Obrigado. Passei o pedido ao financeiro, que te manda a segunda via por aqui." },
+        { de: "sys", t: "Encaminhado para o Financeiro", set: { setor: "Financeiro", resp: "Equipe de teste" }, etapa: "Financeiro" }
+      ],
+      resumo: "Transportes Santos pede 2ª via de boleto. O atendimento automático não emite boleto nem decide valores: só encaminhou ao financeiro." }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $("app"), lista = $("lista"), logEl = $("log"), camposEl = $("campos"), resumoEl = $("resumo"), boardEl = $("board");
+  var R, sel = 0;
+
+  function novo() {
+    R = CENAS.map(function () { return { i: 0, msgs: [], campos: {}, etapa: "Triagem", modo: "ia", feito: false, tim: null, dig: false, setor: null, iniciada: false, resumo: false }; });
+  }
+  function ini(s) { return s; }
+
+  function renderLista() {
+    lista.innerHTML = "";
+    CENAS.forEach(function (c, k) {
+      var r = R[k], b = document.createElement("button");
+      b.type = "button"; b.className = "conv"; if (k === sel) b.setAttribute("aria-current", "true");
+      var st = r.feito ? '<span class="tag t-feito">' + (r.setor || "Concluída") + "</span>" : r.iniciada ? '<span class="tag t-vez">Em andamento</span>' : '<span class="tag">' + c.tipo + "</span>";
+      b.innerHTML = '<span class="av">' + c.ini + '</span><b>' + c.nome + '</b><span class="hr">' + c.hora + '</span><small>' + c.sub + "<br>" + st + "</small>";
+      b.addEventListener("click", function () { escolher(k); });
+      lista.appendChild(b);
+    });
+  }
+
+  function renderChat() {
+    var c = CENAS[sel], r = R[sel];
+    $("chav").textContent = c.ini; $("chnome").textContent = c.nome; $("chsub").textContent = c.sub;
+    var modo = $("modo");
+    if (r.modo === "ia") { modo.className = "modo"; modo.innerHTML = '<i></i><span class="l">Atendimento automático</span><span class="c">Automático</span>'; }
+    else { modo.className = "modo pausa"; modo.innerHTML = '<i></i><span class="l">Automático em pausa · equipe atendendo</span><span class="c">Equipe atendendo</span>'; }
+    logEl.innerHTML = "";
+    r.msgs.forEach(function (m) { logEl.appendChild(bolha(m, false)); });
+    if (r.dig) logEl.appendChild(digitando());
+    logEl.scrollTop = logEl.scrollHeight;
+    var hum = r.modo === "eq";
+    $("txt").disabled = !hum; $("env").disabled = !hum;
+    $("txt").placeholder = hum ? "Escreva como equipe e envie" : "Assuma a conversa para escrever";
+    var a = $("assume");
+    a.textContent = hum ? "Devolver ao atendimento automático" : "Assumir como equipe";
+    a.className = hum ? "btn sec" : "btn am";
+    $("transf").disabled = false;
+  }
+  function bolha(m, nova) {
+    var d = document.createElement("div");
+    if (m.de === "sys") { d.className = "sys" + (m.forte ? " forte" : "") + (nova ? " nova" : ""); d.textContent = m.t; return d; }
+    d.className = "m " + (m.de === "c" ? "" : m.de) + (nova ? " nova" : "");
+    var rot = m.de === "ia" ? "Atendimento Porto" : m.de === "eq" ? "Equipe" : "Cliente";
+    d.innerHTML = "<small>" + rot + "</small>";
+    var t = document.createElement("span"); t.textContent = m.t; d.appendChild(t);
+    return d;
+  }
+  function digitando() { var d = document.createElement("div"); d.className = "dig"; d.setAttribute("aria-label", "Digitando"); d.innerHTML = "<i></i><i></i><i></i>"; return d; }
+
+  function renderCtx(novos, animaResumo) {
+    var c = CENAS[sel], r = R[sel]; camposEl.innerHTML = "";
+    c.campos.forEach(function (f) {
+      var v = r.campos[f[0]], w = document.createElement("div");
+      w.className = "campo" + (v ? "" : " vazio") + (v && novos && novos.indexOf(f[0]) > -1 ? " novo" : "");
+      w.innerHTML = "<dt>" + f[1] + "</dt><dd></dd>";
+      w.lastChild.textContent = v || "aguardando";
+      camposEl.appendChild(w);
+    });
+    resumoEl.innerHTML = "";
+    if (r.resumo) { var d = document.createElement("div"); d.className = "resumo" + (animaResumo ? " nova" : ""); d.innerHTML = "<b>Resumo que vai para o setor</b>"; var s = document.createElement("span"); s.textContent = c.resumo; d.appendChild(s); resumoEl.appendChild(d); }
+  }
+
+  function renderBoard(movido) {
+    boardEl.innerHTML = "";
+    ETAPAS.forEach(function (e) {
+      var col = document.createElement("div"); col.className = "col";
+      var itens = CENAS.map(function (c, k) { return { c: c, k: k }; }).filter(function (x) { return R[x.k].etapa === e; });
+      col.innerHTML = "<h3>" + e + "<span>" + itens.length + "</span></h3>";
+      if (!itens.length) { var v = document.createElement("div"); v.className = "vazioc"; v.textContent = "Nenhuma conversa"; col.appendChild(v); }
+      itens.forEach(function (x) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "card" + (x.k === movido ? " nova" : "");
+        b.innerHTML = "<b></b><small></small>"; b.firstChild.textContent = x.c.nome; b.lastChild.textContent = x.c.sub;
+        b.addEventListener("click", function () { vista("atend"); escolher(x.k); });
+        col.appendChild(b);
+      });
+      boardEl.appendChild(col);
+    });
+  }
+
+  function tudo(novos) { renderLista(); renderChat(); renderCtx(novos); renderBoard(); }
+
+  function agenda(k) {
+    var r = R[k]; clearTimeout(r.tim);
+    if (r.modo !== "ia" || r.feito) return;
+    var p = CENAS[k].passos[r.i];
+    if (!p) { fim(k); return; }
+    var pausa = REDUZ ? 0 : (p.de === "ia" ? 1100 : p.de === "c" ? 900 : 700);
+    if (p.de === "ia" && !REDUZ) { r.dig = true; if (k === sel) renderChat(); }
+    r.tim = setTimeout(function () {
+      r.dig = false; r.i++;
+      var novos = [];
+      if (p.set) { Object.keys(p.set).forEach(function (kk) { r.campos[kk] = p.set[kk]; novos.push(kk); }); }
+      if (p.etapa) r.etapa = p.etapa;
+      if (p.set && p.set.setor) r.setor = p.set.setor;
+      var msg = { de: p.de, t: p.t, forte: p.forte };
+      r.msgs.push(msg);
+      if (k === sel) {
+        var dg = logEl.querySelector(".dig"); if (dg) dg.remove();
+        logEl.appendChild(bolha(msg, true)); logEl.scrollTop = logEl.scrollHeight;
+        renderCtx(novos);
+      }
+      renderLista(); renderBoard(p.etapa ? k : -1);
+      agenda(k);
+    }, pausa);
+  }
+  function fim(k) {
+    var r = R[k]; r.feito = true; r.resumo = true;
+    if (k === sel) { renderCtx(null, true); var cx = document.querySelector(".cx"); if (cx) cx.scrollTop = cx.scrollHeight; }
+    renderLista();
+  }
+
+  function escolher(k) {
+    sel = k; var r = R[k];
+    if (!r.iniciada) { r.iniciada = true; $("dica").style.display = "none"; agenda(k); }
+    else if (r.modo === "ia" && !r.feito && !r.tim) agenda(k);
+    tudo(); if (window.innerWidth <= 900) mover("chat");
+  }
+
+  $("assume").addEventListener("click", function () {
+    var r = R[sel];
+    if (r.modo === "ia") { clearTimeout(r.tim); r.tim = null; r.dig = false; r.modo = "eq"; r.msgs.push({ de: "sys", t: "A equipe assumiu. O atendimento automático parou de responder nesta conversa.", forte: true }); }
+    else { r.modo = "ia"; r.msgs.push({ de: "sys", t: "Conversa devolvida ao atendimento automático." }); if (!r.feito) agenda(sel); }
+    renderChat(); renderLista();
+  });
+  $("comp").addEventListener("submit", function (e) {
+    e.preventDefault(); var v = $("txt").value.trim(); if (!v) return;
+    R[sel].msgs.push({ de: "eq", t: v }); $("txt").value = ""; renderChat();
+  });
+  $("transf").addEventListener("click", function () {
+    var r = R[sel], s = $("setor").value;
+    r.setor = s; r.campos.setor = s; r.campos.resp = "Equipe de teste"; r.etapa = SETOR_ETAPA[s]; r.resumo = true; if (!r.feito) { r.feito = true; clearTimeout(r.tim); r.tim = null; r.dig = false; }
+    r.msgs.push({ de: "sys", t: "Transferido para " + s + " com resumo e contexto", forte: true });
+    tudo(["setor", "resp"]);
+  });
+  $("reiniciar").addEventListener("click", function () { R.forEach(function (r) { clearTimeout(r.tim); }); novo(); sel = 0; $("dica").style.display = ""; tudo(); R[0].iniciada = true; $("dica").style.display = "none"; agenda(0); renderLista(); });
+
+  function vista(v) {
+    app.setAttribute("data-view", v);
+    $("t-atend").setAttribute("aria-selected", v === "atend"); $("t-funil").setAttribute("aria-selected", v === "funil");
+  }
+  document.querySelectorAll(".tab").forEach(function (t) { t.addEventListener("click", function () { vista(t.getAttribute("data-v")); }); });
+  function mover(m) {
+    app.setAttribute("data-m", m);
+    document.querySelectorAll(".mnav button").forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-m") === m); });
+  }
+  document.querySelectorAll(".mnav button").forEach(function (b) { b.addEventListener("click", function () { mover(b.getAttribute("data-m")); }); });
+
+  novo();
+  var q = new URLSearchParams(location.search), c0 = Math.max(0, Math.min(CENAS.length - 1, parseInt(q.get("cena") || "0", 10) || 0));
+  if (q.get("todas") === "1") { CENAS.forEach(function (c, k) { R[k].iniciada = true; }); }
+  sel = c0; R[c0].iniciada = true; $("dica").style.display = "none"; tudo(); agenda(c0);
+  if (q.get("todas") === "1") { CENAS.forEach(function (c, k) { if (k !== c0) agenda(k); }); }
+  if (q.get("vista") === "funil") vista("funil");
+})();
+</script>
 </body>
 </html>
