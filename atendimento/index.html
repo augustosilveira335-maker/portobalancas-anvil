@@ -2,511 +2,475 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atendimento da Porto · simulação</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Simulação clicável do atendimento da Porto Balanças, com dados de teste.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('tema');var t=(q==='claro'||q==='escuro')?q:localStorage.getItem('porto-tema');if(t==='claro'||t==='escuro')document.documentElement.setAttribute('data-tema',t)}catch(e){}})()</script>
+<title>Atendimento da Porto · simulação no WhatsApp</title>
+<meta name="description" content="Simulação de como o atendimento da Porto Balanças responde no WhatsApp: venda, assistência e andamento de OS, com áudio e foto. Dados fictícios.">
 <link rel="icon" href="../loja/img/logo.png">
 <style>
-  @font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("../loja/fontes/unbounded.woff2") format("woff2"); }
-  @font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../loja/fontes/instrument-sans.woff2") format("woff2"); }
-  :root {
-    --ink: #0b1236; --ink-2: #18215a; --logo: #283475; --silver: #c9ced8;
-    --txt: #121733; --txt-2: #565d7c; --line: #dfe2ea; --line-2: #eceef3;
-    --paper: #f3f4f7; --white: #fff; --tint: #eaedf7; --amber: #8a5200; --amber-bg: #fff3d9; --green: #137a40;
-    --r: 4px;
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--paper); color: var(--txt); font: 15px/1.5 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  button, select, input, textarea { font: inherit; color: inherit; }
-  button { cursor: pointer; }
-  :focus-visible { outline: 2px solid var(--logo); outline-offset: 2px; }
-  .w { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
+@font-face{font-family:"Unbounded";font-weight:200 900;font-display:swap;src:url("../loja/fontes/unbounded.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-weight:400 700;font-display:swap;src:url("../loja/fontes/instrument-sans.woff2") format("woff2")}
+:root{
+  --paper:#f3f4f7; --card:#fff; --ink:#0b1236; --ink2:#3b4263; --muted:#6b7392; --line:rgba(11,18,54,.12);
+  --navy:#0b1236; --navy2:#18215a; --logo:#283475; --silver:#c9ced8;
+  --wa:#008069; --wa-bg:#efeae2; --wa-out:#d9fdd3; --wa-tick:#53bdeb;
+  --link:#283475; --sel:#0b1236; --frame:#14192b; --phone-bg:#fff; --wa-top:#008069;
+  --bub-in:#fff; --bub-txt:#0b1236; --bub-meta:#667781; --sys-bg:#fff3c4; --sys-tx:#5b4a00; --sys-ok-bg:#e1f3e8; --sys-ok-tx:#0f5a32;
+  --tr:#4b5a63; --tr-line:rgba(11,18,54,.16); --cartao-bg:#fff; --cartao-tot:#f6f7fb; --in-bar:#f0f2f5; --in-field:#fff; --vz:#b3b8c4; --flash:#fff0c2;
+  --en-bg:#e3e8fb; --en-tx:#1a2f9c; --em-bg:#fbefd5; --em-tx:#8a5208; --ef-bg:#e1f3e8; --ef-tx:#0f5a32;
+  color-scheme:light;
+  --display:"Unbounded",system-ui,sans-serif; --sans:"Instrument Sans",system-ui,Arial,sans-serif;
+}
+:root[data-tema="escuro"]{
+  --paper:#0b1020; --card:#131a33; --ink:#e8ebf8; --ink2:#b4bbd6; --muted:#8a92b4; --line:rgba(190,200,240,.16);
+  --navy:#0a0f24; --link:#9db0ff; --sel:#27327a; --frame:#050814; --phone-bg:#0b141a;
+  --wa-top:#1f2c34; --wa-bg:#0b141a; --wa-out:#005c4b; --bub-in:#202c33; --bub-txt:#e9edef; --bub-meta:#8696a0;
+  --sys-bg:#33300f; --sys-tx:#f2e8a8; --sys-ok-bg:#12372a; --sys-ok-tx:#a9e6c3; --tr:#aebac1; --tr-line:rgba(233,237,239,.2);
+  --cartao-bg:#1b262d; --cartao-tot:#18222a; --in-bar:#1f2c34; --in-field:#2a3942; --vz:#5f6988; --flash:#4a4310;
+  --en-bg:#1d2b6b; --en-tx:#c7d2ff; --em-bg:#4a3510; --em-tx:#ffd791; --ef-bg:#12372a; --ef-tx:#a9e6c3;
+  color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-tema="claro"]){
+  --paper:#0b1020; --card:#131a33; --ink:#e8ebf8; --ink2:#b4bbd6; --muted:#8a92b4; --line:rgba(190,200,240,.16);
+  --navy:#0a0f24; --link:#9db0ff; --sel:#27327a; --frame:#050814; --phone-bg:#0b141a;
+  --wa-top:#1f2c34; --wa-bg:#0b141a; --wa-out:#005c4b; --bub-in:#202c33; --bub-txt:#e9edef; --bub-meta:#8696a0;
+  --sys-bg:#33300f; --sys-tx:#f2e8a8; --sys-ok-bg:#12372a; --sys-ok-tx:#a9e6c3; --tr:#aebac1; --tr-line:rgba(233,237,239,.2);
+  --cartao-bg:#1b262d; --cartao-tot:#18222a; --in-bar:#1f2c34; --in-field:#2a3942; --vz:#5f6988; --flash:#4a4310;
+  --en-bg:#1d2b6b; --en-tx:#c7d2ff; --em-bg:#4a3510; --em-tx:#ffd791; --ef-bg:#12372a; --ef-tx:#a9e6c3;
+  color-scheme:dark}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.faixa{background:var(--navy);color:#dfe4f7;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:9px 14px}
+.faixa b{color:#fff;font-weight:600}
+.wrap{width:min(1260px,calc(100% - 40px));margin-inline:auto}
+header.top{padding:20px 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tema{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13.5px;font-weight:600;color:var(--ink2);background:var(--card)}
+.tema:hover{border-color:var(--ink)}
+.tema .ic{font-size:16px}
+.logo{display:inline-flex;align-items:center;gap:12px}
+.logo img{width:40px;height:40px;border-radius:50%}
+.logo b{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.05em}
+.logo span{font-size:12px;letter-spacing:.24em;color:var(--muted);margin-left:6px}
 
-  /* topo */
-  .bar { background: var(--ink); color: #fff; }
-  .bar .w { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
-  .marca { display: flex; align-items: center; gap: 12px; }
-  .marca img { width: 34px; height: 34px; border-radius: 50%; }
-  .marca b { font-family: "Unbounded", sans-serif; font-size: 13px; letter-spacing: .05em; font-weight: 600; }
-  .marca span { color: var(--silver); font-size: 12px; letter-spacing: .24em; margin-left: 10px; }
-  .selo { font-size: 13px; color: #dfe4f7; border: 1px solid rgba(255,255,255,.28); padding: 5px 12px; border-radius: 99px; }
+.layout{display:grid;grid-template-columns:minmax(300px,1fr) minmax(340px,410px) minmax(270px,330px);gap:clamp(22px,3vw,44px);align-items:start;padding:clamp(24px,3.4vw,44px) 0 70px}
+.fina{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--link);font-weight:700;display:flex;align-items:center;gap:10px}
+.fina::before{content:"";width:26px;height:2px;background:currentColor}
+h1{font-family:var(--display);font-weight:500;letter-spacing:-.025em;line-height:1.12;font-size:clamp(26px,3.3vw,40px);margin:16px 0 16px}
+.lead{color:var(--ink2);font-size:clamp(16px,1.4vw,18px);max-width:38ch}
+.cen{margin-top:26px}
+.cen h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+.cenarios{display:grid;gap:8px}
+.cenarios button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:12px 15px;border-radius:4px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:15.5px;transition:border-color .15s,background .15s}
+.cenarios button small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+.cenarios button:hover{border-color:var(--ink)}
+.cenarios button.on{background:var(--sel);color:#fff;border-color:var(--sel)}
+.cenarios button.on small{color:var(--silver)}
+.opc{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:14.5px;color:var(--ink2)}
+.opc input{width:17px;height:17px;accent-color:var(--link)}
+.aviso{margin-top:16px;font-size:13.5px;color:var(--muted);max-width:46ch}
 
-  .intro { padding: 30px 0 18px; }
-  .intro h1 { font-family: "Unbounded", sans-serif; font-weight: 500; font-size: clamp(20px, 2.6vw, 28px); letter-spacing: -.02em; line-height: 1.2; margin: 0 0 8px; }
-  .intro p { margin: 0; color: var(--txt-2); max-width: 70ch; }
-  .intro .sm { display: none; }
+/* celular */
+.phone{width:100%;max-width:410px;margin-inline:auto;height:min(740px,86vh);min-height:560px;background:var(--phone-bg);border-radius:34px;box-shadow:0 40px 70px -34px rgba(11,18,54,.45),0 0 0 9px var(--frame);display:flex;flex-direction:column;overflow:hidden;position:sticky;top:18px}
+.p-top{background:var(--wa-top);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;flex:none}
+.av{width:42px;height:42px;border-radius:50%;background:var(--navy);display:grid;place-items:center;flex:none;overflow:hidden}
+.av img{width:42px;height:42px}
+.p-top b{display:block;font-size:16.5px;line-height:1.15}
+.p-top span{font-size:13px;opacity:.9}
+.chat{flex:1;overflow-y:auto;padding:14px 12px;background:var(--wa-bg);display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
+.sys{align-self:center;background:var(--sys-bg);color:var(--sys-tx);font-size:12.5px;padding:6px 12px;border-radius:10px;text-align:center;max-width:92%;margin:4px 0;animation:entra .28s ease both}
+.sys.ok{background:var(--sys-ok-bg);color:var(--sys-ok-tx)}
+.m{color:var(--bub-txt);max-width:84%;padding:7px 10px 5px;border-radius:10px;font-size:15.5px;line-height:1.38;box-shadow:0 1px 1px rgba(11,18,54,.12);animation:entra .28s ease both;word-wrap:break-word}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}}
+.m.b{align-self:flex-start;background:var(--bub-in);border-top-left-radius:2px}
+.m.c{align-self:flex-end;background:var(--wa-out);border-top-right-radius:2px}
+.m .t{display:flex;justify-content:flex-end;align-items:center;gap:3px;font-size:11px;color:var(--bub-meta);margin-top:2px}
+.tick{font-size:13px;letter-spacing:-3px;color:#8696a0}
+.tick.az{color:var(--wa-tick)}
+.dig{align-self:flex-start;background:var(--bub-in);border-radius:10px;border-top-left-radius:2px;padding:11px 14px;display:flex;gap:4px;box-shadow:0 1px 1px rgba(11,18,54,.12)}
+.dig i{width:7px;height:7px;border-radius:50%;background:#9aa6ad;animation:pulsa 1s infinite}
+.dig i:nth-child(2){animation-delay:.15s}.dig i:nth-child(3){animation-delay:.3s}
+@keyframes pulsa{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+.au{display:flex;align-items:center;gap:10px;min-width:230px;padding:2px 0}
+.au .pl{width:36px;height:36px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;font-size:16px;flex:none}
+.m.c .au .pl{background:#667781}
+.au .bars{display:flex;align-items:center;gap:2px;height:30px;flex:1}
+.au .bars i{display:block;width:3px;border-radius:2px;background:#b9c1c6;transition:background .15s}
+.au .bars i.f{background:var(--wa)}
+.m.c .au .bars i.f{background:#667781}
+.au .dur{font-size:12px;color:#667781;font-variant-numeric:tabular-nums;min-width:30px;text-align:right}
+.tr{margin-top:5px;padding-top:5px;border-top:1px dashed var(--tr-line);font-size:13.5px;color:var(--tr);font-style:italic;animation:entra .4s ease both}
+.tr b{font-style:normal;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--bub-meta);display:block;margin-bottom:1px}
+.vt{display:block;margin-top:4px;font-size:12.5px;color:var(--link);text-decoration:underline;cursor:pointer}
+.foto{display:block;width:230px;max-width:100%;border-radius:6px;margin-bottom:3px}
+/* cartão (proposta, OS) */
+.cartao{width:244px;max-width:100%;border:1px solid var(--tr-line);border-radius:8px;overflow:hidden;margin-bottom:3px;background:var(--cartao-bg)}
+.cartao .ct{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:8px 12px}
+.cartao .ln{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-top:1px solid var(--tr-line);font-size:13.5px}
+.cartao .ln span:last-child{color:var(--muted);white-space:nowrap}
+.cartao .tot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 12px;border-top:1px solid var(--tr-line);background:var(--cartao-tot);font-size:13px}
+.cartao .tot b{font-size:17px;color:var(--ink)}
+.cartao .bt{display:block;text-align:center;padding:10px 12px;font-weight:700;font-size:14px;color:var(--link);border-top:1px solid var(--tr-line)}
+.p-in{display:flex;gap:8px;align-items:center;padding:10px 12px;background:var(--in-bar);flex:none}
+.p-in input{flex:1;min-width:0;border:0;background:var(--in-field);color:var(--bub-txt);border-radius:99px;padding:11px 16px;font:inherit;font-size:15.5px;outline:none}
+.p-in button{width:42px;height:42px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;font-size:19px;flex:none}
+.dica{margin-top:12px;text-align:center;font-size:13px;color:var(--muted)}
 
-  /* app */
-  .app { background: var(--white); border: 1px solid var(--line); height: 780px; display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
-  .tabs { display: flex; align-items: center; gap: 4px; padding: 0 14px; border-bottom: 1px solid var(--line); min-height: 48px; }
-  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 13px 12px 11px; color: var(--txt-2); font-weight: 600; }
-  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-  .tabs .sp { flex: 1; }
-  .ghost { background: none; border: 1px solid var(--line); border-radius: var(--r); padding: 7px 12px; color: var(--txt-2); font-size: 13.5px; }
-  .ghost:hover { border-color: var(--silver); color: var(--ink); }
+/* ficha */
+.ficha{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:20px 20px 16px;position:sticky;top:18px}
+.ficha h3{font-family:var(--display);font-weight:500;letter-spacing:-.02em;font-size:18px;line-height:1.15}
+.ficha .sub{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:5px 0 12px;font-weight:600}
+.ficha dl{display:grid;gap:0}
+.ficha .r{display:grid;grid-template-columns:104px 1fr;gap:10px;padding:9px 8px;border-top:1px solid var(--line);margin:0 -8px}
+.ficha dt{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px;font-weight:600}
+.ficha dd{font-size:14.5px;font-weight:600;min-height:1.4em}
+.ficha dd.vz{color:var(--vz);font-weight:400}
+.ficha .r.flash{animation:flash 1.5s ease}
+@keyframes flash{0%{background:var(--flash)}100%{background:transparent}}
+.etapa{display:inline-block;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:700}
+.etapa.n{background:var(--en-bg);color:var(--en-tx)}.etapa.m{background:var(--em-bg);color:var(--em-tx)}.etapa.f{background:var(--ef-bg);color:var(--ef-tx)}
+.ficha .nota{margin-top:12px;font-size:12.5px;color:var(--muted)}
 
-  .body { display: grid; min-height: 0; grid-template-columns: 292px minmax(0,1fr) 332px; }
-  .app[data-view="funil"] .body { grid-template-columns: minmax(0,1fr); }
-  .app[data-view="funil"] .pl, .app[data-view="funil"] .pc, .app[data-view="funil"] .px { display: none; }
-  .app[data-view="atend"] .pb { display: none; }
-  .pane { min-height: 0; display: flex; flex-direction: column; }
-  .pl { border-right: 1px solid var(--line); }
-  .px { border-left: 1px solid var(--line); background: #fbfbfd; }
-
-  .ph { padding: 14px 16px 10px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-2); font-weight: 600; }
-  .lista { overflow: auto; min-height: 0; flex: 1; }
-  .conv { width: 100%; display: grid; grid-template-columns: 38px 1fr auto; gap: 2px 12px; text-align: left; padding: 13px 16px; background: none; border: 0; border-top: 1px solid var(--line-2); border-left: 3px solid transparent; }
-  .conv:hover { background: #f7f8fb; }
-  .conv[aria-current="true"] { background: var(--tint); border-left-color: var(--ink); }
-  .av { flex: none; grid-row: span 2; width: 38px; height: 38px; border-radius: 50%; background: var(--ink-2); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; align-self: center; }
-  .conv b { font-weight: 600; font-size: 14.5px; line-height: 1.25; }
-  .conv .hr { color: var(--txt-2); font-size: 12px; }
-  .conv small { grid-column: 2 / 4; color: var(--txt-2); font-size: 13px; line-height: 1.35; display: block; }
-  .tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 2px; background: var(--line-2); color: var(--txt-2); margin-top: 5px; }
-  .tag.t-feito { background: #e2f3ea; color: var(--green); }
-  .tag.t-vez { background: var(--amber-bg); color: var(--amber); }
-  .dica { margin: 12px 16px 16px; padding: 12px 14px; border: 1px dashed var(--silver); color: var(--txt-2); font-size: 13.5px; }
-
-  /* chat */
-  .chead { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); min-height: 62px; }
-  .chead b { font-size: 15.5px; display: block; line-height: 1.2; }
-  .chead span { font-size: 12.5px; color: var(--txt-2); }
-  .chead .modo { margin-left: auto; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border: 1px solid var(--line); border-radius: 99px; white-space: nowrap; }
-  .modo .c { display: none; }
-  .chead > div:nth-child(2) { min-width: 0; }
-  .modo i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-right: 7px; }
-  .modo.pausa { background: var(--amber-bg); border-color: #f0d9a8; color: var(--amber); }
-  .modo.pausa i { background: var(--amber); }
-  .log { flex: 1; min-height: 0; overflow: auto; padding: 20px 22px; background: #eef0f5; display: flex; flex-direction: column; gap: 8px; }
-  .nova { animation: ent .22s ease-out both; }
-  .m { max-width: 76%; padding: 9px 13px 8px; font-size: 15px; line-height: 1.45; border: 1px solid var(--line); background: var(--white); border-radius: 2px 10px 10px 10px; }
-  .m small { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--txt-2); margin-bottom: 2px; }
-  .m.ia { align-self: flex-end; background: #dfe4f6; border-color: #cdd5ee; border-radius: 10px 2px 10px 10px; }
-  .m.eq { align-self: flex-end; background: var(--ink); border-color: var(--ink); color: #fff; border-radius: 10px 2px 10px 10px; }
-  .m.eq small { color: #aab3df; }
-  .sys { align-self: center; font-size: 12.5px; color: var(--txt-2); background: var(--white); border: 1px solid var(--line); padding: 5px 12px; border-radius: 99px; text-align: center; max-width: 92%; }
-  .sys.forte { color: var(--ink); font-weight: 600; border-color: var(--silver); }
-  .dig { align-self: flex-end; display: flex; gap: 4px; padding: 12px 14px; background: #dfe4f6; border-radius: 10px 2px 10px 10px; }
-  .dig i { width: 6px; height: 6px; border-radius: 50%; background: var(--logo); opacity: .35; animation: pul 1s infinite; }
-  .dig i:nth-child(2) { animation-delay: .15s; } .dig i:nth-child(3) { animation-delay: .3s; }
-  @keyframes pul { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
-  @keyframes ent { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .comp { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--white); }
-  .comp input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: var(--r); padding: 11px 12px; background: var(--white); }
-  .comp input:disabled { background: #f5f6f9; color: var(--txt-2); }
-  .btn { border: 1px solid var(--ink); background: var(--ink); color: #fff; border-radius: var(--r); padding: 10px 16px; font-weight: 600; }
-  .btn:disabled { opacity: .4; cursor: not-allowed; }
-  .btn.sec { background: var(--white); color: var(--ink); }
-  .btn.sec:hover:not(:disabled) { background: var(--tint); }
-  .btn.am { background: var(--white); color: var(--amber); border-color: #e3c47e; }
-
-  /* contexto */
-  .cx { overflow: auto; flex: 1; min-height: 0; padding: 0 18px 18px; }
-  .campo { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line-2); font-size: 14px; }
-  .campo:first-child { border-top: 0; }
-  .campo dt { color: var(--txt-2); font-size: 12.5px; padding-top: 1px; }
-  .campo dd { margin: 0; font-weight: 600; }
-  .campo.vazio dd { color: #a6acc4; font-weight: 400; }
-  .campo.novo dd { animation: dest 1.6s ease-out; }
-  @keyframes dest { 0% { background: #fff0c2; } 100% { background: transparent; } }
-  .resumo { margin-top: 14px; border-left: 3px solid var(--ink); background: var(--white); border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 14px; font-size: 14px; }
-  .resumo b { display: block; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--txt-2); margin-bottom: 4px; }
-  .acoes { padding: 14px 18px 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; background: var(--white); }
-  .acoes label { font-size: 12.5px; color: var(--txt-2); }
-  .acoes .lin { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-  .acoes select { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 10px; background: var(--white); min-width: 0; width: 100%; }
-
-  /* funil */
-  .board { display: grid; grid-template-columns: repeat(6, minmax(168px, 1fr)); gap: 0; overflow: auto; flex: 1; min-height: 0; }
-  .col { border-right: 1px solid var(--line-2); padding: 0 10px 14px; min-width: 168px; }
-  .col:last-child { border-right: 0; }
-  .col h3 { margin: 0; padding: 14px 4px 10px; font: 600 12px/1.3 "Instrument Sans", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-2); display: flex; justify-content: space-between; gap: 8px; }
-  .col h3 span { color: var(--ink); }
-  .card { width: 100%; text-align: left; background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--ink); border-radius: 2px; padding: 10px 11px; margin-bottom: 8px; }
-  .card:hover { border-color: var(--silver); border-left-color: var(--ink); }
-  .card b { display: block; font-size: 13.5px; line-height: 1.3; }
-  .card small { color: var(--txt-2); font-size: 12px; display: block; margin-top: 2px; }
-  .vazioc { font-size: 12.5px; color: #a6acc4; padding: 6px 4px; }
-
-  /* navegação móvel */
-  .mnav { display: none; }
-
-  /* abaixo do app */
-  .sec2 { padding: 40px 0 8px; }
-  .sec2 h2 { font-family: "Unbounded", sans-serif; font-weight: 500; font-size: 18px; letter-spacing: -.01em; margin: 0 0 16px; }
-  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--white); }
-  .duas > div { padding: 20px 22px; }
-  .duas > div + div { border-left: 1px solid var(--line); }
-  .duas h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-2); }
-  .duas ul { margin: 0; padding: 0; list-style: none; }
-  .duas li { padding: 9px 0; border-top: 1px solid var(--line-2); font-size: 14.5px; }
-  .duas li:first-child { border-top: 0; }
-  .ok::before, .ao::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 50%; background: var(--green); }
-  .ao::before { background: #e0a53a; }
-  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--white); }
-  .quatro div { padding: 18px 20px; border-left: 1px solid var(--line); }
-  .quatro div:first-child { border-left: 0; }
-  .quatro b { display: block; font-size: 14.5px; margin-bottom: 4px; }
-  .quatro span { color: var(--txt-2); font-size: 13.5px; }
-  .fim { margin: 18px 0 0; color: var(--txt-2); font-size: 14px; max-width: 74ch; }
-  footer { margin-top: 44px; background: var(--ink); color: #aab1d1; padding: 20px 0; font-size: 13px; }
-  footer .w { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-
-  @media (max-width: 1100px) { .body { grid-template-columns: 250px minmax(0,1fr) 300px; } }
-  @media (max-width: 900px) {
-    .w { padding: 0 12px; }
-    .bar .w { flex-wrap: nowrap; min-height: 52px; }
-    .marca span { display: none; }
-    .marca b { white-space: nowrap; font-size: 12.5px; }
-    .selo { display: none; }
-    .intro { padding: 16px 0 12px; }
-    .intro h1 { font-size: 19px; }
-    .intro p:not(.sm) { display: none; }
-    .intro .sm { display: block; font-size: 13px; margin-top: 2px; }
-    .modo .l { display: none; } .modo .c { display: inline; }
-    .chead { gap: 10px; padding: 10px 14px; }
-    .chead span:not(.l):not(.c) { display: none; }
-    .comp { gap: 8px; padding: 10px 12px; }
-    .app { height: calc(100svh - 182px); min-height: 460px; }
-    .tabs { display: none; }
-    .app { grid-template-rows: 1fr auto; }
-    .body, .app[data-view="funil"] .body { grid-template-columns: minmax(0,1fr); }
-    .app[data-view] .pane { display: none; }
-    .app[data-m="list"] .pl, .app[data-m="chat"] .pc, .app[data-m="ctx"] .px, .app[data-m="board"] .pb { display: flex; }
-    .pl, .px { border: 0; }
-    .mnav { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); background: var(--white); }
-    .mnav button { background: none; border: 0; padding: 11px 4px 12px; font-size: 12.5px; font-weight: 600; color: var(--txt-2); border-top: 2px solid transparent; }
-    .mnav button[aria-selected="true"] { color: var(--ink); border-top-color: var(--ink); }
-    .m { max-width: 88%; }
-    .duas, .quatro { grid-template-columns: 1fr; }
-    .duas > div + div, .quatro div { border-left: 0; border-top: 1px solid var(--line); }
-    .quatro div:first-child { border-top: 0; }
-    .board { grid-template-columns: repeat(6, 210px); }
-  }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+@media (max-width:1120px){.layout{grid-template-columns:minmax(300px,1fr) minmax(340px,410px)}.ficha{grid-column:1/-1;position:static}}
+@media (max-width:820px){.wrap{width:calc(100% - 24px)}.layout{display:flex;flex-direction:column;gap:18px}.layout>section:first-child{display:contents}.fina{order:1}h1{order:2;margin:0}.lead{order:3}.layout>section:nth-child(2){order:4}.cen{order:5;margin-top:4px}.ficha{order:6}.phone{position:static;height:min(700px,80vh)}.ficha{position:static}.logo span{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+    <symbol id="i-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M3 11.5l17-8-6.5 17-2.5-7z"/><path d="M11 13.5l9-10"/></symbol>
+  </defs>
+</svg>
 
-<div class="bar">
-  <div class="w">
-    <div class="marca"><img src="../loja/img/logo.png" alt=""><div><b>PORTO BALANÇAS</b><span>ATENDIMENTO</span></div></div>
-    <div class="selo">Simulação com roteiro e dados de teste</div>
-  </div>
+<div class="faixa">Simulação ilustrativa · <b>dados fictícios, nada é enviado</b></div>
+
+<div class="wrap">
+  <header class="top"><div class="logo"><img src="../loja/img/logo.png" alt=""><div><b>PORTO BALANÇAS</b><span>ATENDIMENTO</span></div></div>
+    <button type="button" class="tema" id="tema" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-lua"/></svg><span id="tema-rot">Modo escuro</span></button></header>
+
+  <main class="layout">
+    <section>
+      <p class="fina">Atendimento no WhatsApp</p>
+      <h1>Vende, abre OS e acompanha, tudo na conversa.</h1>
+      <p class="lead">Veja o atendimento da Porto no WhatsApp: entende áudio e foto, monta a proposta, manda o link de pagamento, agenda a instalação e abre a OS. Sem fila.</p>
+      <div class="cen">
+        <h2>Escolha uma conversa</h2>
+        <div class="cenarios" id="cenarios"></div>
+        <label class="opc"><input type="checkbox" id="som" checked> Tocar os áudios do atendimento sozinhos</label>
+        <p class="aviso">Você também pode digitar no celular: preço, instalação, nota fiscal, pagamento, onde ficam as lojas, "minha balança parou". Ao vivo, a resposta vem do que está no Sistema Brasil, e a equipe pode assumir a conversa quando quiser, e aí o atendimento automático para.</p>
+      </div>
+    </section>
+
+    <section aria-label="Conversa de exemplo">
+      <div class="phone">
+        <div class="p-top"><div class="av"><img src="../loja/img/logo.png" alt=""></div><div><b>Porto Balanças</b><span id="status">online</span></div></div>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <form class="p-in" id="form" autocomplete="off"><input id="msg" placeholder="Mensagem" maxlength="160" aria-label="Mensagem"><button type="submit" aria-label="Enviar"><svg class="ic"><use href="#i-send"/></svg></button></form>
+      </div>
+      <p class="dica">Escolha uma conversa ao lado ou digite para testar.</p>
+    </section>
+
+    <aside class="ficha" aria-label="Ficha do atendimento">
+      <h3>Ficha do atendimento</h3>
+      <p class="sub">Preenchida pelo atendimento</p>
+      <dl id="ficha"></dl>
+      <p class="nota">Exemplo com dados fictícios. Ao vivo, a ficha, o pedido e a OS ficam registrados no Sistema Brasil e o funil acompanha o cliente.</p>
+    </aside>
+  </main>
 </div>
-
-<div class="w">
-  <div class="intro">
-    <h1>Veja o atendimento da Porto funcionando</h1>
-    <p>Escolha uma conversa. O painel da direita vai preenchendo o que o cliente disse, o funil mostra onde ela está, e dá pra a equipe assumir ou transferir. Nada aqui chega a cliente real.</p>
-    <p class="sm">Simulação com roteiro e dados de teste. Nada chega a cliente real.</p>
-  </div>
-
-  <div class="app" id="app" data-view="atend" data-m="chat">
-    <div class="tabs" role="tablist" aria-label="Visão">
-      <button class="tab" role="tab" id="t-atend" aria-selected="true" data-v="atend">Atendimento</button>
-      <button class="tab" role="tab" id="t-funil" aria-selected="false" data-v="funil">Funil</button>
-      <span class="sp"></span>
-      <button class="ghost" id="reiniciar" type="button">Reiniciar simulação</button>
-    </div>
-
-    <div class="body">
-      <section class="pane pl" aria-label="Conversas">
-        <div class="ph">Conversas</div>
-        <div class="lista" id="lista"></div>
-        <div class="dica" id="dica">Comece por qualquer uma. Cada conversa mostra um caso diferente: venda, assistência, cliente novo e financeiro.</div>
-      </section>
-
-      <section class="pane pc" aria-label="Conversa">
-        <div class="chead">
-          <div class="av" id="chav"></div>
-          <div><b id="chnome"></b><span id="chsub"></span></div>
-          <div class="modo" id="modo"><i></i><span class="l">Atendimento automático</span><span class="c">Automático</span></div>
-        </div>
-        <div class="log" id="log" role="log" aria-live="polite"></div>
-        <form class="comp" id="comp" autocomplete="off">
-          <input id="txt" type="text" aria-label="Resposta da equipe" placeholder="O atendimento automático está respondendo. Assuma para escrever." disabled>
-          <button class="btn" id="env" type="submit" disabled>Enviar</button>
-        </form>
-      </section>
-
-      <aside class="pane px" aria-label="Contexto e equipe">
-        <div class="ph">Contexto da conversa</div>
-        <div class="cx"><dl id="campos" style="margin:0"></dl><div id="resumo"></div></div>
-        <div class="acoes">
-          <label for="setor">Transferir com resumo e contexto para</label>
-          <div class="lin">
-            <select id="setor"><option>Vendas</option><option>Assistência</option><option>Suporte remoto</option><option>Financeiro</option></select>
-            <button class="btn sec" id="transf" type="button">Transferir</button>
-          </div>
-          <button class="btn am" id="assume" type="button">Assumir como equipe</button>
-        </div>
-      </aside>
-
-      <section class="pane pb" aria-label="Funil">
-        <div class="board" id="board"></div>
-      </section>
-    </div>
-
-    <nav class="mnav" aria-label="Seções">
-      <button type="button" data-m="list" aria-selected="false">Conversas</button>
-      <button type="button" data-m="chat" aria-selected="true">Conversa</button>
-      <button type="button" data-m="ctx" aria-selected="false">Contexto</button>
-      <button type="button" data-m="board" aria-selected="false">Funil</button>
-    </nav>
-  </div>
-
-  <div class="sec2">
-    <h2>O que já está na simulação e o que falta ligar</h2>
-    <div class="duas">
-      <div><h3>Já funciona na simulação</h3><ul>
-        <li class="ok">Conversa natural que aproveita o que o cliente já disse</li>
-        <li class="ok">Venda e assistência, com confirmação antes de abrir a OS</li>
-        <li class="ok">Setor certo com resumo e responsável, e funil na mesma tela</li>
-        <li class="ok">Equipe assume e o automático para, até devolverem</li>
-      </ul></div>
-      <div><h3>Falta ligar, só depois de testado contigo</h3><ul>
-        <li class="ao">Cadastro e OS de verdade no Sistema Brasil (hoje são fictícios)</li>
-        <li class="ao">WhatsApp, áudio e foto, com um número reservado só pro teste</li>
-        <li class="ao">Equipe, setores e horários reais da Porto</li>
-      </ul></div>
-    </div>
-  </div>
-
-  <div class="sec2">
-    <h2>Pra avançar, a gente precisa de ti</h2>
-    <div class="quatro">
-      <div><b>Um número pro teste</b><span>Separado do número público, que continua como está.</span></div>
-      <div><b>A equipe de hoje</b><span>Quem atende vendas, assistência, suporte remoto e financeiro.</span></div>
-      <div><b>Horários e ausências</b><span>Pra encaminhar certo e saber o que fazer fora do expediente.</span></div>
-      <div><b>As regras da Porto</b><span>Quando retomar um contato parado e o que nunca se decide sozinho, como preço e crédito.</span></div>
-    </div>
-    <p class="fim">Nada vai pra cliente da Porto sem a tua aprovação. Se algo não bater com o jeito que vocês trabalham, a gente ajusta antes de ligar qualquer coisa.</p>
-  </div>
-</div>
-
-<footer><div class="w"><span>Anvil · Porto Balanças</span><span>Simulação com roteiro, sem IA ao vivo e sem dados reais</span></div></footer>
 
 <script>
-(function () {
-  "use strict";
-  var REDUZ = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var ETAPAS = ["Triagem", "Qualificado", "Assistência · administrativo", "OS aberta", "Suporte remoto", "Financeiro"];
-  var SETOR_ETAPA = { "Vendas": "Qualificado", "Assistência": "Assistência · administrativo", "Suporte remoto": "Suporte remoto", "Financeiro": "Financeiro" };
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var chat=$('#chat'), status=$('#status'), fichaEl=$('#ficha'), somEl=$('#som');
+  var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+  var token=0, gesto=false;
+  ['pointerdown','keydown','touchstart'].forEach(function(ev){addEventListener(ev,function(){gesto=true},{once:true,passive:true})});
 
-  var CENAS = [
-    { id: "venda", nome: "Mercado Bom Preço", sub: "Canoas · anúncio no Mercado Livre", ini: "MB", hora: "09:12", tipo: "Venda",
-      campos: [["origem", "Origem"], ["intencao", "Intenção"], ["negocio", "Negócio"], ["uso", "Uso"], ["capacidade", "Capacidade"], ["qtd", "Quantidade"], ["setor", "Setor"], ["resp", "Responsável"]],
-      passos: [
-        { de: "c", t: "Oi, vi o anúncio da balança com impressora de etiqueta. Qual o preço?", set: { origem: "Anúncio · Mercado Livre", intencao: "Compra" } },
-        { de: "ia", t: "Oi! Aqui é o atendimento da Porto Balanças. Antes de falar de valor, quero indicar o modelo certo pro teu uso. Qual é o teu negócio?" },
-        { de: "c", t: "Tenho um mercadinho em Canoas. Vou pesar frios e hortifrúti.", set: { negocio: "Mercadinho · Canoas", uso: "Frios e hortifrúti" } },
-        { de: "ia", t: "Entendi. Qual o peso do maior item que tu pesa?" },
-        { de: "c", t: "No máximo uns 15 kg. Preciso de duas.", set: { capacidade: "Até 15 kg", qtd: "2 balanças" } },
-        { de: "ia", t: "Perfeito: duas balanças com etiqueta, até 15 kg. Vou te passar pro consultor de vendas com tudo anotado, assim tu não repete nada. Ele te chama aqui mesmo." },
-        { de: "sys", t: "Encaminhado para Vendas com resumo", set: { setor: "Vendas", resp: "Equipe de teste" }, etapa: "Qualificado" }
-      ],
-      resumo: "Mercadinho em Canoas, veio do anúncio do Mercado Livre. Quer 2 balanças com etiqueta, até 15 kg, para frios e hortifrúti. Nenhum preço foi passado ao cliente." },
+  /* ---------- ficha ---------- */
+  var CAMPOS=[['nome','Nome'],['contato','WhatsApp'],['cidade','Cidade'],['negocio','Negócio'],['interesse','Assunto'],['produto','Equipamento'],['valor','Valor'],['etapa','Etapa'],['resp','Atendido por'],['prox','Próximo passo']];
+  var ficha={};
+  function fichaNova(base){
+    ficha={}; fichaEl.innerHTML='';
+    CAMPOS.forEach(function(c){
+      var r=document.createElement('div');r.className='r';r.id='f-'+c[0];
+      r.innerHTML='<dt>'+c[1]+'</dt><dd class="vz">aguardando</dd>';fichaEl.appendChild(r);
+    });
+    if(base) Object.keys(base).forEach(function(k){setCampo(k,base[k],true)});
+  }
+  function setCampo(k,v,quieto){
+    var r=$('#f-'+k); if(!r) return; ficha[k]=v;
+    var d=r.querySelector('dd'); d.classList.remove('vz');
+    if(k==='etapa'){var cl={'Novo':'n','Qualificado':'m','Em andamento':'m','Proposta enviada':'m','Fechado':'f','Resolvido':'f'}[v]||'n';d.innerHTML='<span class="etapa '+cl+'">'+v+'</span>'}
+    else d.textContent=v;
+    if(!quieto){r.classList.remove('flash');void r.offsetWidth;r.classList.add('flash')}
+  }
 
-    { id: "assist", nome: "Padaria Dois Irmãos", sub: "Cliente cadastrado · assistência", ini: "PD", hora: "10:40", tipo: "Assistência",
-      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["equip", "Equipamento"], ["local", "Local"], ["defeito", "Defeito"], ["os", "OS"], ["setor", "Setor"], ["resp", "Responsável"]],
-      passos: [
-        { de: "c", t: "Boa tarde, a balança da padaria parou. Não liga.", set: { intencao: "Assistência", defeito: "Não liga" } },
-        { de: "ia", t: "Boa tarde, sinto pelo transtorno. Pelo teu telefone achei o cadastro da Padaria Dois Irmãos. É essa mesmo?", set: { cliente: "Padaria Dois Irmãos (cadastro de teste)" } },
-        { de: "c", t: "É sim." },
-        { de: "ia", t: "Obrigado. Qual é a balança e onde ela fica?" },
-        { de: "c", t: "Toledo Prix 5 Plus, na loja de Canoas.", set: { equip: "Toledo Prix 5 Plus", local: "Loja de Canoas" } },
-        { de: "ia", t: "Confirmando: Toledo Prix 5 Plus, loja de Canoas, não liga. Posso abrir a OS?" },
-        { de: "c", t: "Pode." },
-        { de: "sys", t: "OS DEMO-0001 aberta e suporte remoto avisado", set: { os: "DEMO-0001 (de demonstração)", setor: "Suporte remoto", resp: "Equipe de teste" }, etapa: "OS aberta", forte: true },
-        { de: "ia", t: "Pronto, abri a OS DEMO-0001. A assistência já recebeu e te retorna com o horário." }
-      ],
-      resumo: "Padaria Dois Irmãos (já cadastrada). Toledo Prix 5 Plus na loja de Canoas não liga. OS aberta só depois da confirmação do cliente. Encaminhado ao suporte remoto." },
+  /* ---------- balões ---------- */
+  function hora(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+  function rolar(){chat.scrollTop=chat.scrollHeight}
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function barras(seed){
+    var n=26,h='',x=seed*9301+49297;
+    for(var i=0;i<n;i++){x=(x*9301+49297)%233280;h+='<i style="height:'+(6+Math.round((x/233280)*20))+'px"></i>'}
+    return h;
+  }
+  function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2)}
+  function sistema(t,ok){var e=document.createElement('div');e.className='sys'+(ok?' ok':'');e.textContent=t;chat.appendChild(e);rolar()}
+  function bolha(lado,html){
+    var e=document.createElement('div');e.className='m '+lado;
+    e.innerHTML=html+'<div class="t">'+hora()+(lado==='c'?' <span class="tick">✓✓</span>':'')+'</div>';
+    chat.appendChild(e);rolar();
+    if(lado==='c'){var tk=e.querySelector('.tick');setTimeout(function(){tk&&tk.classList.add('az')},900)}
+    return e;
+  }
+  function bolhaAudio(lado,s){
+    var dur=s.dur||Math.max(4,Math.round(s.texto.split(/\s+/).length/2.6));
+    var html='<div class="au"><button type="button" class="pl" aria-label="Ouvir"><svg class="ic"><use href="#i-play"/></svg></button><div class="bars">'+barras(dur+s.texto.length)+'</div><span class="dur">'+fmt(dur)+'</span></div>';
+    var e=bolha(lado,html);
+    e._dur=dur;e._texto=s.texto;
+    e.querySelector('.pl').addEventListener('click',function(){tocar(e)});
+    if(lado==='c'){
+      setTimeout(function(){
+        var t=document.createElement('div');t.className='tr';t.innerHTML='<b>Transcrição</b>'+esc(s.texto);
+        e.insertBefore(t,e.querySelector('.t'));rolar();
+      },800);
+    }else{
+      var vt=document.createElement('a');vt.className='vt';vt.textContent='Ver texto';vt.setAttribute('role','button');vt.tabIndex=0;
+      var abre=function(){
+        if(vt._on){return}vt._on=true;vt.remove();
+        var t=document.createElement('div');t.className='tr';t.innerHTML='<b>Texto do áudio</b>'+esc(s.texto);
+        e.insertBefore(t,e.querySelector('.t'));rolar();
+      };
+      vt.addEventListener('click',abre);vt.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();abre()}});
+      e.insertBefore(vt,e.querySelector('.t'));
+    }
+    return e;
+  }
+  function bolhaFoto(lado){
+    var svg='<svg class="foto" viewBox="0 0 230 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foto de uma balança com erro no visor"><rect width="230" height="150" fill="#e8e5de"/><rect y="118" width="230" height="32" fill="#cfcabd"/><rect x="34" y="52" width="162" height="10" rx="2" fill="#b9bec7"/><rect x="40" y="62" width="150" height="52" rx="4" fill="#d7dae1"/><rect x="40" y="62" width="150" height="6" fill="#c3c8d1"/><rect x="78" y="76" width="74" height="26" rx="2" fill="#141a2b"/><text x="115" y="95" text-anchor="middle" font-family="monospace" font-size="15" font-weight="700" fill="#ff5a4f">Err 3</text><text x="115" y="111" text-anchor="middle" font-family="Arial" font-size="7" fill="#58617a">Prix 3 Plus</text><rect x="150" y="124" width="72" height="20" fill="none" stroke="#9a9588" stroke-dasharray="2 2"/><text x="186" y="137" text-anchor="middle" font-family="Arial" font-size="7" fill="#7a7566">imagem de exemplo</text></svg>';
+    return bolha(lado,svg);
+  }
+  function bolhaCartao(c){
+    var h='<div class="cartao"><div class="ct">'+esc(c.titulo)+'</div>';
+    c.linhas.forEach(function(l){h+='<div class="ln"><span>'+esc(l[0])+'</span><span>'+esc(l[1]||'')+'</span></div>'});
+    if(c.total) h+='<div class="tot"><span>'+esc(c.total[0])+'</span><b>'+esc(c.total[1])+'</b></div>';
+    if(c.botao) h+='<span class="bt">'+esc(c.botao)+'</span>';
+    h+='</div>';
+    return bolha('b',h);
+  }
 
-    { id: "novo", nome: "Clínica Vida Sul", sub: "Cliente novo · assistência", ini: "CV", hora: "11:25", tipo: "Cliente novo",
-      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["equip", "Equipamento"], ["defeito", "Defeito"], ["setor", "Setor"], ["resp", "Responsável"]],
-      passos: [
-        { de: "c", t: "Oi, preciso de assistência numa balança.", set: { intencao: "Assistência" } },
-        { de: "ia", t: "Oi! Atendimento da Porto Balanças. Não encontrei esse número no nosso cadastro. Qual o nome da empresa e o CNPJ?", set: { cliente: "Não encontrado: cliente novo" } },
-        { de: "c", t: "Clínica Vida Sul. O CNPJ é 00.000.000/0001-00 (de teste).", set: { cliente: "Clínica Vida Sul (CNPJ de teste)" } },
-        { de: "c", t: "Antes de continuar: eu estou falando com um robô?" },
-        { de: "ia", t: "Sou o atendimento automático da Porto, e a equipe acompanha. Se preferir falar com uma pessoa agora, eu chamo." },
-        { de: "c", t: "Pode continuar." },
-        { de: "ia", t: "Qual é a balança e o que ela está fazendo?" },
-        { de: "c", t: "Balança de precisão do laboratório, está dando erro de peso.", set: { equip: "Balança de precisão", defeito: "Erro de peso" } },
-        { de: "ia", t: "Entendi. Como é a primeira vez, o administrativo da assistência faz o primeiro contato contigo. Já passo tudo pra ele, sem tu repetir." },
-        { de: "sys", t: "Cliente novo: encaminhado ao administrativo da assistência", set: { setor: "Assistência · administrativo", resp: "Equipe de teste" }, etapa: "Assistência · administrativo", forte: true }
-      ],
-      resumo: "Cliente novo (Clínica Vida Sul). Balança de precisão do laboratório com erro de peso. Perguntou se era robô e foi respondido com clareza. Vai ao administrativo para o primeiro contato." },
+  /* ---------- áudio ---------- */
+  var timerAud=null, atual=null;
+  function voz(){
+    var vs=window.speechSynthesis?speechSynthesis.getVoices():[];
+    return vs.find(function(v){return /^pt[-_]BR/i.test(v.lang)&&/natural|online|google|francisca|luciana|maria/i.test(v.name)})||vs.find(function(v){return /^pt[-_]BR/i.test(v.lang)})||vs.find(function(v){return /^pt/i.test(v.lang)});
+  }
+  if(window.speechSynthesis){speechSynthesis.onvoiceschanged=function(){}}
+  function parar(){
+    clearInterval(timerAud);timerAud=null;
+    if(window.speechSynthesis)try{speechSynthesis.cancel()}catch(e){}
+    if(atual){var pl=atual.querySelector('.pl');pl.innerHTML='<svg class="ic"><use href="#i-play"/></svg>';atual.querySelectorAll('.bars i').forEach(function(i){i.classList.remove('f')});atual.querySelector('.dur').textContent=fmt(atual._dur);atual=null}
+  }
+  function tocar(e){
+    if(atual===e){parar();return}
+    parar();atual=e;
+    var pl=e.querySelector('.pl');pl.innerHTML='<svg class="ic"><use href="#i-pause"/></svg>';
+    var bs=e.querySelectorAll('.bars i'),t0=Date.now(),dur=e._dur*1000;
+    timerAud=setInterval(function(){
+      var k=Math.min(1,(Date.now()-t0)/dur);
+      bs.forEach(function(b,i){b.classList.toggle('f',i/bs.length<=k)});
+      e.querySelector('.dur').textContent=fmt((dur*(1-k))/1000);
+      if(k>=1)parar();
+    },120);
+    if(window.speechSynthesis&&e._texto){
+      try{var u=new SpeechSynthesisUtterance(e._texto);var v=voz();if(v){u.voice=v;u.lang=v.lang}else u.lang='pt-BR';u.rate=1.05;speechSynthesis.speak(u)}catch(x){}
+    }
+  }
 
-    { id: "fin", nome: "Transportes Santos", sub: "Financeiro · 2ª via de boleto", ini: "TS", hora: "14:03", tipo: "Financeiro",
-      campos: [["cliente", "Cliente"], ["intencao", "Intenção"], ["pedido", "Pedido"], ["setor", "Setor"], ["resp", "Responsável"]],
-      passos: [
-        { de: "c", t: "Preciso da segunda via do boleto.", set: { intencao: "Financeiro", pedido: "2ª via de boleto" } },
-        { de: "ia", t: "Claro. Boleto e valores são com o financeiro, então vou encaminhar o teu pedido pra eles. Qual é a empresa?" },
-        { de: "c", t: "Transportes Santos.", set: { cliente: "Transportes Santos (cadastro de teste)" } },
-        { de: "ia", t: "Obrigado. Passei o pedido ao financeiro, que te manda a segunda via por aqui." },
-        { de: "sys", t: "Encaminhado para o Financeiro", set: { setor: "Financeiro", resp: "Equipe de teste" }, etapa: "Financeiro" }
-      ],
-      resumo: "Transportes Santos pede 2ª via de boleto. O atendimento automático não emite boleto nem decide valores: só encaminhou ao financeiro." }
+  function digitando(on,audio){
+    var d=$('.dig',chat);
+    if(on){
+      status.textContent=audio?'gravando áudio…':'digitando…';
+      if(!d){d=document.createElement('div');d.className='dig';d.innerHTML='<i></i><i></i><i></i>';chat.appendChild(d);rolar()}
+    }else{status.textContent='online';if(d)d.remove()}
+  }
+
+  /* ---------- roteiro: de:'c' cliente | 'b' atendimento | 's' aviso do sistema ---------- */
+  var RESP_ATD='Atendimento';
+  var CEN={
+    acougue:{rot:'Balança pro açougue',tag:'áudio',base:{nome:'Marcos Pampa (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Novo'},passos:[
+      {de:'c',tipo:'audio',dur:9,texto:'Oi, boa tarde. Eu tenho um açougue em Gravataí e preciso de uma balança nova pro balcão, que eu possa ligar na impressora de etiqueta.',ficha:{interesse:'Compra de balança',negocio:'Açougue',cidade:'Gravataí (exemplo)'}},
+      {de:'b',texto:'Boa tarde! Aqui é o atendimento da Porto Balanças. Pra açougue, o mais usado é a balança de balcão com visor duplo, que o cliente vê o peso e o valor, e que liga na impressora de etiqueta. Qual o maior peso que você pesa nos cortes?',ficha:{etapa:'Qualificado',resp:'Atendimento automático'}},
+      {de:'c',texto:'Até uns 15 kg. Só preciso de uma por enquanto.',ficha:{produto:'Balança de balcão até 15 kg'}},
+      {de:'s',texto:'Estoque e tabela conferidos no Sistema Brasil (exemplo)'},
+      {de:'b',texto:'Pra 15 kg, a que eu indico é a Toledo Prix 5 Plus: visor duplo e saída pra impressora de etiqueta. Tem disponível. Montei a proposta pra você:',ficha:{produto:'Toledo Prix 5 Plus, 15 kg'}},
+      {de:'b',tipo:'cartao',cartao:{titulo:'Proposta DEMO-0042',linhas:[['1 × Toledo Prix 5 Plus, 15 kg'],['Instalação remota','opcional']],total:['Total (valor de exemplo)','R$ 2.890,00'],botao:'Pagar com Pix ou cartão'},ficha:{valor:'R$ 2.890,00 (exemplo)',etapa:'Proposta enviada',prox:'Aguardando pagamento'}},
+      {de:'b',texto:'Dá pra pagar com Pix ou cartão pelo link, e a nota sai no mesmo pedido. Quer incluir a instalação remota? A gente configura a balança com você por vídeo, no mesmo dia.'},
+      {de:'c',texto:'Quero com a instalação. Já paguei.'},
+      {de:'s',texto:'Pagamento confirmado · nota fiscal emitida (exemplo)',ok:true},
+      {de:'b',tipo:'audio',dur:12,texto:'Recebi o pagamento, Marcos! Pedido confirmado, nota emitida e a instalação ficou marcada pra amanhã de manhã. Eu te aviso aqui quando a balança sair e acompanho a entrega até chegar.',ficha:{etapa:'Fechado',prox:'Instalação amanhã de manhã'}},
+      {de:'s',texto:'Pedido DEMO-0042 criado no Sistema Brasil (exemplo)',ok:true}
+    ]},
+    defeito:{rot:'Minha balança parou',tag:'foto',base:{nome:'Padaria Dois Irmãos (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Novo'},passos:[
+      {de:'c',tipo:'foto',ficha:{interesse:'Assistência técnica'}},
+      {de:'b',texto:'Oi! Atendimento da Porto Balanças. Recebi a foto: é uma Toledo Prix 3 Plus e o visor está mostrando erro. Antes disso ela ligava normal?',ficha:{produto:'Toledo Prix 3 Plus',resp:'Atendimento automático'}},
+      {de:'c',texto:'Ligava. Agora aparece esse erro e não pesa.'},
+      {de:'b',texto:'Entendi. Vamos tentar uma coisa que resolve boa parte dos casos: desliga da tomada por 30 segundos, confere se não tem nada apoiado no prato e liga de novo. Pode tentar?'},
+      {de:'c',texto:'Tentei e continua.'},
+      {de:'s',texto:'Cadastro encontrado no Sistema Brasil (exemplo)'},
+      {de:'b',texto:'Obrigado por testar. Pelo seu número achei o cadastro da Padaria Dois Irmãos, loja de Canoas. É nela que a balança está?',ficha:{cidade:'Canoas (exemplo)',negocio:'Padaria'}},
+      {de:'c',texto:'É sim.'},
+      {de:'s',texto:'OS DEMO-0031 aberta · suporte remoto acionado (exemplo)',ok:true},
+      {de:'b',tipo:'cartao',cartao:{titulo:'OS DEMO-0031',linhas:[['Toledo Prix 3 Plus','Canoas'],['Problema','Visor com erro'],['Atendimento','Suporte remoto']]},ficha:{etapa:'Em andamento',prox:'Suporte remoto hoje'}},
+      {de:'b',texto:'Abri a OS acima e já acionei o suporte remoto, que olha a balança por vídeo ainda hoje. Fica melhor às 14h ou às 16h?'},
+      {de:'c',texto:'16h.'},
+      {de:'b',texto:'Marcado pra hoje às 16h. Te lembro uma hora antes. Se não resolver por vídeo, o técnico vai até você e eu te aviso o dia.',ficha:{prox:'Hoje 16h · suporte remoto'}}
+    ]},
+    anuncio:{rot:'Vim do anúncio',tag:'Mercado Livre',base:{nome:'Carla Souza (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Novo'},passos:[
+      {de:'c',texto:'Oi, vi a balança com impressora de etiqueta no anúncio. Qual o preço?',ficha:{interesse:'Compra de balança'}},
+      {de:'b',texto:'Oi! Aqui é o atendimento da Porto Balanças. Pra te passar o valor certo, preciso entender o uso. É pra que tipo de negócio?',ficha:{resp:'Atendimento automático'}},
+      {de:'c',texto:'Mercadinho em Canoas. Vou pesar frios e hortifrúti. Preciso de duas.',ficha:{negocio:'Mercadinho',cidade:'Canoas (exemplo)',produto:'2 balanças com etiqueta, até 15 kg'}},
+      {de:'b',texto:'Perfeito: duas balanças com impressora de etiqueta, até 15 kg. A nota sai com o CNPJ da empresa, então me confirma o CNPJ que eu já cadastro.',ficha:{etapa:'Qualificado'}},
+      {de:'c',texto:'00.000.000/0001-00 (de teste)'},
+      {de:'s',texto:'Empresa cadastrada no Sistema Brasil com os dados do CNPJ (exemplo)',ok:true},
+      {de:'b',tipo:'cartao',cartao:{titulo:'Proposta DEMO-0057',linhas:[['2 × Balança com etiqueta, 15 kg'],['Instalação remota','inclusa']],total:['Total (valor de exemplo)','R$ 9.800,00'],botao:'Pagar com Pix ou cartão'},ficha:{valor:'R$ 9.800,00 (exemplo)',etapa:'Proposta enviada',prox:'Aguardando pagamento'}},
+      {de:'b',texto:'Cadastrei a empresa e montei a proposta, com a instalação remota inclusa pra deixar tudo funcionando no mesmo dia. É só pagar pelo link que eu confirmo e agendo.'}
+    ]},
+    andamento:{rot:'Como está minha OS?',tag:'consulta',base:{nome:'Padaria Dois Irmãos (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Em andamento'},passos:[
+      {de:'c',texto:'Como está a OS da minha balança?',ficha:{interesse:'Andamento de OS'}},
+      {de:'s',texto:'Consultando a OS no Sistema Brasil (exemplo)'},
+      {de:'b',texto:'Oi! Encontrei a OS DEMO-0031, da Toledo Prix 3 Plus: o suporte remoto atendeu e o técnico está agendado pra hoje às 10h, na loja de Canoas. Ele te liga quando estiver chegando.',ficha:{produto:'Toledo Prix 3 Plus',resp:'Atendimento automático',prox:'Técnico hoje 10h'}},
+      {de:'c',texto:'Pode ser depois do meio-dia?'},
+      {de:'b',texto:'Consigo remarcar. Prefere hoje às 14h ou amanhã às 10h?'},
+      {de:'c',texto:'Hoje às 14h.'},
+      {de:'s',texto:'OS DEMO-0031 reagendada · técnico avisado (exemplo)',ok:true},
+      {de:'b',texto:'Remarcado: hoje às 14h. Já avisei o técnico e te lembro uma hora antes.',ficha:{prox:'Técnico hoje 14h',etapa:'Em andamento'}}
+    ]},
+    posvenda:{rot:'A Porto chama primeiro',tag:'pós-venda',base:{nome:'Marcos Pampa (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Fechado'},passos:[
+      {de:'s',texto:'Pós-venda automático · 7 dias após a entrega (exemplo)'},
+      {de:'b',texto:'Oi, Marcos! Aqui é o atendimento da Porto Balanças. Faz uma semana que a sua Toledo Prix 5 Plus foi entregue. Como ela está funcionando?',ficha:{produto:'Toledo Prix 5 Plus, 15 kg',interesse:'Pós-venda',resp:'Atendimento automático'}},
+      {de:'c',texto:'Tá ótima, só estou com dúvida pra configurar a etiqueta.',ficha:{prox:'Ajuda com a etiqueta'}},
+      {de:'b',texto:'Sem problema. Prefere que eu explique por aqui ou que o suporte remoto faça isso com você por vídeo?'},
+      {de:'c',texto:'Por vídeo.'},
+      {de:'s',texto:'Atendimento remoto agendado e registrado na OS DEMO-0058 (exemplo)',ok:true},
+      {de:'b',texto:'Marcado pra amanhã às 10h com o suporte remoto, e já deixei registrado na OS DEMO-0058. Qualquer coisa até lá, é só chamar por aqui.',ficha:{etapa:'Em andamento',prox:'Amanhã 10h · suporte remoto'}}
+    ]},
+    robo:{rot:'Você é robô?',tag:'transparência',base:{nome:'Júlia Mendes (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Novo'},passos:[
+      {de:'c',texto:'Tô falando com uma pessoa ou com robô?'},
+      {de:'b',texto:'Sou o atendimento automático da Porto Balanças. Resolvo venda, assistência e andamento de OS por aqui, e se você preferir falar com uma pessoa da equipe, é só pedir.',ficha:{resp:'Atendimento automático',prox:'Cliente pode pedir uma pessoa'}}
+    ]}
+  };
+
+  /* ---------- respostas para quem digita ---------- */
+  var RESP=[
+    [/rob[oô]|pessoa|humano|intelig|\bia\b|\bbot\b/i,'robo',['Sou o atendimento automático da Porto Balanças. Resolvo venda, assistência e andamento de OS por aqui, e se você preferir falar com uma pessoa da equipe, é só pedir.']],
+    [/parou|defeito|quebr|n[aã]o liga|erro|conserto|assist[eê]ncia|manuten[cç][aã]o|t[eé]cnico/i,'assist',['Vou abrir a OS agora. Qual é a balança e o que está acontecendo? Se puder, mande uma foto do visor.']],
+    [/instala[cç][aã]o|configur/i,'instal',['A instalação é remota: a gente configura a balança com você por vídeo, no mesmo dia. Posso incluir no pedido.']],
+    [/nota|nf-?e|cnpj|fiscal/i,'nota',['A nota sai no mesmo pedido, com o CNPJ da sua empresa. Me passa o CNPJ que eu já cadastro.']],
+    [/pagamento|pagar|pix|cart[aã]o|parcel|boleto/i,'pag',['Dá pra pagar com Pix ou cartão pelo link do pedido. Quer que eu monte a proposta?']],
+    [/endere[cç]o|onde|loja|hor[aá]rio|ceasa|carazinho|matriz|filial/i,'onde',['Temos a matriz em Porto Alegre, a filial no Ceasa e a filial em Carazinho. Qual fica melhor pra você?']],
+    [/prazo|entrega|frete|cep/i,'prazo',['O prazo e o frete saem pelo CEP no pedido. Me passa o seu CEP que eu já calculo.']],
+    [/andamento|minha os|status|situa[cç][aã]o/i,'os',['Me diz o telefone ou o CNPJ do cadastro que eu consulto a OS agora.']],
+    [/pre[cç]o|valor|quanto custa|or[cç]amento|quanto [eé]/i,'preco',['O valor sai da tabela do Sistema Brasil, conforme o modelo e a quantidade. Me diz o que você vai pesar e o maior peso que eu já monto a proposta.']],
+    [/balan[cç]a|comprar|etiqueta|a[cç]ougue|mercad|padaria/i,'compra',['Posso indicar o modelo certo. Qual é o seu negócio e qual o maior peso que você pesa?']]
   ];
+  var FALLBACK='Entendi. Me conta um pouco mais: é compra de balança, assistência técnica ou acompanhar um pedido ou OS?';
+  var INTERESSE={assist:'Assistência técnica',instal:'Instalação remota',nota:'Nota fiscal',pag:'Pagamento',onde:'Lojas',prazo:'Prazo e frete',os:'Andamento de OS',preco:'Compra de balança',compra:'Compra de balança'};
 
-  var $ = function (id) { return document.getElementById(id); };
-  var app = $("app"), lista = $("lista"), logEl = $("log"), camposEl = $("campos"), resumoEl = $("resumo"), boardEl = $("board");
-  var R, sel = 0;
-
-  function novo() {
-    R = CENAS.map(function () { return { i: 0, msgs: [], campos: {}, etapa: "Triagem", modo: "ia", feito: false, tim: null, dig: false, setor: null, iniciada: false, resumo: false }; });
+  /* ---------- motor ---------- */
+  async function passo(p,t){
+    if(t!==token) return;
+    if(p.de==='s'){
+      await sleep(p.primeiro?500:800); if(t!==token) return;
+      sistema(p.texto,p.ok); await sleep(500); return;
+    }
+    if(p.de==='c'){
+      await sleep(p.primeiro?400:1000); if(t!==token) return;
+      if(p.tipo==='audio') bolhaAudio('c',p);
+      else if(p.tipo==='foto') bolhaFoto('c');
+      else bolha('c',esc(p.texto));
+      if(p.ficha) setTimeout(function(){if(t===token)Object.keys(p.ficha).forEach(function(k){setCampo(k,p.ficha[k])})},1300);
+      await sleep(p.tipo==='audio'?1800:p.tipo==='foto'?1200:500);
+    }else{
+      var audio=p.tipo==='audio',cartao=p.tipo==='cartao';
+      digitando(true,audio);
+      var espera=audio?1700:cartao?1100:Math.min(1900,600+(p.texto||'').length*11);
+      await sleep(espera); if(t!==token){digitando(false);return}
+      digitando(false);
+      var e=audio?bolhaAudio('b',p):cartao?bolhaCartao(p.cartao):bolha('b',esc(p.texto));
+      if(p.ficha) Object.keys(p.ficha).forEach(function(k){setCampo(k,p.ficha[k])});
+      if(audio&&somEl.checked&&gesto){tocar(e);await sleep(e._dur*1000+400)}else await sleep(audio?900:500);
+    }
   }
-  function ini(s) { return s; }
-
-  function renderLista() {
-    lista.innerHTML = "";
-    CENAS.forEach(function (c, k) {
-      var r = R[k], b = document.createElement("button");
-      b.type = "button"; b.className = "conv"; if (k === sel) b.setAttribute("aria-current", "true");
-      var st = r.feito ? '<span class="tag t-feito">' + (r.setor || "Concluída") + "</span>" : r.iniciada ? '<span class="tag t-vez">Em andamento</span>' : '<span class="tag">' + c.tipo + "</span>";
-      b.innerHTML = '<span class="av">' + c.ini + '</span><b>' + c.nome + '</b><span class="hr">' + c.hora + '</span><small>' + c.sub + "<br>" + st + "</small>";
-      b.addEventListener("click", function () { escolher(k); });
-      lista.appendChild(b);
-    });
+  async function rodar(passos){
+    var t=++token; parar(); digitando(false);
+    for(var i=0;i<passos.length;i++){ if(t!==token) return; await passo(passos[i],t) }
   }
-
-  function renderChat() {
-    var c = CENAS[sel], r = R[sel];
-    $("chav").textContent = c.ini; $("chnome").textContent = c.nome; $("chsub").textContent = c.sub;
-    var modo = $("modo");
-    if (r.modo === "ia") { modo.className = "modo"; modo.innerHTML = '<i></i><span class="l">Atendimento automático</span><span class="c">Automático</span>'; }
-    else { modo.className = "modo pausa"; modo.innerHTML = '<i></i><span class="l">Automático em pausa · equipe atendendo</span><span class="c">Equipe atendendo</span>'; }
-    logEl.innerHTML = "";
-    r.msgs.forEach(function (m) { logEl.appendChild(bolha(m, false)); });
-    if (r.dig) logEl.appendChild(digitando());
-    logEl.scrollTop = logEl.scrollHeight;
-    var hum = r.modo === "eq";
-    $("txt").disabled = !hum; $("env").disabled = !hum;
-    $("txt").placeholder = hum ? "Escreva como equipe e envie" : "Assuma a conversa para escrever";
-    var a = $("assume");
-    a.textContent = hum ? "Devolver ao atendimento automático" : "Assumir como equipe";
-    a.className = hum ? "btn sec" : "btn am";
-    $("transf").disabled = false;
-  }
-  function bolha(m, nova) {
-    var d = document.createElement("div");
-    if (m.de === "sys") { d.className = "sys" + (m.forte ? " forte" : "") + (nova ? " nova" : ""); d.textContent = m.t; return d; }
-    d.className = "m " + (m.de === "c" ? "" : m.de) + (nova ? " nova" : "");
-    var rot = m.de === "ia" ? "Atendimento Porto" : m.de === "eq" ? "Equipe" : "Cliente";
-    d.innerHTML = "<small>" + rot + "</small>";
-    var t = document.createElement("span"); t.textContent = m.t; d.appendChild(t);
-    return d;
-  }
-  function digitando() { var d = document.createElement("div"); d.className = "dig"; d.setAttribute("aria-label", "Digitando"); d.innerHTML = "<i></i><i></i><i></i>"; return d; }
-
-  function renderCtx(novos, animaResumo) {
-    var c = CENAS[sel], r = R[sel]; camposEl.innerHTML = "";
-    c.campos.forEach(function (f) {
-      var v = r.campos[f[0]], w = document.createElement("div");
-      w.className = "campo" + (v ? "" : " vazio") + (v && novos && novos.indexOf(f[0]) > -1 ? " novo" : "");
-      w.innerHTML = "<dt>" + f[1] + "</dt><dd></dd>";
-      w.lastChild.textContent = v || "aguardando";
-      camposEl.appendChild(w);
-    });
-    resumoEl.innerHTML = "";
-    if (r.resumo) { var d = document.createElement("div"); d.className = "resumo" + (animaResumo ? " nova" : ""); d.innerHTML = "<b>Resumo que vai para o setor</b>"; var s = document.createElement("span"); s.textContent = c.resumo; d.appendChild(s); resumoEl.appendChild(d); }
+  function cabecalho(){chat.innerHTML='';sistema('Simulação com dados fictícios');sistema('Hoje')}
+  function iniciar(id){
+    var c=CEN[id]; token++; parar(); digitando(false);
+    cabecalho(); fichaNova(c.base);
+    document.querySelectorAll('#cenarios button').forEach(function(b){b.classList.toggle('on',b.dataset.id===id)});
+    if(innerWidth<=820&&gesto){var ph=$('.phone');ph&&ph.scrollIntoView({behavior:'smooth',block:'center'})}
+    rodar(c.passos.map(function(p,i){return Object.assign({primeiro:i===0},p)}));
   }
 
-  function renderBoard(movido) {
-    boardEl.innerHTML = "";
-    ETAPAS.forEach(function (e) {
-      var col = document.createElement("div"); col.className = "col";
-      var itens = CENAS.map(function (c, k) { return { c: c, k: k }; }).filter(function (x) { return R[x.k].etapa === e; });
-      col.innerHTML = "<h3>" + e + "<span>" + itens.length + "</span></h3>";
-      if (!itens.length) { var v = document.createElement("div"); v.className = "vazioc"; v.textContent = "Nenhuma conversa"; col.appendChild(v); }
-      itens.forEach(function (x) {
-        var b = document.createElement("button"); b.type = "button"; b.className = "card" + (x.k === movido ? " nova" : "");
-        b.innerHTML = "<b></b><small></small>"; b.firstChild.textContent = x.c.nome; b.lastChild.textContent = x.c.sub;
-        b.addEventListener("click", function () { vista("atend"); escolher(x.k); });
-        col.appendChild(b);
-      });
-      boardEl.appendChild(col);
-    });
-  }
-
-  function tudo(novos) { renderLista(); renderChat(); renderCtx(novos); renderBoard(); }
-
-  function agenda(k) {
-    var r = R[k]; clearTimeout(r.tim);
-    if (r.modo !== "ia" || r.feito) return;
-    var p = CENAS[k].passos[r.i];
-    if (!p) { fim(k); return; }
-    var pausa = REDUZ ? 0 : (p.de === "ia" ? 1100 : p.de === "c" ? 900 : 700);
-    if (p.de === "ia" && !REDUZ) { r.dig = true; if (k === sel) renderChat(); }
-    r.tim = setTimeout(function () {
-      r.dig = false; r.i++;
-      var novos = [];
-      if (p.set) { Object.keys(p.set).forEach(function (kk) { r.campos[kk] = p.set[kk]; novos.push(kk); }); }
-      if (p.etapa) r.etapa = p.etapa;
-      if (p.set && p.set.setor) r.setor = p.set.setor;
-      var msg = { de: p.de, t: p.t, forte: p.forte };
-      r.msgs.push(msg);
-      if (k === sel) {
-        var dg = logEl.querySelector(".dig"); if (dg) dg.remove();
-        logEl.appendChild(bolha(msg, true)); logEl.scrollTop = logEl.scrollHeight;
-        renderCtx(novos);
-      }
-      renderLista(); renderBoard(p.etapa ? k : -1);
-      agenda(k);
-    }, pausa);
-  }
-  function fim(k) {
-    var r = R[k]; r.feito = true; r.resumo = true;
-    if (k === sel) { renderCtx(null, true); var cx = document.querySelector(".cx"); if (cx) cx.scrollTop = cx.scrollHeight; }
-    renderLista();
-  }
-
-  function escolher(k) {
-    sel = k; var r = R[k];
-    if (!r.iniciada) { r.iniciada = true; $("dica").style.display = "none"; agenda(k); }
-    else if (r.modo === "ia" && !r.feito && !r.tim) agenda(k);
-    tudo(); if (window.innerWidth <= 900) mover("chat");
-  }
-
-  $("assume").addEventListener("click", function () {
-    var r = R[sel];
-    if (r.modo === "ia") { clearTimeout(r.tim); r.tim = null; r.dig = false; r.modo = "eq"; r.msgs.push({ de: "sys", t: "A equipe assumiu. O atendimento automático parou de responder nesta conversa.", forte: true }); }
-    else { r.modo = "ia"; r.msgs.push({ de: "sys", t: "Conversa devolvida ao atendimento automático." }); if (!r.feito) agenda(sel); }
-    renderChat(); renderLista();
+  /* ---------- digitar ---------- */
+  $('#form').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var inp=$('#msg'),txt=inp.value.trim(); if(!txt) return; inp.value='';
+    if(!chat.querySelector('.m')){cabecalho();fichaNova({nome:'Você (exemplo)',contato:'(51) 9 ••••-••••',etapa:'Novo'})}
+    token++; parar(); digitando(false);
+    bolha('c',esc(txt));
+    var r=RESP.find(function(x){return x[0].test(txt)}),msgs=r?r[2]:[FALLBACK];
+    setCampo('resp','Atendimento automático');
+    if(r&&INTERESSE[r[1]]) setCampo('interesse',INTERESSE[r[1]]);
+    else if(!r) setCampo('prox','Entender o pedido do cliente');
+    document.querySelectorAll('#cenarios button').forEach(function(b){b.classList.remove('on')});
+    rodar(msgs.map(function(m){return {de:'b',texto:m}}));
   });
-  $("comp").addEventListener("submit", function (e) {
-    e.preventDefault(); var v = $("txt").value.trim(); if (!v) return;
-    R[sel].msgs.push({ de: "eq", t: v }); $("txt").value = ""; renderChat();
-  });
-  $("transf").addEventListener("click", function () {
-    var r = R[sel], s = $("setor").value;
-    r.setor = s; r.campos.setor = s; r.campos.resp = "Equipe de teste"; r.etapa = SETOR_ETAPA[s]; r.resumo = true; if (!r.feito) { r.feito = true; clearTimeout(r.tim); r.tim = null; r.dig = false; }
-    r.msgs.push({ de: "sys", t: "Transferido para " + s + " com resumo e contexto", forte: true });
-    tudo(["setor", "resp"]);
-  });
-  $("reiniciar").addEventListener("click", function () { R.forEach(function (r) { clearTimeout(r.tim); }); novo(); sel = 0; $("dica").style.display = ""; tudo(); R[0].iniciada = true; $("dica").style.display = "none"; agenda(0); renderLista(); });
 
-  function vista(v) {
-    app.setAttribute("data-view", v);
-    $("t-atend").setAttribute("aria-selected", v === "atend"); $("t-funil").setAttribute("aria-selected", v === "funil");
+  /* ---------- tema claro/escuro ---------- */
+  var raiz=document.documentElement, btnTema=$('#tema'), rotTema=$('#tema-rot');
+  function escuroAgora(){var t=raiz.getAttribute('data-tema');return t?t==='escuro':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)}
+  function pintaBotao(){
+    var e=escuroAgora();
+    rotTema.textContent=e?'Modo claro':'Modo escuro';
+    btnTema.setAttribute('aria-pressed',e?'true':'false');
+    btnTema.querySelector('use').setAttribute('href',e?'#i-sol':'#i-lua');
   }
-  document.querySelectorAll(".tab").forEach(function (t) { t.addEventListener("click", function () { vista(t.getAttribute("data-v")); }); });
-  function mover(m) {
-    app.setAttribute("data-m", m);
-    document.querySelectorAll(".mnav button").forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-m") === m); });
-  }
-  document.querySelectorAll(".mnav button").forEach(function (b) { b.addEventListener("click", function () { mover(b.getAttribute("data-m")); }); });
+  btnTema.addEventListener('click',function(){
+    var novo=escuroAgora()?'claro':'escuro';
+    raiz.setAttribute('data-tema',novo);
+    try{localStorage.setItem('porto-tema',novo)}catch(e){}
+    pintaBotao();
+  });
+  if(window.matchMedia){try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',pintaBotao)}catch(e){}}
+  pintaBotao();
 
-  novo();
-  var q = new URLSearchParams(location.search), c0 = Math.max(0, Math.min(CENAS.length - 1, parseInt(q.get("cena") || "0", 10) || 0));
-  if (q.get("todas") === "1") { CENAS.forEach(function (c, k) { R[k].iniciada = true; }); }
-  sel = c0; R[c0].iniciada = true; $("dica").style.display = "none"; tudo(); agenda(c0);
-  if (q.get("todas") === "1") { CENAS.forEach(function (c, k) { if (k !== c0) agenda(k); }); }
-  if (q.get("vista") === "funil") vista("funil");
+  /* ---------- montagem ---------- */
+  var box=$('#cenarios');
+  Object.keys(CEN).forEach(function(id){
+    var b=document.createElement('button');b.type='button';b.dataset.id=id;
+    b.innerHTML='<span>'+CEN[id].rot+'</span><small>'+CEN[id].tag+'</small>';
+    b.addEventListener('click',function(){iniciar(id)});box.appendChild(b);
+  });
+  fichaNova(null);
+  var q=new URLSearchParams(location.search), ini=q.get('cena');
+  if(ini&&CEN[ini]) iniciar(ini);
+  else if(q.get('auto')!=='0'){ iniciar('acougue') }
+  else { sistema('Simulação com dados fictícios'); sistema('Escolha uma conversa ao lado ou digite uma pergunta'); }
+  addEventListener('pagehide',parar);
 })();
 </script>
 </body>
