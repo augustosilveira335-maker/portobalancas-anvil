@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atendimento da Porto · prévia</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Prévia do atendimento da Porto Balanças, com dados de teste, para a equipe validar antes de ir para o cliente.">
+<link rel="icon" href="../loja/img/logo.png">
+<style>
+  @font-face { font-family: "Unbounded"; font-weight: 200 900; font-display: swap; src: url("../loja/fontes/unbounded.woff2") format("woff2"); }
+  @font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../loja/fontes/instrument-sans.woff2") format("woff2"); }
+  :root {
+    --azul: #0b1236; --azul-2: #18215a; --azul-logo: #283475;
+    --prata: #c9ced8; --tinta: #121733; --tinta-2: #4c5373; --linha: #e2e5ee;
+    --fundo: #f4f5f9; --branco: #fff; --verde: #137a40; --verde-fundo: #e3f6eb; --ambar: #8a5200; --ambar-fundo: #fff1d6;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fundo); color: var(--tinta); font: 16px/1.6 "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--azul-logo); }
+  .w { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: "Unbounded", system-ui, sans-serif; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
+
+  .capa { background: var(--azul); color: var(--branco); padding: 22px 0 64px; }
+  .topo { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; }
+  .marca { display: flex; align-items: center; gap: 12px; }
+  .marca img { width: 42px; height: 42px; border-radius: 50%; }
+  .marca b { font-family: "Unbounded", sans-serif; font-size: 14px; letter-spacing: 0.04em; display: block; }
+  .marca span { display: block; font-size: 11px; letter-spacing: 0.28em; color: var(--prata); }
+  .selo { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25); color: #e3e7f7; border-radius: 999px; padding: 7px 14px; font-size: 13px; }
+  .capa h1 { font-size: clamp(28px, 5.6vw, 50px); margin-top: 44px; max-width: 20ch; }
+  .capa p { color: #d3d8ef; font-size: 18px; max-width: 60ch; margin: 18px 0 0; }
+  .capa .aviso { margin-top: 26px; display: inline-block; background: rgba(255,255,255,0.08); border-left: 3px solid var(--prata); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 15px; color: #e3e7f7; max-width: 62ch; }
+
+  section { padding: 54px 0 0; }
+  section:last-of-type { padding-bottom: 64px; }
+  .rotulo { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--azul-logo); font-weight: 700; }
+  h2 { font-size: clamp(22px, 3.6vw, 32px); margin: 8px 0 14px; max-width: 26ch; }
+  .lead { color: var(--tinta-2); font-size: 17px; max-width: 64ch; margin: 0 0 24px; }
+
+  .cartao { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; }
+  .tela { margin-top: -34px; padding: 14px; box-shadow: 0 22px 50px rgba(11,18,54,0.14); }
+  .tela img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--linha); }
+  .tela figcaption { padding: 12px 6px 4px; color: var(--tinta-2); font-size: 14px; }
+  .tela { margin-left: 0; margin-right: 0; }
+
+  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  .tres .cartao { padding: 18px 18px 20px; }
+  .tres h3 { font-size: 16px; margin-bottom: 8px; }
+  .tres p { margin: 0; color: var(--tinta-2); font-size: 15px; }
+
+  .lista { display: grid; gap: 10px; }
+  .item { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 16px 18px; align-items: start; }
+  .item h3 { font-family: "Instrument Sans", system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.35; }
+  .item p { margin: 4px 0 0; color: var(--tinta-2); font-size: 14.5px; }
+  .tag { align-self: start; white-space: nowrap; font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 5px 12px; }
+  .tag.ok { background: var(--verde-fundo); color: var(--verde); }
+  .tag.falta { background: var(--ambar-fundo); color: var(--ambar); }
+
+  .passos { counter-reset: p; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .passo { padding: 18px; position: relative; }
+  .passo::before { counter-increment: p; content: counter(p); font-family: "Unbounded", sans-serif; font-size: 13px; background: var(--azul); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; }
+  .passo h3 { font-size: 15px; margin-bottom: 6px; }
+  .passo p { margin: 0; color: var(--tinta-2); font-size: 14.5px; }
+  .passo.agora { border-color: var(--azul-logo); box-shadow: 0 0 0 2px rgba(40,52,117,0.12); }
+
+  .precisa { padding: 22px 22px 8px; }
+  .precisa ul { margin: 0; padding: 0; list-style: none; }
+  .precisa li { padding: 12px 0 12px 30px; border-top: 1px solid var(--linha); position: relative; }
+  .precisa li:first-child { border-top: 0; }
+  .precisa li::before { content: ""; position: absolute; left: 4px; top: 19px; width: 12px; height: 12px; border-radius: 50%; background: var(--azul-logo); }
+  .precisa b { display: block; }
+  .precisa span { color: var(--tinta-2); font-size: 14.5px; }
+
+  .garantia { background: var(--azul); color: #fff; border-radius: 16px; padding: 24px 24px; margin-top: 22px; }
+  .garantia h3 { font-size: 18px; margin-bottom: 8px; }
+  .garantia p { margin: 0; color: #d3d8ef; max-width: 70ch; }
+
+  footer { background: var(--azul); color: #aab1d1; padding: 22px 0; font-size: 13.5px; }
+  footer .w { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+
+  @media (max-width: 860px) { .passos { grid-template-columns: repeat(2, 1fr); } .tres { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) {
+    .capa { padding-bottom: 56px; }
+    .item { grid-template-columns: 1fr; }
+    .tag { justify-self: start; }
+    .passos { grid-template-columns: 1fr; }
+    .w { padding: 0 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="capa">
+  <div class="w">
+    <div class="topo">
+      <div class="marca">
+        <img src="../loja/img/logo.png" alt="">
+        <div><b>PORTO BALANÇAS</b><span>ATENDIMENTO</span></div>
+      </div>
+      <div class="selo">Simulação com dados de teste</div>
+    </div>
+    <h1>O atendimento da Porto, pra tu ver antes de ir pro cliente</h1>
+    <p>Montamos a tela e os fluxos que tu pediu: conversa natural, setor certo com o resumo, funil junto, e a equipe assumindo quando precisar.</p>
+    <div class="aviso">Isto é uma prévia. Nenhum cliente real está ligado e nada muda nos teus números ou na tua equipe até tu aprovar cada etapa.</div>
+  </div>
+</header>
+
+<main>
+  <section style="padding-top:0">
+    <div class="w">
+      <figure class="cartao tela">
+        <img src="previa.jpg" alt="Tela de atendimento da Porto com a conversa, o funil por etapas e o painel de contexto e equipe" width="1265" height="1187">
+        <figcaption>Prévia da tela, com cadastro e OS fictícios. O funil mostra onde cada conversa está, e o painel da direita traz origem, setor, responsável e o que o cliente pediu.</figcaption>
+      </figure>
+      <div class="tres">
+        <div class="cartao"><h3>Conversa e funil juntos</h3><p>Quem atende vê a conversa e o funil na mesma tela, sem preencher ficha à mão.</p></div>
+        <div class="cartao"><h3>Transferir com contexto</h3><p>Ao mandar pra vendas, assistência ou financeiro, vai o resumo e o responsável. O cliente não repete tudo.</p></div>
+        <div class="cartao"><h3>Equipe assumiu, a IA para</h3><p>Quando alguém da equipe responde, o atendimento automático fica em silêncio naquela conversa até devolverem.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="rotulo">Do que tu pediu</div>
+      <h2>O que já aparece na simulação e o que falta ligar</h2>
+      <p class="lead">Separamos com honestidade. O que está verde já funciona na simulação que a gente rodou. O que está em âmbar depende de ligar no Sistema Brasil e no WhatsApp, e só entra depois de testado contigo.</p>
+      <div class="lista">
+        <div class="cartao item"><div><h3>Receber o cliente numa conversa natural, aproveitando o que ele já disse</h3><p>Uma pergunta por vez, sem menu e sem botões.</p></div><span class="tag ok">Na simulação</span></div>
+        <div class="cartao item"><div><h3>Entender o que ele quer: compra ou assistência</h3><p>Compra pergunta aplicação, peso e quantidade. Assistência pega equipamento, defeito e local, e pede confirmação antes de abrir.</p></div><span class="tag ok">Na simulação</span></div>
+        <div class="cartao item"><div><h3>Encaminhar pro setor certo com resumo e responsável</h3><p>Vendas, assistência, suporte remoto e financeiro.</p></div><span class="tag ok">Na simulação</span></div>
+        <div class="cartao item"><div><h3>Funil dentro da tela de atendimento</h3><p>Triagem, qualificado, assistência e financeiro.</p></div><span class="tag ok">Na simulação</span></div>
+        <div class="cartao item"><div><h3>Humano assume e o automático para</h3><p>E volta só quando a equipe devolver.</p></div><span class="tag ok">Na simulação</span></div>
+        <div class="cartao item"><div><h3>Reconhecer o cadastro do cliente no Sistema Brasil</h3><p>Hoje o cadastro é de mentira, só pra mostrar o caminho. Ligamos numa empresa de teste do Sistema Brasil antes de qualquer dado real.</p></div><span class="tag falta">A ligar</span></div>
+        <div class="cartao item"><div><h3>Abrir e consultar OS de verdade</h3><p>Na simulação aparece uma OS de demonstração. A OS real só é anunciada ao cliente depois que o Sistema Brasil confirmar que abriu.</p></div><span class="tag falta">A ligar</span></div>
+        <div class="cartao item"><div><h3>WhatsApp, áudio e foto</h3><p>Vamos reservar um número só pro teste, sem mexer no número público da Porto.</p></div><span class="tag falta">A ligar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="rotulo">Como seguimos</div>
+      <h2>Em etapas, sem cliente real até tu aprovar</h2>
+      <p class="lead">Cada etapa só começa depois que a anterior foi validada contigo, com os casos reais da Porto.</p>
+      <div class="passos">
+        <div class="cartao passo agora"><h3>Prévia e simulação</h3><p>É o que tu está vendo. Tu aponta o que ajustar e a gente libera um acesso pra tu testar sozinha.</p></div>
+        <div class="cartao passo"><h3>Ligar no Sistema Brasil de teste</h3><p>Cadastro, OS e pedidos de uma empresa de teste, sem tocar nos dados reais.</p></div>
+        <div class="cartao passo"><h3>Número de teste e equipe</h3><p>A equipe da Porto testa com o número reservado e as regras do jeito que vocês trabalham.</p></div>
+        <div class="cartao passo"><h3>Clientes reais</h3><p>Só quando tu disser. Contatos e conversas em andamento a gente combina o que dá pra trazer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="rotulo">O que a gente precisa de ti</div>
+      <h2>Quatro informações pra avançar</h2>
+      <div class="cartao precisa" style="margin-top:18px">
+        <ul>
+          <li><b>Um número reservado pro teste</b><span>Separado do número público da Porto, que continua como está.</span></li>
+          <li><b>A equipe de hoje</b><span>Quem atende vendas, assistência, suporte remoto e financeiro, e quem é o administrativo que faz o primeiro contato de cliente novo.</span></li>
+          <li><b>Horários e ausências</b><span>Pra saber pra quem encaminhar em cada horário e o que fazer fora do expediente.</span></li>
+          <li><b>As regras que são da Porto</b><span>Quando retomar um contato parado e o que a automação nunca decide sozinha, como preço, desconto e crédito.</span></li>
+        </ul>
+      </div>
+      <div class="garantia">
+        <h3>Tu decide o ritmo</h3>
+        <p>Nada vai pra cliente da Porto sem a tua aprovação. Se algo da simulação não bater com o jeito que vocês trabalham, a gente ajusta antes de ligar qualquer coisa.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="w"><span>Anvil · Porto Balanças</span><span>Prévia com dados de teste</span></div>
+</footer>
+
+</body>
+</html>
